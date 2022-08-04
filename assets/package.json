@@ -1,0 +1,25 @@
+{
+  "name": "fantasy-league-stats",
+  "version": "1.0.0",
+  "description": "Advanced stats for our fantasy football league",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkempen98/fantasy-league-stats.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkempen98/fantasy-league-stats/issues"
+  },
+  "homepage": "https://github.com/dkempen98/fantasy-league-stats#readme",
+  "dependencies": {
+    "espn-fantasy-football-api": "^0.16.1"
+  },
+  "devDependencies": {}
+  
+}
