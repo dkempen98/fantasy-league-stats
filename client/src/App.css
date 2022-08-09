@@ -1,38 +1,31 @@
-.App {
-  text-align: center;
+/* 
+
+For all classes used, type the initials of the page name followed by a dash then the name of the 
+class. For example, to style a header on the Schedule page, name the class s-title and one on the
+team page would be t-title.
+
+Keep all items that are for the same page in the same area in this file so they are all grouped.
+
+For things that will be universal, you can exclude the prefix of 'x-'. The universal items should
+be the top section in this file so any page specific changes that happen to a class can use them
+and replace items where necessary for that specific page. Use variable colors for most work, it is
+better to have several variable colors than it is to hard code them in.
+
+*/
+
+:root {
+  --bright: #0697a1;
+  --dark: black;
+  --text: black;
+  --alt-text: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nb-container {
+  position: sticky;
+  width: 100%;
+  top: 0;
+  background-color: var(--bright);
+  color: var(--alt-text);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  
 }

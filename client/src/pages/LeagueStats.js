@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-export default function Schedule() {
+export default function LeagueStats() {
     return(
         <nav>
-            <nav>Schedule</nav>
+            <nav>League</nav>
         </nav>
     )
 }
