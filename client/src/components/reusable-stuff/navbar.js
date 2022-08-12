@@ -1,25 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../../images/field-logo.png'
 export default function Navbar() {
+    const [menuVis, setMenuVis] = useState("false")
+    const [activePage, setActivePage] = useState("home")
+
+    function openNav() {
+        if (menuVis === 'false') {
+            setMenuVis('true')
+        } else {
+            setMenuVis('false')
+        }
+    }
+
+    function changePage(newPage) {
+        setActivePage(newPage)
+    }
+
     return (
-        <nav className="nb-container">
-            <div className=''>
-                <h1 className='text-primary'>Fat Bottomed Bois</h1>
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row flex-wrap">
-                    <Link to="/">
-                    <button type="button" className="btn btn-primary btn-sm m-1">Home</button>
-                    </Link>
-                    <Link to="/league">  
-                    <button type="button" className="btn btn-primary btn-sm m-1">League Stats</button>
-                    </Link>
-                    {/* <Link to="/record">
-                    <button type="button" className="btn btn-primary btn-sm m-1">New Game</button>
-                    </Link> */}
-                    <Link to="/schedule/1">  
-                    <button type="button" className="btn btn-primary btn-sm m-1">Stats</button>
-                    </Link>
-                </ul>
+        <header className="nb-container nb-flex">
+            <div className='nb-flex nb-header'>
+                <img className='nb-logo' src={logo}></img>
+                <h1 className='nb-title'>FF Stats</h1>
             </div>
-        </nav>
+
+            <button onClick={openNav} className='nb-mobile-toggle' aria-controls='primary-navigation' aria-expanded={menuVis}>
+                <span className='sr-only'>Menu</span>
+            </button>
+            
+            <nav>
+                <ul className="nb-primary nb-flex" data-visible={menuVis} active='true'>
+                    <li>
+                        <Link to="/" onClick={() => changePage('home')}>
+                            <span className={activePage === 'home' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Home
+                        </Link>
+                    </li>
+                        <Link to="/league" onClick={() => changePage('league')}>  
+                            <span className={activePage === 'league' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>League Stats
+                        </Link>
+                    <li>
+                        <Link to="/schedule/1" onClick={() => changePage('schedule')}>  
+                            <span className={activePage === 'schedule' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Schedule
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+        </header>
   );
 }
