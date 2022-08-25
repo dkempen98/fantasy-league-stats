@@ -4,4 +4,4 @@ Advanced stats for our fantasy football league
 
 ## Credits
 
-Background image source: https://www.freepik.com/vectors/american-football American football vector created by pikisuperstar
+Background photo by <a href="https://unsplash.com/@thomascpark?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Thomas Park</a> on <a href="https://unsplash.com/s/photos/football-field?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
