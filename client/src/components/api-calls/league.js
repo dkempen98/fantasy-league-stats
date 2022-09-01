@@ -1,8 +1,8 @@
-// import { Client } from 'espn-fantasy-football-api/node-dev.js';
-import Client from 'espn-fantasy-football-api';
+// import Client from 'espn-fantasy-football-api/node.js';
+import { Client } from 'espn-fantasy-football-api';
 
 const myLeague = 1156809923
-const myS2 = 'AECUn9%2FjF0suesXN6VWOPhyK3eG7%2FT8NSDOppwp7YYA7bZwEOsiwrM1%2BZ9iRu173DMU0QJwkoods1v4x2EkXoyJG%2FNlDHyGb8hQREUAMd%2FDFD%2BSmqCCJu%2BZ1STwSZ9hxdIbPFGNw6RJXqv6hWzjOcietwk9a2iaJ4hQEOCMIPH%2FNOKxOQgVLjMHEZzYMpUmRehm%2BPQsFentrAkMvZ%2BWQtar1og3Ceqv8uPVTDcp1IObngrSX4jQWzQAD3RWN2wzu%2Fdz%2Bkvhtv9l96XzhKzIWI6L%2BnhNiePTVjYSkOX3ZKoNMCQ%3D%3D'
+const myS2 = 'AECVy%2FQ6idn3xVdL4ZHI9KOU1bO1WR6vaUFXGnDPgWsyBykDLDoCB%2BGig8vmKLcPlRYy0eX7ZfdlO4dTyi1qK4eg0dHzVYNVj9urCsdfneaB3GnvO%2FR1BwUJOdGg40wgmuOh%2BHDM8afdsftRHvwBCWiNvZsiDxRc4SPI0XRL9BWUmiasUGPlOX5vPBpCS6TPWnszQDvtwaPy2zbXQ44GqzDLSZZUTWTLZm%2FzyM6OvS%2BeVfCsL2WH8iszk7z1VLgkNANTWA%2B1eohySymXjATrnj3%2FtBpz4lswBhPhOqnEu4iijg%3D%3D'
 const mySWID = '{44B1905F-93AB-4B92-B190-5F93ABFB9218}'
 
 export default function league() {
