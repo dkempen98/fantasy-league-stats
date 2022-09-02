@@ -129,7 +129,7 @@ export default function Home() {
             <div className="chart medium-chart">
                 <BarChart chartData={
                     {
-                        labels: teamNames,
+                        labels: ownerNames,
                         datasets: [{
                             label: "Points Scored",
                             data: teamScores,
