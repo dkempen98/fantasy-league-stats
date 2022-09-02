@@ -117,8 +117,7 @@ body {
 }
 
 .nb-logo {
-  max-width: 120px;
-  margin: 2rem;
+  display: none;
 }
 
 .nb-title{
@@ -134,7 +133,7 @@ body {
 
 @supports(backdrop-filter: blur(1rem)) {
   .nb-primary {
-    background: hsl(0 0% 100% / 0.1);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(1.5rem);
   }
 }
@@ -216,6 +215,11 @@ body {
   }
   .nb-title{
     display: block;
+  }
+  .nb-logo {
+    display: block;
+    max-width: 120px;
+    margin: 1rem;
   }
 }
 
