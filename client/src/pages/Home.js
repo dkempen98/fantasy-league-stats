@@ -9,11 +9,14 @@ export default function Home() {
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
     const [margin, setMargin] = useState([])
+    const [win, setWin] = useState(false)
     const [closestWinner, setClosestWinner] = useState('')
     const [closestLoser, setClosestLoser] = useState('')
     const [teamScores, setTeamScores] = useState([])
     const [averageScore, setAverage] = useState(0)
     const [closest, setClosest] = useState('')
+    const [minWinner, setMinWinner] = useState([]) // 0 = owner name, 1 = score
+    const [maxLoser, setMaxLoser] = useState([]) // 0 = owner name, 1 = score
 
     function getTeamData() {
         setTeamNames([])
@@ -25,6 +28,7 @@ export default function Home() {
         let ownerPlaceholder = []
         let marginPlaceholder = []
         let scorePlaceholder = []
+        let winPlaceholder = []
         
         teams[week].forEach(matchup => {
             matchup.forEach(specificTeam => {
@@ -32,16 +36,18 @@ export default function Home() {
                 ownerPlaceholder.push(specificTeam.owner)
                 marginPlaceholder.push(specificTeam.margin)
                 scorePlaceholder.push(specificTeam.score)
+                winPlaceholder.push(specificTeam.win)
             })
         });
 
         setTeamNames(teamPlaceholder)
         setOwners(ownerPlaceholder)
         setMargin(marginPlaceholder)
+        setWin(winPlaceholder)
         setTeamScores(scorePlaceholder)
     }
 
-    function getStats() {
+    function getWeeklyStats() {
         // calculate the average points scored by team
         setAverage(0)
 
@@ -82,6 +88,29 @@ export default function Home() {
         setClosest(closestGame.toFixed(2))
         setClosestWinner(closestWinnerPlaceholder)
         setClosestLoser(closestLoserPlaceholder)
+
+
+        //Find highest scoring loser and lowest scoring winner
+
+        let highLoser = 0
+        let highName
+        let lowWinner = 1000
+        let lowName
+
+        for(let i = 0; i < 10; i++) {
+            if(win[i] && teamScores[i] < lowWinner) {
+                lowWinner = teamScores[i];
+                lowName = ownerNames[i];
+            }
+            if(!win[i] && teamScores[i] > highLoser) {
+                highLoser = teamScores[i];
+                highName = ownerNames[i];
+            }
+        }
+
+        setMaxLoser([highName, highLoser.toFixed(2)])
+        setMinWinner([lowName, lowWinner.toFixed(2)])
+        
     }
 
     useEffect(() => {
@@ -89,7 +118,7 @@ export default function Home() {
     }, [week])
 
     useEffect(() => {
-        getStats()
+        getWeeklyStats()
     }, [teamScores])
 
         
@@ -99,7 +128,6 @@ export default function Home() {
         setWeek(newWeek)
     }
     
-    console.log(averageScore)
 
     return(
         <section className="global-base">
@@ -124,8 +152,24 @@ export default function Home() {
                     <span className="global-arrow"></span>
                 </div>
             </section>
-            <h3>Average Score: {averageScore.toFixed(2)}</h3>
-            <h3>Closest Game: {closest} ({closestWinner} over {closestLoser})</h3>
+            <section className="stat-card-container">
+                <div className="stat-card">
+                    <h3>Average Score</h3>
+                    <p>The average total score for the week was {averageScore.toFixed(2)} points.</p>
+                </div>
+                <div className="stat-card">
+                    <h3>Closest Game</h3> 
+                    <p>{closest} point difference.<br/><br/>{closestWinner} beat the {closestLoser} by this margin.</p>
+                </div>
+                <div className="stat-card">
+                    <h3>Highest Scoring Loser</h3> 
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost. <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average.</p>
+                </div>
+                <div className="stat-card">
+                    <h3>Lowest Scoring Winner</h3>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won. <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average.</p>
+                </div>
+            </section>
             <div className="chart medium-chart">
                 <BarChart chartData={
                     {
@@ -133,8 +177,9 @@ export default function Home() {
                         datasets: [{
                             label: "Points Scored",
                             data: teamScores,
-                            backgroundColor: ["#003B66", "#CC1E2B"],
-                            hoverOffset: 4
+                            backgroundColor: ["#003c6670", "#CC1E2B70"],
+                            borderColor: ["#003c66", "#CC1E2B"],
+                            borderWidth: 2
                         }]
                     }
                 }/>
