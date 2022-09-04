@@ -6,6 +6,7 @@ import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
     const [week, setWeek] = useState(0)
+    const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
     const [margin, setMargin] = useState([])
@@ -17,6 +18,7 @@ export default function Home() {
     const [closest, setClosest] = useState('')
     const [minWinner, setMinWinner] = useState([]) // 0 = owner name, 1 = score
     const [maxLoser, setMaxLoser] = useState([]) // 0 = owner name, 1 = score
+    const [benchScore, setBenchScore] = useState([]) // 0 = owner name, 1 = score
 
     function getTeamData() {
         setTeamNames([])
@@ -24,6 +26,7 @@ export default function Home() {
         setMargin([])
         setTeamScores([])
 
+        let teamIdPlaceholder = []
         let teamPlaceholder = []
         let ownerPlaceholder = []
         let marginPlaceholder = []
@@ -32,6 +35,7 @@ export default function Home() {
         
         teams[week].forEach(matchup => {
             matchup.forEach(specificTeam => {
+                teamIdPlaceholder.push(specificTeam.id)
                 teamPlaceholder.push(specificTeam.team)
                 ownerPlaceholder.push(specificTeam.owner)
                 marginPlaceholder.push(specificTeam.margin)
@@ -40,6 +44,7 @@ export default function Home() {
             })
         });
 
+        setId(teamIdPlaceholder)
         setTeamNames(teamPlaceholder)
         setOwners(ownerPlaceholder)
         setMargin(marginPlaceholder)
@@ -111,6 +116,25 @@ export default function Home() {
         setMaxLoser([highName, highLoser.toFixed(2)])
         setMinWinner([lowName, lowWinner.toFixed(2)])
         
+        // 1: Alex Kempen
+        // 2: Ben Fischer
+        // 3: Tony Gault
+        // 4: Nate Labine (2021: Kayla Gault)
+        // 5: Henry Morris
+        // 6: Eric Leprotti
+        // 7: Ivan Goya (2021: Kieffer)
+        // 8: Trap
+        // 9: Drew Kempen
+        // 10: Joey Simmons (2021: Josh Beltz)
+
+        let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        players[week].forEach((player) => {
+            if(player.position === "Bench") {
+                benchTotals[player.teamId - 1] += player.points
+            }
+            
+        })
+
     }
 
     useEffect(() => {
@@ -170,20 +194,22 @@ export default function Home() {
                     <p>{minWinner[0]} scored {minWinner[1]} points and won. <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average.</p>
                 </div>
             </section>
-            <div className="chart medium-chart">
-                <BarChart chartData={
-                    {
-                        labels: ownerNames,
-                        datasets: [{
-                            label: "Points Scored",
-                            data: teamScores,
-                            backgroundColor: ["#003c6670", "#CC1E2B70"],
-                            borderColor: ["#003c66", "#CC1E2B"],
-                            borderWidth: 2
-                        }]
-                    }
-                }/>
-            </div>
+            <section className="chart-container">
+                <div className="chart medium-chart">
+                    <BarChart chartData={
+                        {
+                            labels: ownerNames,
+                            datasets: [{
+                                label: "Points Scored",
+                                data: teamScores,
+                                backgroundColor: ["#003c6670", "#CC1E2B70"],
+                                borderColor: ["#003c66", "#CC1E2B"],
+                                borderWidth: 2
+                            }]
+                        }
+                    }/>
+                </div>
+            </section>
         </section>
     )
 }

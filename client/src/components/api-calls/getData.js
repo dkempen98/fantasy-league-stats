@@ -55,6 +55,60 @@ function getInfo(week) {
           console.log(matchup)  
           console.log('--------------------------HOME PLAYERS-----------------------')
           matchup.homeRoster.forEach(homePlayers => {
+            switch(matchup.homeTeamId) {
+                case 1:
+                    playerName = 'Alex'
+                    teamName = 'Your Butt'
+                    break
+                case 2:
+                    playerName = 'Ben'
+                    teamName = 'Flavortown Hot BBQ BBC'
+                    break
+                case 3:
+                    playerName = 'Tony'
+                    teamName = 'Miami Doll Fins'
+                    break
+                case 4:
+                    playerName = 'Nate'
+                    teamName = 'Team Nate'
+                    if(season === 2021) {
+                        playerName = 'Kayla'
+                        teamName = 'Cleveland River Fires'
+                    }
+                    break
+                case 5:
+                    playerName = 'Henry'
+                    teamName = 'Team Dumb Dick'
+                    break
+                case 6:
+                    playerName = 'Eric'
+                    teamName = 'Chubbhub.com Chubbies'
+                    break
+                case 7:
+                    playerName = 'Ivan'
+                    teamName = 'Team Ivan'
+                    if(season === 2021) {
+                        playerName = 'Kief'
+                        teamName = 'Team Kieffer'
+                    }
+                    break
+                case 8:
+                    playerName = 'Trap'
+                    teamName = 'Wet Turd Burglars'
+                    break
+                case 9:
+                    playerName = 'Drew'
+                    teamName = 'Money Manziels'
+                    break
+                case 10:
+                    playerName = 'Joey'
+                    teamName = 'Smashmouth All Stars'
+                    if(season === 2021) {
+                        playerName = 'Josh'
+                        teamName = 'Howard Beltz'
+                    }
+                    break
+            }
               projScore = 0
               score = homePlayers.totalPoints
             //   console.log('NAME: ' + homePlayers.player.fullName)
@@ -73,6 +127,9 @@ function getInfo(week) {
                 playerInfo.push(
                     {
                         player: homePlayers.player.fullName,
+                        teamId: matchup.homeTeamId,
+                        team: teamName,
+                        owner: playerName,
                         position: homePlayers.position,
                         points: homePlayers.totalPoints,
                         projectedPoints: projScore,
@@ -82,66 +139,12 @@ function getInfo(week) {
                     
                 })
                 console.log('--------------------------HOME TEAM-----------------------')
-                console.log('ID: ' + matchup.homeTeamId)
                 if(matchup.awayScore > matchup.homeScore) {
                     won = false
                 } else {
                     won = true
                 }
-                switch(matchup.homeTeamId) {
-                    case 1:
-                        playerName = 'Alex'
-                        teamName = 'Your Butt'
-                        break
-                    case 2:
-                        playerName = 'Ben'
-                        teamName = 'Flavortown Hot BBQ BBC'
-                        break
-                    case 3:
-                        playerName = 'Tony'
-                        teamName = 'Miami Doll Fins'
-                        break
-                    case 4:
-                        playerName = 'Nate'
-                        teamName = 'Team Nate'
-                        if(season === 2021) {
-                            playerName = 'Kayla'
-                            teamName = 'Cleveland River Fires'
-                        }
-                        break
-                    case 5:
-                        playerName = 'Henry'
-                        teamName = 'Team Dumb Dick'
-                        break
-                    case 6:
-                        playerName = 'Eric'
-                        teamName = 'Chubbhub.com Chubbies'
-                        break
-                    case 7:
-                        playerName = 'Ivan'
-                        teamName = 'Team Ivan'
-                        if(season === 2021) {
-                            playerName = 'Kief'
-                            teamName = 'Team Kieffer'
-                        }
-                        break
-                    case 8:
-                        playerName = 'Trap'
-                        teamName = 'Wet Turd Burglars'
-                        break
-                    case 9:
-                        playerName = 'Drew'
-                        teamName = 'Money Manziels'
-                        break
-                    case 10:
-                        playerName = 'Joey'
-                        teamName = 'Smashmouth All Stars'
-                        if(season === 2021) {
-                            playerName = 'Josh'
-                            teamName = 'Howard Beltz'
-                        }
-                        break
-                }
+
                 headToHead.push(
                     {
                         id: matchup.homeTeamId,
@@ -157,38 +160,6 @@ function getInfo(week) {
 
                 console.log('--------------------------AWAY PLAYERS-----------------------')
                 teamProj = 0
-                matchup.awayRoster.forEach(awayPlayers => {
-                    projScore = 0
-                    score = awayPlayers.totalPoints
-                    // console.log('NAME: ' + awayPlayers.player.fullName)
-                    // console.log('POSITION: ' + awayPlayers.position)
-                    // console.log('POINTS: ' + awayPlayers.totalPoints)
-                    for (const [key, value] of Object.entries(awayPlayers.projectedPointBreakdown)) {        
-                        if(typeof(value) === "number") {
-                            projScore += value
-                        }}
-                    if(awayPlayers.position != 'Bench') {
-                        teamProj += projScore
-                    }
-                    // console.log('PROJECTED POINTS: ' + projScore)
-                    scoreDifference = score - projScore
-                    playerInfo.push(
-                        {
-                            player: awayPlayers.player.fullName,
-                            position: awayPlayers.position,
-                            points: awayPlayers.totalPoints,
-                            projectedPoints: projScore,
-                            performance: scoreDifference
-                        }
-                        )
-                    })
-    console.log('--------------------------AWAY TEAM-----------------------')
-                console.log('ID: ' + matchup.awayTeamId)
-                if(matchup.awayScore > matchup.homeScore) {
-                    won = true
-                } else {
-                    won = false
-                }
                 switch(matchup.awayTeamId) {
                     case 1:
                         playerName = 'Alex'
@@ -243,6 +214,41 @@ function getInfo(week) {
                         }
                         break
                 }
+                matchup.awayRoster.forEach(awayPlayers => {
+                    projScore = 0
+                    score = awayPlayers.totalPoints
+                    // console.log('NAME: ' + awayPlayers.player.fullName)
+                    // console.log('POSITION: ' + awayPlayers.position)
+                    // console.log('POINTS: ' + awayPlayers.totalPoints)
+                    for (const [key, value] of Object.entries(awayPlayers.projectedPointBreakdown)) {        
+                        if(typeof(value) === "number") {
+                            projScore += value
+                        }}
+                    if(awayPlayers.position != 'Bench') {
+                        teamProj += projScore
+                    }
+                    // console.log('PROJECTED POINTS: ' + projScore)
+                    scoreDifference = score - projScore
+                    playerInfo.push(
+                        {
+                            player: awayPlayers.player.fullName,
+                            teamId: matchup.awayTeamId,
+                            team: teamName,
+                            owner: playerName,
+                            position: awayPlayers.position,
+                            points: awayPlayers.totalPoints,
+                            projectedPoints: projScore,
+                            performance: scoreDifference
+                        }
+                        )
+                    })
+    console.log('--------------------------AWAY TEAM-----------------------')
+                if(matchup.awayScore > matchup.homeScore) {
+                    won = true
+                } else {
+                    won = false
+                }
+
                 headToHead.push(
                     {
                         id: matchup.awayTeamId,

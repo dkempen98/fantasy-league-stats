@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/field-logo.png'
 export default function Navbar() {
@@ -8,17 +8,41 @@ export default function Navbar() {
     function openNav() {
         if (menuVis === 'false') {
             setMenuVis('true')
+            console.log(menuVis)
         } else {
             setMenuVis('false')
+            console.log(menuVis)
         }
+    }
+
+    function useOutsideAlerter(ref) {
+        useEffect(() => {
+            function handleOutsideClick(event) {
+                if(ref.current && !ref.current.contains(event.target)) {
+                    setMenuVis('false')
+                }
+            }
+
+            document.addEventListener("mousedown", handleOutsideClick);
+            return() => {
+                document.removeEventListener("mousedown", handleOutsideClick)
+            }
+        }, [ref])
     }
 
     function changePage(newPage) {
         setActivePage(newPage)
+        if(menuVis === 'true') {
+            setMenuVis('false')
+        }
     }
+
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
 
     return (
         <header className="nb-container nb-flex">
+            {/* <div ref={wrapperRef}>HERE</div> */}
             <div className='nb-flex nb-header'>
                 <img className='nb-logo' src={logo}></img>
                 <h1 className='nb-title'>FF Stats</h1>
@@ -29,7 +53,7 @@ export default function Navbar() {
             </button>
             
             <nav>
-                <ul className="nb-primary nb-flex" data-visible={menuVis} active='true'>
+                <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
                         <Link to="/" onClick={() => changePage('home')}>
                             <span className={activePage === 'home' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Home
