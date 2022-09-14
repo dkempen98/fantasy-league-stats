@@ -258,25 +258,45 @@ body {
   justify-content: center;
 }
 
+.chart-border {
+  background-color: var(--dark);
+  width: 100%; 
+  max-width: 70rem;
+  margin: 1em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-radius: 5px;
+  box-shadow: .5rem .5rem .5rem #00000090;
+}
+
+.chart-border h3{
+  background: var(--bright);
+  border: 10px solid var(--bright);
+  border-radius: 5px;
+  margin: 10px;
+}
+
 .chart {
   background-color: white;
-  box-shadow: .5rem .5rem .5rem #00000090;
-  margin: 1rem 0;
+  margin-bottom: 10px;
+  width: 95%;
+  border: 2px solid black;
 }
 
 .small-chart {
   max-width: 50rem;
-}S
+}
 
 .medium-chart {
-  max-width: 75rem;
+  max-width: 70rem;
 }
 
 .large-chart {
-  max-width: 100rem;
+  max-width: 90rem;
 }
-
-
 
 
 

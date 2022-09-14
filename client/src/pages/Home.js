@@ -5,6 +5,7 @@ import teams from "../components/data/teams.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
+    const [year, setYear] = useState(2021)
     const [week, setWeek] = useState(0)
     const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
@@ -82,11 +83,11 @@ export default function Home() {
             if(Math.abs(margin[i]) < closestGame) {
                 closestGame = Math.abs(margin[i])
                 if (margin[i] > 0) {
-                    closestWinnerPlaceholder = teamNames[i]
-                    closestLoserPlaceholder = teamNames[i + 1]
+                    closestWinnerPlaceholder = ownerNames[i]
+                    closestLoserPlaceholder = ownerNames[i + 1]
                 } else {
-                    closestWinnerPlaceholder = teamNames[i + 1]
-                    closestLoserPlaceholder = teamNames[i]
+                    closestWinnerPlaceholder = ownerNames[i + 1]
+                    closestLoserPlaceholder = ownerNames[i]
                 }
             }
         }
@@ -126,6 +127,9 @@ export default function Home() {
         // 8: Trap
         // 9: Drew Kempen
         // 10: Joey Simmons (2021: Josh Beltz)
+
+        let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
+        let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
 
         let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         players[week].forEach((player) => {
@@ -179,35 +183,38 @@ export default function Home() {
             <section className="stat-card-container">
                 <div className="stat-card">
                     <h3>Average Score</h3>
-                    <p>The average total score for the week was {averageScore.toFixed(2)} points.</p>
+                    <p>The average total score for the week was {averageScore.toFixed(2)} points</p>
                 </div>
                 <div className="stat-card">
                     <h3>Closest Game</h3> 
-                    <p>{closest} point difference.<br/><br/>{closestWinner} beat the {closestLoser} by this margin.</p>
+                    <p>{closest} point difference<br/><br/>{closestWinner} beat the {closestLoser} by this margin</p>
                 </div>
                 <div className="stat-card">
                     <h3>Highest Scoring Loser</h3> 
-                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost. <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average.</p>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average</p>
                 </div>
                 <div className="stat-card">
                     <h3>Lowest Scoring Winner</h3>
-                    <p>{minWinner[0]} scored {minWinner[1]} points and won. <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average.</p>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average</p>
                 </div>
             </section>
             <section className="chart-container">
-                <div className="chart medium-chart">
-                    <BarChart chartData={
-                        {
-                            labels: ownerNames,
-                            datasets: [{
-                                label: "Points Scored",
-                                data: teamScores,
-                                backgroundColor: ["#003c6670", "#CC1E2B70"],
-                                borderColor: ["#003c66", "#CC1E2B"],
-                                borderWidth: 2
-                            }]
-                        }
-                    }/>
+                <div className="chart-border">
+                    <h3>Total Points Scored</h3>
+                    <div className="chart medium-chart">
+                        <BarChart chartData={
+                            {
+                                labels: ownerNames,
+                                datasets: [{
+                                    label: "Points Scored",
+                                    data: teamScores,
+                                    backgroundColor: ["#003c6670", "#CC1E2B70"],
+                                    borderColor: ["#003c66", "#CC1E2B"],
+                                    borderWidth: 2
+                                }]
+                            }
+                        }/>
+                    </div>
                 </div>
             </section>
         </section>
