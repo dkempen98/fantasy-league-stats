@@ -23,7 +23,7 @@ console.log(myClient)
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
 
-const season = 2021
+const season = 2022
 let weeklyPlayerData = []
 let playerInfo = []
 let score
@@ -39,7 +39,7 @@ let playerName
 let teamName
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 14
+const maxWeek = 1
 
 getInfo(1)
 
@@ -281,10 +281,10 @@ function getInfo(week) {
             // console.log(weeklyPlayerData)
             
             let info = JSON.stringify(weeklyPlayerData);
-            fs.writeFileSync('./client/src/components/data/players.json', info)
+            fs.writeFileSync(`./client/src/components/data/players${season}.json`, info)
 
             info = JSON.stringify(weeklyTeamData);
-            fs.writeFileSync('./client/src/components/data/teams.json', info)
+            fs.writeFileSync(`./client/src/components/data/teams${season}.json`, info)
 
             console.log('Files Created!')
         }

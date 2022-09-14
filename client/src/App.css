@@ -255,7 +255,8 @@ body {
 
 .chart-container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .chart-border {
@@ -287,10 +288,12 @@ body {
 }
 
 .small-chart {
+  min-height: 20rem;
   max-width: 50rem;
 }
 
 .medium-chart {
+  min-height: 20rem;
   max-width: 70rem;
 }
 

@@ -1,12 +1,17 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
-import players from "../components/data/players.json"
-import teams from "../components/data/teams.json"
+import twentyOnePlayers from "../components/data/players2021.json"
+import twentyOneTeams from "../components/data/teams2021.json"
+import twentyTwoPlayers from "../components/data/players2022.json"
+import twentyTwoTeams from "../components/data/teams2022.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
-    const [year, setYear] = useState(2021)
+    const [year, setYear] = useState(2022)
     const [week, setWeek] = useState(0)
+    const [players, setPlayers] = useState(twentyTwoPlayers)
+    const [teams, setTeams] = useState(twentyTwoTeams)
+    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
     const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
@@ -19,7 +24,7 @@ export default function Home() {
     const [closest, setClosest] = useState('')
     const [minWinner, setMinWinner] = useState([]) // 0 = owner name, 1 = score
     const [maxLoser, setMaxLoser] = useState([]) // 0 = owner name, 1 = score
-    const [benchScore, setBenchScore] = useState([]) // 0 = owner name, 1 = score
+    const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
 
     function getTeamData() {
         setTeamNames([])
@@ -34,6 +39,8 @@ export default function Home() {
         let scorePlaceholder = []
         let winPlaceholder = []
         
+        
+
         teams[week].forEach(matchup => {
             matchup.forEach(specificTeam => {
                 teamIdPlaceholder.push(specificTeam.id)
@@ -116,29 +123,17 @@ export default function Home() {
 
         setMaxLoser([highName, highLoser.toFixed(2)])
         setMinWinner([lowName, lowWinner.toFixed(2)])
-        
-        // 1: Alex Kempen
-        // 2: Ben Fischer
-        // 3: Tony Gault
-        // 4: Nate Labine (2021: Kayla Gault)
-        // 5: Henry Morris
-        // 6: Eric Leprotti
-        // 7: Ivan Goya (2021: Kieffer)
-        // 8: Trap
-        // 9: Drew Kempen
-        // 10: Joey Simmons (2021: Josh Beltz)
 
-        let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
-        let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
+        // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
+        // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
 
         let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         players[week].forEach((player) => {
             if(player.position === "Bench") {
                 benchTotals[player.teamId - 1] += player.points
             }
-            
         })
-
+        setBenchScores(benchTotals)
     }
 
     useEffect(() => {
@@ -164,18 +159,18 @@ export default function Home() {
                 <div className="global-dropdown">
                     <select onChange={(e) => weekChange(e.target.value)}>
                         <option key={1} value={0}>Week 1</option>
-                        <option key={2} value={1}>Week 2</option>
-                        <option key={3} value={2}>Week 3</option>
-                        <option key={4} value={3}>Week 4</option>
-                        <option key={5} value={4}>Week 5</option>
-                        <option key={6} value={5}>Week 6</option>
-                        <option key={7} value={6}>Week 7</option>
-                        <option key={8} value={7}>Week 8</option>
-                        <option key={9} value={8}>Week 9</option>
-                        <option key={10} value={9}>Week 10</option>
-                        <option key={11} value={10}>Week 11</option>
-                        <option key={12} value={11}>Week 12</option>
-                        <option key={13} value={12}>Week 13</option>
+                        {/* <option key={2} value={1}>Week 2</option> */}
+                        {/* <option key={3} value={2}>Week 3</option> */}
+                        {/* <option key={4} value={3}>Week 4</option> */}
+                        {/* <option key={5} value={4}>Week 5</option> */}
+                        {/* <option key={6} value={5}>Week 6</option> */}
+                        {/* <option key={7} value={6}>Week 7</option> */}
+                        {/* <option key={8} value={7}>Week 8</option> */}
+                        {/* <option key={9} value={8}>Week 9</option> */}
+                        {/* <option key={10} value={9}>Week 10</option> */}
+                        {/* <option key={11} value={10}>Week 11</option> */}
+                        {/* <option key={12} value={11}>Week 12</option> */}
+                        {/* <option key={13} value={12}>Week 13</option> */}
                     </select>
                     <span className="global-arrow"></span>
                 </div>
@@ -187,7 +182,7 @@ export default function Home() {
                 </div>
                 <div className="stat-card">
                     <h3>Closest Game</h3> 
-                    <p>{closest} point difference<br/><br/>{closestWinner} beat the {closestLoser} by this margin</p>
+                    <p>{closestWinner} beat {closestLoser} by a margin of {closest} points</p>
                 </div>
                 <div className="stat-card">
                     <h3>Highest Scoring Loser</h3> 
@@ -206,11 +201,29 @@ export default function Home() {
                             {
                                 labels: ownerNames,
                                 datasets: [{
-                                    label: "Points Scored",
+                                    label: '',
                                     data: teamScores,
                                     backgroundColor: ["#003c6670", "#CC1E2B70"],
                                     borderColor: ["#003c66", "#CC1E2B"],
                                     borderWidth: 2
+                                }]
+                            }
+                        }/>
+                    </div>
+                </div>
+                <div className="chart-border">
+                    <h3>Total Bench Points</h3>
+                    <div className="chart medium-chart">
+                        <BarChart chartData={
+                            {
+                                labels: defaultNames,
+                                datasets: [{
+                                    label: '',
+                                    data: benchScores,
+                                    backgroundColor: ["#003c6670", "#CC1E2B70"],
+                                    borderColor: ["#003c66", "#CC1E2B"],
+                                    borderWidth: 2,
+                                    barPercentage: 1 
                                 }]
                             }
                         }/>

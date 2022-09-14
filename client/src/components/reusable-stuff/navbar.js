@@ -59,12 +59,19 @@ export default function Navbar() {
                             <span className={activePage === 'home' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Home
                         </Link>
                     </li>
+                    <li>
                         <Link to="/league" onClick={() => changePage('league')}>  
                             <span className={activePage === 'league' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>League Stats
                         </Link>
+                    </li>
+                    <li>
+                        <Link to="/team" onClick={() => changePage('team')}>  
+                            <span className={activePage === 'team' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Team Stats
+                        </Link>
+                    </li>
                     <li>
                         <Link to="/players" onClick={() => changePage('players')}>  
-                            <span className={activePage === 'players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Players
+                            <span className={activePage === 'players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Player Stats
                         </Link>
                     </li>
                 </ul>
