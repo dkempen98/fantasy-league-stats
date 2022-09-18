@@ -1,10 +1,11 @@
 // import { Link } from "react-router-dom";
-import { useState, useEffect, React } from "react";
+import { useState, useEffect, React, useDebugValue } from "react";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
+import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
     const [year, setYear] = useState(2022)
@@ -13,25 +14,38 @@ export default function Home() {
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
     const [activeTeamId, setActiveTeamId] = useState(1)
+
     const [activePlayers, setActivePlayers] = useState([])
     const [weeklyPlayers, setWeeklyPlayers] = useState([])
     const [playerPerformances, setPlayerPerformances] = useState([])
 
+    const [teamStats, setTeamStats] = useState([])
+    const [weeklyScore, setWeeklyScore] = useState([])
+
     
     useEffect(() => {
-        getPlayerData()
+        getWeeklyData()
+        getSeasonData()
     }, [activeTeamId])
+
+    useEffect(() => {
+        getWeeklyData()
+    }, [week])
     
     useEffect(() => {
         generateWeeklyStats()
     }, [weeklyPlayers])
 
+    useEffect(() => {
+        generateSeasonStats()
+    }, [teamStats])
+
     
-    function getPlayerData() {
+    function getWeeklyData() {
 
         let seasonPlaceholder = []
         let weekPlaceholder = []
-
+        
         players.forEach(week => {
             week.forEach(person => {
                 if (person.teamId == activeTeamId) {
@@ -43,22 +57,40 @@ export default function Home() {
         })
 
         // Create an array of player names for the selected week for reference on items for the rest of this function
-
+        
         let weeklyNames = []
-
+        
         seasonPlaceholder[week].forEach(person => {
             weeklyNames.push(person.player)
         })
-
+        
+        // Create array of season matchup data
+        
+        
         setActivePlayers(seasonPlaceholder)
         setWeeklyPlayers(weeklyNames)
     }
     
+    function getSeasonData() {
+        let seasonGamesPH = []
+        
+        teams.forEach(week => {
+            week.forEach(matchup => {
+                matchup.forEach(team => {
+                    console.log(team.id == activeTeamId)
+                    if (team.id == activeTeamId) {
+                        seasonGamesPH.push(team)
+                    }
+                })
+            })
+        })
+
+        setTeamStats(seasonGamesPH)
+    }
 
     function generateWeeklyStats() {
         // Prevents this function from running on page load before the previous function has time to run
         if(weeklyPlayers.length == 0) {
-            console.log('CANCELLING')
             return
         }
 
@@ -74,14 +106,41 @@ export default function Home() {
         setPlayerPerformances(performances)
     }
 
+    function generateSeasonStats() {
+        if(teamStats.length == 0) {
+            return
+        }
 
+        let scores = []
+        let wins = 0
+        let losses = 0
+        let performance = []
+
+        teamStats.forEach(week => {
+            scores.push(week.score)
+            performance.push((week.score - parseInt(week.projectedScore)))
+            if (week.win) {
+                wins++
+            } else {
+                losses++
+            }
+        })
+        setWeeklyScore(scores)
+        console.log(wins)
+        console.log(losses)
+        console.log(performance)
+
+    }
+
+    
+    
+    
     function weekChange(newWeek){
         setWeek(newWeek)
     }
 
     function teamChange(newTeam){
         setActiveTeamId(newTeam)
-        console.log(defaultNames[activeTeamId - 1])
     }
     
 
@@ -124,6 +183,8 @@ export default function Home() {
                 </div>
             </section>
             <section className="stat-card-container">
+            <h2>Weekly Stats</h2>
+
                 {/* <div className="stat-card">
                     <h3>Average Score</h3>
                     <p>The average total score for the week was points</p>
@@ -138,6 +199,27 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: playerPerformances,
+                                    backgroundColor: ["#CC1E2B70"],
+                                    borderColor: ["#CC1E2B"],
+                                    borderWidth: 2,
+                                    barPercentage: 1 
+                                }]
+                            }
+                        }/>
+                    </div>
+                </div>
+
+                <h2>Season Stats</h2>
+
+                <div className="chart-border">
+                    <h3>Weekly Score</h3>
+                    <div className="chart medium-chart line-chart">
+                        <LineChart chartData={
+                            {
+                                labels: [1,2,3,4,5,6,7,8,9,10],
+                                datasets: [{
+                                    label: '',
+                                    data: weeklyScore,
                                     backgroundColor: ["#CC1E2B70"],
                                     borderColor: ["#CC1E2B"],
                                     borderWidth: 2,

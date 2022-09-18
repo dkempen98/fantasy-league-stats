@@ -301,6 +301,10 @@ body {
   max-width: 90rem;
 }
 
+.line-chart {
+  min-height: 0rem;
+}
+
 
 
 

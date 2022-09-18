@@ -56,24 +56,24 @@ export default function Navbar() {
                 <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
                         <Link to="/" onClick={() => changePage('home')}>
-                            <span className={activePage === 'home' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Home
+                            <span className={activePage === 'home' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchup Stats
                         </Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link to="/league" onClick={() => changePage('league')}>  
-                            <span className={activePage === 'league' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>League Stats
+                            <span className={activePage === 'league' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Season Stats
                         </Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link to="/team" onClick={() => changePage('team')}>  
-                            <span className={activePage === 'team' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Team Stats
+                            <span className={activePage === 'team' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Team Stats
                         </Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link to="/players" onClick={() => changePage('players')}>  
                             <span className={activePage === 'players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Player Stats
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         </header>
