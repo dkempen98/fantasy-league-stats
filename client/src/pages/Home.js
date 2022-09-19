@@ -24,7 +24,10 @@ export default function Home() {
     const [closest, setClosest] = useState('')
     const [minWinner, setMinWinner] = useState([]) // 0 = owner name, 1 = score
     const [maxLoser, setMaxLoser] = useState([]) // 0 = owner name, 1 = score
+    const [beatMin, setBeatMin] = useState(0)
+    const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
+
 
     function getTeamData() {
         setTeamNames([])
@@ -107,8 +110,10 @@ export default function Home() {
 
         let highLoser = 0
         let highName
+        let beatByHigh = 0
         let lowWinner = 1000
         let lowName
+        let beatLow = 0
 
         for(let i = 0; i < 10; i++) {
             if(win[i] && teamScores[i] < lowWinner) {
@@ -121,8 +126,20 @@ export default function Home() {
             }
         }
 
+        for(let i = 0; i < 10; i++) {
+            if(teamScores[i] < highLoser) {
+                beatByHigh++
+            }
+            if(teamScores[i] > lowWinner) {
+                beatLow++
+            }
+        }
+
         setMaxLoser([highName, highLoser.toFixed(2)])
         setMinWinner([lowName, lowWinner.toFixed(2)])
+        setLoseMax(beatByHigh)
+        setBeatMin(beatLow)
+
 
         // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
         // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
@@ -186,11 +203,11 @@ export default function Home() {
                 </div>
                 <div className="stat-card">
                     <h3>Highest Scoring Loser</h3> 
-                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average</p>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average <br/><br/> They would have beat {loseMax} teams this week</p>
                 </div>
                 <div className="stat-card">
                     <h3>Lowest Scoring Winner</h3>
-                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average</p>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average<br/><br/> They would have lost to {beatMin} teams this week</p>
                 </div>
             </section>
             <section className="chart-container">

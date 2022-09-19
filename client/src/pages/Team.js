@@ -220,10 +220,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: weeklyScore,
-                                    backgroundColor: ["#CC1E2B70"],
-                                    borderColor: ["#CC1E2B"],
-                                    borderWidth: 2,
-                                    barPercentage: 1 
+                                    backgroundColor: ["#CC1E2B"],
                                 }]
                             }
                         }/>
