@@ -99,7 +99,7 @@ export default function Home() {
         let performances = []
         let currentWeek = week
          
-        activePlayers[0].forEach(person => {
+        activePlayers[currentWeek].forEach(person => {
             performances.push(person.performance)
         })
 
