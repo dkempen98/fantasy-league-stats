@@ -299,6 +299,7 @@ body {
 
 .large-chart {
   max-width: 90rem;
+  min-height: 30rem;
 }
 
 .line-chart {

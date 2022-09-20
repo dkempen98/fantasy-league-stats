@@ -176,7 +176,7 @@ export default function Home() {
                 <div className="global-dropdown">
                     <select onChange={(e) => weekChange(e.target.value)}>
                         <option key={1} value={0}>Week 1</option>
-                        <option key={2} value={1} selected>Week 2</option>
+                        <option key={2} value={1} defaultValue>Week 2</option>
                         {/* <option key={3} value={2}>Week 3</option> */}
                         {/* <option key={4} value={3}>Week 4</option> */}
                         {/* <option key={5} value={4}>Week 5</option> */}
