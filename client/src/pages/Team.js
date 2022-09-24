@@ -213,7 +213,6 @@ export default function Home() {
                                     label: '',
                                     data: playerPerformances,
                                     backgroundColor: benchColors,
-                                    borderWidth: 2,
                                     barPercentage: 1 
                                 }]
                             }

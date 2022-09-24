@@ -161,7 +161,7 @@ export default function Home() {
             if(game){
                 winLoss.push('#0c7008c0')
             } else {
-                winLoss.push('#810000c0')
+                winLoss.push('#000000c0')
             }
         });
 
@@ -218,7 +218,7 @@ export default function Home() {
                     <div className="card-title">
                         <h3>Closest Game</h3> 
                     </div>
-                    <p>{closestWinner} beat {closestLoser} by a margin of {closest} points</p>
+                    <p>{closestWinner} beat {closestLoser} by {closest} points</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
@@ -246,7 +246,6 @@ export default function Home() {
                                     label: '',
                                     data: teamScores,
                                     backgroundColor: winLossColors,
-                                    borderWidth: 2
                                 }]
                             }
                         }/>
@@ -264,7 +263,6 @@ export default function Home() {
                                     label: '',
                                     data: benchScores,
                                     backgroundColor: ["#0c7008c0", "#000000c0"],
-                                    borderWidth: 2,
                                     barPercentage: 1 
                                 }]
                             }
