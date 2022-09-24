@@ -16,7 +16,8 @@ export default function Home() {
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
     const [margin, setMargin] = useState([])
-    const [win, setWin] = useState(false)
+    const [win, setWin] = useState([])
+
     const [closestWinner, setClosestWinner] = useState('')
     const [closestLoser, setClosestLoser] = useState('')
     const [teamScores, setTeamScores] = useState([])
@@ -27,6 +28,7 @@ export default function Home() {
     const [beatMin, setBeatMin] = useState(0)
     const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
+    const [winLossColors, setWinLossColors] = useState([])
 
 
     function getTeamData() {
@@ -151,6 +153,19 @@ export default function Home() {
             }
         })
         setBenchScores(benchTotals)
+
+        // Set colors for winning and losing teams
+        let winLoss = []
+
+        win.forEach(game => {
+            if(game){
+                winLoss.push('#0c7008c0')
+            } else {
+                winLoss.push('#810000c0')
+            }
+        });
+
+        setWinLossColors(winLoss)
     }
 
     useEffect(() => {
@@ -171,7 +186,7 @@ export default function Home() {
 
     return(
         <section className="global-base">
-            <h1>Week in Review</h1>
+            <h1 className="page-header"><span>Week in Review</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
                     <select onChange={(e) => weekChange(e.target.value)}>
@@ -194,25 +209,35 @@ export default function Home() {
             </section>
             <section className="stat-card-container">
                 <div className="stat-card">
-                    <h3>Average Score</h3>
+                    <div className="card-title">
+                        <h3>Average Score</h3>
+                    </div>
                     <p>The average total score for the week was {averageScore.toFixed(2)} points</p>
                 </div>
                 <div className="stat-card">
-                    <h3>Closest Game</h3> 
+                    <div className="card-title">
+                        <h3>Closest Game</h3> 
+                    </div>
                     <p>{closestWinner} beat {closestLoser} by a margin of {closest} points</p>
                 </div>
                 <div className="stat-card">
-                    <h3>Highest Scoring Loser</h3> 
-                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average <br/><br/> They would have beat {loseMax} teams this week</p>
+                    <div className="card-title">
+                        <h3>Highest Scoring Loser</h3> 
+                    </div>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average <br/><br/> He would have beat {loseMax} teams this week</p>
                 </div>
                 <div className="stat-card">
-                    <h3>Lowest Scoring Winner</h3>
-                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average<br/><br/> They would have lost to {beatMin} teams this week</p>
+                    <div className="card-title">
+                        <h3>Lowest Scoring Winner</h3>
+                    </div>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average<br/><br/> He would have lost to {beatMin} teams this week</p>
                 </div>
             </section>
             <section className="chart-container">
                 <div className="chart-border">
-                    <h3>Total Points Scored</h3>
+                    <div className="chart-title">
+                        <h3>Total Points Scored</h3>
+                    </div>
                     <div className="chart medium-chart">
                         <BarChart chartData={
                             {
@@ -220,8 +245,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: teamScores,
-                                    backgroundColor: ["#003c6670", "#CC1E2B70"],
-                                    borderColor: ["#003c66", "#CC1E2B"],
+                                    backgroundColor: winLossColors,
                                     borderWidth: 2
                                 }]
                             }
@@ -229,7 +253,9 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="chart-border">
-                    <h3>Total Bench Points</h3>
+                    <div className="chart-title">
+                        <h3>Total Bench Points</h3>
+                    </div>
                     <div className="chart medium-chart">
                         <BarChart chartData={
                             {
@@ -237,8 +263,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: benchScores,
-                                    backgroundColor: ["#003c6670", "#CC1E2B70"],
-                                    borderColor: ["#003c66", "#CC1E2B"],
+                                    backgroundColor: ["#0c7008c0", "#000000c0"],
                                     borderWidth: 2,
                                     barPercentage: 1 
                                 }]

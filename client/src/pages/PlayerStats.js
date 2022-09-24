@@ -58,7 +58,7 @@ export default function Home() {
     
     return(
         <section className="global-base">
-            <h1>Player Stats</h1>
+            <h1 className="page-header">Player Stats</h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
                     <select onChange={(e) => weekChange(e.target.value)}>

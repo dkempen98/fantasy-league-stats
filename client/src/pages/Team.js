@@ -18,10 +18,12 @@ export default function Home() {
     const [activePlayers, setActivePlayers] = useState([])
     const [weeklyPlayers, setWeeklyPlayers] = useState([])
     const [playerPerformances, setPlayerPerformances] = useState([])
-
+    
     const [teamStats, setTeamStats] = useState([])
     const [weeklyScore, setWeeklyScore] = useState([])
 
+    const [benchColors, setBenchColors] = useState([])
+    const [recordColors, setRecordColors] = useState([])
     
     useEffect(() => {
         getWeeklyData()
@@ -77,7 +79,6 @@ export default function Home() {
         teams.forEach(week => {
             week.forEach(matchup => {
                 matchup.forEach(team => {
-                    console.log(team.id == activeTeamId)
                     if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                     }
@@ -96,14 +97,24 @@ export default function Home() {
 
         // Show each players performance (points over / under projection)
 
+        // Change color of chart color based on if someone played or not
+
         let performances = []
-        let currentWeek = week
+        let colors = []
+
          
-        activePlayers[currentWeek].forEach(person => {
+        activePlayers[week].forEach(person => {
             performances.push(person.performance)
+            if(person.position === "Bench" || person.position === "IR") {
+                colors.push('#000000c0')
+            } else {
+                colors.push('#0c7008c0')
+            }
         })
 
         setPlayerPerformances(performances)
+        setBenchColors(colors)
+
     }
 
     function generateSeasonStats() {
@@ -115,21 +126,21 @@ export default function Home() {
         let wins = 0
         let losses = 0
         let performance = []
+        let colors = []
 
         teamStats.forEach(week => {
             scores.push(week.score)
             performance.push((week.score - parseInt(week.projectedScore)))
             if (week.win) {
                 wins++
+                colors.push('#0c7008')
             } else {
                 losses++
+                colors.push('#810000c0')
             }
         })
         setWeeklyScore(scores)
-        console.log(wins)
-        console.log(losses)
-        console.log(performance)
-
+        setRecordColors(colors)
     }
 
     
@@ -146,7 +157,7 @@ export default function Home() {
 
     return(
         <section className="global-base">
-            <h1>Team Stats</h1>
+            <h1 className="page-header"><span>Team Stats</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
                     <select onChange={(e) => weekChange(e.target.value)}>
@@ -183,7 +194,7 @@ export default function Home() {
                 </div>
             </section>
             <section className="stat-card-container">
-            <h2>Weekly Stats</h2>
+            <h2 className="section-header">Weekly Stats</h2>
 
                 {/* <div className="stat-card">
                     <h3>Average Score</h3>
@@ -191,7 +202,9 @@ export default function Home() {
                 </div> */}
                 
                 <div className="chart-border">
-                    <h3>Points Away From Projection</h3>
+                    <div className="chart-title">
+                        <h3>Points Away From Projection</h3>
+                    </div>
                     <div className="chart large-chart">
                         <BarChart chartData={
                             {
@@ -199,8 +212,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: playerPerformances,
-                                    backgroundColor: ["#CC1E2B70"],
-                                    borderColor: ["#CC1E2B"],
+                                    backgroundColor: benchColors,
                                     borderWidth: 2,
                                     barPercentage: 1 
                                 }]
@@ -209,10 +221,12 @@ export default function Home() {
                     </div>
                 </div>
 
-                <h2>Season Stats</h2>
+                <h2 className="section-header">Season Stats</h2>
 
                 <div className="chart-border">
-                    <h3>Weekly Score</h3>
+                    <div className="chart-title">
+                        <h3>Weekly Score</h3>
+                    </div>
                     <div className="chart medium-chart line-chart">
                         <LineChart chartData={
                             {
@@ -220,7 +234,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: weeklyScore,
-                                    backgroundColor: ["#CC1E2B"],
+                                    backgroundColor: recordColors,
                                 }]
                             }
                         }/>

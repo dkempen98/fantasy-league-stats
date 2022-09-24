@@ -45,7 +45,7 @@ export default function Navbar() {
             {/* <div ref={wrapperRef}>HERE</div> */}
             <div className='nb-flex nb-header'>
                 <img className='nb-logo' src={logo}></img>
-                <h1 className='nb-title'>FF Stats</h1>
+                <h1 className='nb-title'><span>FF Stats</span></h1>
             </div>
 
             <button onClick={openNav} className='nb-mobile-toggle' aria-controls='primary-navigation' aria-expanded={menuVis}>
