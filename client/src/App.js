@@ -21,7 +21,7 @@ function App() {
                 element={<Home />}
               />
               <Route 
-                path="/league"
+                path="/season"
                 element={<LeagueStats />}
               />
               <Route 

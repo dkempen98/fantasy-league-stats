@@ -21,6 +21,7 @@ export default function Home() {
     
     const [teamStats, setTeamStats] = useState([])
     const [weeklyScore, setWeeklyScore] = useState([])
+    const [leagueAverage, setLeagueAverage] = useState([])
 
     const [benchColors, setBenchColors] = useState([])
     const [recordColors, setRecordColors] = useState([])
@@ -75,6 +76,8 @@ export default function Home() {
     
     function getSeasonData() {
         let seasonGamesPH = []
+        let leagueScores = 0
+        let averageScoresPH = []
         
         teams.forEach(week => {
             week.forEach(matchup => {
@@ -82,10 +85,15 @@ export default function Home() {
                     if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                     }
+                    leagueScores += team.score
+                    console.log(leagueScores)
                 })
             })
+            averageScoresPH.push(leagueScores / 10)
+            leagueScores = 0
         })
-
+        
+        setLeagueAverage(averageScoresPH)
         setTeamStats(seasonGamesPH)
     }
 
@@ -136,7 +144,7 @@ export default function Home() {
                 colors.push('#0c7008')
             } else {
                 losses++
-                colors.push('#810000c0')
+                colors.push('#CC1E2B')
             }
         })
         setWeeklyScore(scores)
@@ -218,6 +226,10 @@ export default function Home() {
                             }
                         }/>
                     </div>
+                    <ul className="legend">
+                        <li className="bright-legend">Starters</li>
+                        <li className="dark-legend">Bench Players</li>
+                    </ul>
                 </div>
 
                 <h2 className="section-header">Season Stats</h2>
@@ -230,14 +242,28 @@ export default function Home() {
                         <LineChart chartData={
                             {
                                 labels: [1,2,3,4,5,6,7,8,9,10],
-                                datasets: [{
-                                    label: '',
-                                    data: weeklyScore,
-                                    backgroundColor: recordColors,
-                                }]
+                                datasets: [
+                                    {
+                                        label: '',
+                                        data: weeklyScore,
+                                        borderColor: recordColors,
+                                        backgroundColor: recordColors,
+                                    },
+                                    {
+                                        label: '',
+                                        data: leagueAverage,
+                                        borderColor: "#000000",
+                                        backgroundColor: "#000000",
+                                    }
+                                ]
                             }
                         }/>
                     </div>
+                    <ul className="legend">
+                        <li className="bright-legend">Win</li>
+                        <li className="red-legend">Loss</li>
+                        <li className="dark-legend">League Average</li>
+                    </ul>
                 </div>
             </section>
         </section>

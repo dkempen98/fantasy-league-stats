@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/field-logo.png'
 export default function Navbar() {
     const [menuVis, setMenuVis] = useState("false")
-    const [activePage, setActivePage] = useState("home")
 
     function openNav() {
         if (menuVis === 'false') {
@@ -30,8 +29,7 @@ export default function Navbar() {
         }, [ref])
     }
 
-    function changePage(newPage) {
-        setActivePage(newPage)
+    function changePage() {
         if(menuVis === 'true') {
             setMenuVis('false')
         }
@@ -55,20 +53,20 @@ export default function Navbar() {
             <nav>
                 <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
-                        <Link to="/" onClick={() => changePage('home')}>
-                            <span className={activePage === 'home' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchup Stats
+                        <Link to="/" onClick={() => changePage()}>
+                            <span className={window.location.pathname === "/" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchup Stats
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/team" onClick={() => changePage()}>  
+                            <span className={window.location.pathname === "/team" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Team Stats
                         </Link>
                     </li>
                     {/* <li>
-                        <Link to="/league" onClick={() => changePage('league')}>  
-                            <span className={activePage === 'league' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Season Stats
+                        <Link to="/season" onClick={() => changePage()}>  
+                            <span className={window.location.pathname === "/season" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Season Stats
                         </Link>
                     </li> */}
-                    <li>
-                        <Link to="/team" onClick={() => changePage('team')}>  
-                            <span className={activePage === 'team' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Team Stats
-                        </Link>
-                    </li>
                     {/* <li>
                         <Link to="/players" onClick={() => changePage('players')}>  
                             <span className={activePage === 'players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Player Stats

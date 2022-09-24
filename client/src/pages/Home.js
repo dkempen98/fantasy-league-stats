@@ -72,7 +72,6 @@ export default function Home() {
         let total = 0
         let avg = 0
         teamScores.forEach(score => {
-            console.log(typeof(total))
             total += score
         })
         
@@ -250,6 +249,10 @@ export default function Home() {
                             }
                         }/>
                     </div>
+                    <ul className="legend">
+                        <li className="bright-legend">Winner</li>
+                        <li className="dark-legend">Loser</li>
+                    </ul>
                 </div>
                 <div className="chart-border">
                     <div className="chart-title">
