@@ -25,10 +25,15 @@ export default function Home() {
 
     const [benchColors, setBenchColors] = useState([])
     const [recordColors, setRecordColors] = useState([])
+
+    const [activePosition, setActivePosition] = useState('QB')
+    const [teamPositionAverage, setPositionAverage] = useState([])
+    const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
     
     useEffect(() => {
         getWeeklyData()
         getSeasonData()
+        positionChart()
     }, [activeTeamId])
 
     useEffect(() => {
@@ -42,6 +47,10 @@ export default function Home() {
     useEffect(() => {
         generateSeasonStats()
     }, [teamStats])
+
+    useEffect(() => {
+        positionChart()
+    }, [activePosition])
 
     
     function getWeeklyData() {
@@ -86,7 +95,6 @@ export default function Home() {
                         seasonGamesPH.push(team)
                     }
                     leagueScores += team.score
-                    console.log(leagueScores)
                 })
             })
             averageScoresPH.push(leagueScores / 10)
@@ -151,6 +159,40 @@ export default function Home() {
         setRecordColors(colors)
     }
 
+    function positionChart() {
+        let teamPositionScores = []
+        let leaguePositionScoreAvg = []
+
+        let teamPositionPH = 0
+        let leagueAveragePH = 0
+
+        let teamCount = 0
+        let leagueCount = 0
+
+        players.forEach(week => {
+            week.forEach(person => {
+                if(person.eligiblePosition.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
+                    if(person.teamId == activeTeamId) {
+                        console.log(person.player)
+                        teamPositionPH += person.points
+                        teamCount++
+                    } else {
+                        leagueAveragePH += person.points
+                        leagueCount++
+                    }
+                }
+            })
+            teamPositionScores.push(teamPositionPH / teamCount)
+            leaguePositionScoreAvg.push(leagueAveragePH / leagueCount)
+            teamPositionPH = 0
+            leagueAveragePH = 0
+            teamCount = 0
+            leagueCount = 0
+        })
+        setPositionAverage(teamPositionScores)
+        setLeaguePositionAverage(leaguePositionScoreAvg)
+    }
+
     
     
     
@@ -160,6 +202,10 @@ export default function Home() {
 
     function teamChange(newTeam){
         setActiveTeamId(newTeam)
+    }
+
+    function positionChange(position){
+        setActivePosition(position)
     }
     
 
@@ -202,7 +248,7 @@ export default function Home() {
                 </div>
             </section>
             <section className="stat-card-container">
-            <h2 className="section-header">Weekly Stats</h2>
+            <h2 className="section-header"><span>Weekly Stats</span></h2>
 
                 {/* <div className="stat-card">
                     <h3>Average Score</h3>
@@ -232,7 +278,7 @@ export default function Home() {
                     </ul>
                 </div>
 
-                <h2 className="section-header">Season Stats</h2>
+                <h2 className="section-header"><span>Season Stats</span></h2>
 
                 <div className="chart-border">
                     <div className="chart-title">
@@ -266,6 +312,46 @@ export default function Home() {
                     </ul>
                 </div>
             </section>
+            <div className="chart-border">
+                    <div className="chart-title">
+                        <h3>Average by Position</h3>
+                    </div>
+                <div className="chart-dropdown">
+                    <select onChange={(e) => positionChange(e.target.value)}>
+                        <option key={1} value={'QB'}>QB</option>
+                        <option key={2} value={'RB'}>RB</option>
+                        <option key={3} value={'TE'}>TE</option>
+                        <option key={5} value={'D/ST'}>D/ST</option>
+                        <option key={6} value={'K'}>K</option>
+                    </select>
+                    <span className="global-arrow"></span>
+                </div>
+                    <div className="chart medium-chart line-chart">
+                        <LineChart chartData={
+                            {
+                                labels: [1,2,3,4,5,6,7,8,9,10],
+                                datasets: [
+                                    {
+                                        label: '',
+                                        data: teamPositionAverage,
+                                        borderColor: '#0c7008',
+                                        backgroundColor: '#0c7008',
+                                    },
+                                    {
+                                        label: '',
+                                        data: leaguePositionAverage,
+                                        borderColor: "#000000",
+                                        backgroundColor: "#000000",
+                                    }
+                                ]
+                            }
+                        }/>
+                    </div>
+                    <ul className="legend">
+                        <li className="bright-legend">Team average starting {activePosition}</li>
+                        <li className="dark-legend">League average starting {activePosition}</li>
+                    </ul>
+                </div>
         </section>
     )
 }

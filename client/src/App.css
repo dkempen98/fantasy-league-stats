@@ -128,14 +128,18 @@ h6 {
   border-radius: 5px;
 }
 
-.section-header{
+.section-header {
+  margin-left: 15vw;
+  margin-right: 15vw;
+  margin-top: 2rem;
+}
+
+.section-header span{
   background-color: var(--dark);
   padding: 10px;
   
   box-shadow: .5rem .5rem .5rem #00000090;
   border-radius: 5px;
-
-  margin-top: 1.5rem;
 }
 
 .stat-card-container {
@@ -307,6 +311,19 @@ h6 {
 
 .line-chart {
   min-height: 0rem;
+}
+
+.chart-dropdown {
+  position: relative;
+  align-self: flex-start;
+  margin: 2px 10px 10px 2.5%;
+}
+
+.chart-dropdown select{
+  font-size: 1.2rem;
+  padding: 2px 2rem 2px .5rem;
+  background-color: var(--bright);
+  border: 0;
 }
 
 .legend {

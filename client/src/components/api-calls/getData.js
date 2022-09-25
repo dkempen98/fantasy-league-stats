@@ -55,6 +55,7 @@ function getInfo(week) {
           console.log(matchup)  
           console.log('--------------------------HOME PLAYERS-----------------------')
           matchup.homeRoster.forEach(homePlayers => {
+            console.log(homePlayers.player)
             switch(matchup.homeTeamId) {
                 case 1:
                     playerName = 'Alex'
@@ -131,6 +132,7 @@ function getInfo(week) {
                         team: teamName,
                         owner: playerName,
                         position: homePlayers.position,
+                        eligiblePosition: homePlayers.player.eligiblePositions,
                         points: homePlayers.totalPoints,
                         projectedPoints: projScore,
                         performance: scoreDifference
@@ -236,6 +238,7 @@ function getInfo(week) {
                             team: teamName,
                             owner: playerName,
                             position: awayPlayers.position,
+                            eligiblePosition: awayPlayers.player.eligiblePositions,
                             points: awayPlayers.totalPoints,
                             projectedPoints: projScore,
                             performance: scoreDifference
