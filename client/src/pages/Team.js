@@ -350,7 +350,7 @@ export default function Home() {
                     </div>
                     <ul className="legend">
                         <li className="bright-legend">Team average starting {activePosition}</li>
-                        <li className="dark-legend">League average starting {activePosition}</li>
+                        <li className="dark-legend">Rest of league average starting {activePosition}</li>
                     </ul>
                 </div>
         </section>
