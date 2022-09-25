@@ -319,6 +319,7 @@ export default function Home() {
                 <div className="chart-dropdown">
                     <select onChange={(e) => positionChange(e.target.value)}>
                         <option key={1} value={'QB'}>QB</option>
+                        <option key={1} value={'WR'}>WR</option>
                         <option key={2} value={'RB'}>RB</option>
                         <option key={3} value={'TE'}>TE</option>
                         <option key={5} value={'D/ST'}>D/ST</option>
