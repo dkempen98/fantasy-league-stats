@@ -311,7 +311,6 @@ export default function Home() {
                         <li className="dark-legend">League Average</li>
                     </ul>
                 </div>
-            </section>
             <div className="chart-border">
                     <div className="chart-title">
                         <h3>Average by Position</h3>
@@ -353,6 +352,7 @@ export default function Home() {
                         <li className="dark-legend">Rest of league average starting {activePosition}</li>
                     </ul>
                 </div>
+            </section>
         </section>
     )
 }
