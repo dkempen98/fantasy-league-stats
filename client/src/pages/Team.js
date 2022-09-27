@@ -9,7 +9,7 @@ import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
     const [year, setYear] = useState(2022)
-    const [week, setWeek] = useState(1)
+    const [week, setWeek] = useState(2)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
