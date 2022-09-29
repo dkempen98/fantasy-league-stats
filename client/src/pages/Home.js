@@ -88,7 +88,6 @@ export default function Home() {
         let closestGame = 1000
         let closestWinnerPlaceholder = ''
         let closestLoserPlaceholder = ''
-        console.log(closestLoserPlaceholder)
 
         for(let i = 0; i < 10; i += 2) {
             if(Math.abs(margin[i]) < closestGame) {
@@ -188,10 +187,10 @@ export default function Home() {
             <h1 className="page-header"><span>Week in Review</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
-                    <select onChange={(e) => weekChange(e.target.value)}>
+                    <select value={2} onChange={(e) => weekChange(e.target.value)}>
                         <option key={1} value={0}>Week 1</option>
                         <option key={2} value={1}>Week 2</option>
-                        <option key={3} value={2} selected>Week 3</option>
+                        <option key={3} value={2}>Week 3</option>
                         {/* <option key={4} value={3}>Week 4</option> */}
                         {/* <option key={5} value={4}>Week 5</option> */}
                         {/* <option key={6} value={5}>Week 6</option> */}

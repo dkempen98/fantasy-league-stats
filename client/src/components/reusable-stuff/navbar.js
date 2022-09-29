@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/field-logo.png'
 export default function Navbar() {
     const [menuVis, setMenuVis] = useState("false")
+    const [page, setPage] = useState('')
 
     function openNav() {
         if (menuVis === 'false') {
             setMenuVis('true')
-            console.log(menuVis)
         } else {
             setMenuVis('false')
-            console.log(menuVis)
         }
     }
 
@@ -29,10 +28,11 @@ export default function Navbar() {
         }, [ref])
     }
 
-    function changePage() {
+    function changePage(newPage) {
         if(menuVis === 'true') {
             setMenuVis('false')
         }
+        setPage(newPage)
     }
 
     const wrapperRef = useRef(null);
@@ -53,12 +53,12 @@ export default function Navbar() {
             <nav>
                 <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
-                        <Link to="/" onClick={() => changePage()}>
-                            <span className={window.location.pathname === "/" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchup Stats
+                        <Link to="/" onClick={() => changePage("home")}>
+                            <span className={window.location.pathname === "/" || page === "home"  ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchup Stats
                         </Link>
                     </li>
                     <li>
-                        <Link to="/team" onClick={() => changePage()}>  
+                        <Link to="/team" onClick={() => changePage("team")}>  
                             <span className={window.location.pathname === "/team" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Team Stats
                         </Link>
                     </li>

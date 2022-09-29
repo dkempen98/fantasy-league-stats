@@ -14,6 +14,7 @@ export default function Home() {
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
     const [activeTeamId, setActiveTeamId] = useState(1)
+    const [numberOfWeeks, setNumberOfWeeks] = useState(0)
 
     const [activePlayers, setActivePlayers] = useState([])
     const [weeklyPlayers, setWeeklyPlayers] = useState([])
@@ -131,6 +132,15 @@ export default function Home() {
         setPlayerPerformances(performances)
         setBenchColors(colors)
 
+        // Get the number of weeks then create an array to determine the number of data points for the line chart
+        
+        let count = []
+
+        for(let i = 0; i < players.length; i++) {
+            count.push(i + 1)
+        }
+
+        setNumberOfWeeks(count)
     }
 
     function generateSeasonStats() {
@@ -173,7 +183,6 @@ export default function Home() {
             week.forEach(person => {
                 if(person.eligiblePosition.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
                     if(person.teamId == activeTeamId) {
-                        console.log(person.player)
                         teamPositionPH += person.points
                         teamCount++
                     } else {
@@ -214,10 +223,10 @@ export default function Home() {
             <h1 className="page-header"><span>Team Stats</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
-                    <select onChange={(e) => weekChange(e.target.value)}>
+                    <select value={2} onChange={(e) => weekChange(e.target.value)}>
                         <option key={1} value={0}>Week 1</option>
                         <option key={2} value={1}>Week 2</option>
-                        <option key={3} value={2} selected>Week 3</option>
+                        <option key={3} value={2}>Week 3</option>
                         {/* <option key={4} value={3}>Week 4</option> */}
                         {/* <option key={5} value={4}>Week 5</option> */}
                         {/* <option key={6} value={5}>Week 6</option> */}
@@ -287,18 +296,20 @@ export default function Home() {
                     <div className="chart medium-chart line-chart">
                         <LineChart chartData={
                             {
-                                labels: [1,2,3,4,5,6,7,8,9,10],
+                                labels: numberOfWeeks,
                                 datasets: [
                                     {
                                         label: '',
                                         data: weeklyScore,
-                                        borderColor: recordColors,
+                                        borderColor: "#00000075",
+                                        pointBorderColor: recordColors,
                                         backgroundColor: recordColors,
                                     },
                                     {
                                         label: '',
                                         data: leagueAverage,
                                         borderColor: "#000000",
+                                        borderDash: [6, 2],
                                         backgroundColor: "#000000",
                                     }
                                 ]
@@ -318,9 +329,9 @@ export default function Home() {
                 <div className="chart-dropdown">
                     <select onChange={(e) => positionChange(e.target.value)}>
                         <option key={1} value={'QB'}>QB</option>
-                        <option key={1} value={'WR'}>WR</option>
-                        <option key={2} value={'RB'}>RB</option>
-                        <option key={3} value={'TE'}>TE</option>
+                        <option key={2} value={'WR'}>WR</option>
+                        <option key={3} value={'RB'}>RB</option>
+                        <option key={4} value={'TE'}>TE</option>
                         <option key={5} value={'D/ST'}>D/ST</option>
                         <option key={6} value={'K'}>K</option>
                     </select>
@@ -329,7 +340,7 @@ export default function Home() {
                     <div className="chart medium-chart line-chart">
                         <LineChart chartData={
                             {
-                                labels: [1,2,3,4,5,6,7,8,9,10],
+                                labels: numberOfWeeks,
                                 datasets: [
                                     {
                                         label: '',
