@@ -8,7 +8,7 @@ import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
     const [year, setYear] = useState(2022)
-    const [week, setWeek] = useState(2)
+    const [week, setWeek] = useState(3)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
@@ -187,11 +187,11 @@ export default function Home() {
             <h1 className="page-header"><span>Week in Review</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
-                    <select value={2} onChange={(e) => weekChange(e.target.value)}>
+                    <select value={3} onChange={(e) => weekChange(e.target.value)}>
                         <option key={1} value={0}>Week 1</option>
                         <option key={2} value={1}>Week 2</option>
                         <option key={3} value={2}>Week 3</option>
-                        {/* <option key={4} value={3}>Week 4</option> */}
+                        <option key={4} value={3}>Week 4</option>
                         {/* <option key={5} value={4}>Week 5</option> */}
                         {/* <option key={6} value={5}>Week 6</option> */}
                         {/* <option key={7} value={6}>Week 7</option> */}
