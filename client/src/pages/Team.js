@@ -55,6 +55,9 @@ export default function Home() {
 
     
     function getWeeklyData() {
+        if(! players) {
+            return
+        }
 
         let seasonPlaceholder = []
         let weekPlaceholder = []
@@ -74,7 +77,15 @@ export default function Home() {
         let weeklyNames = []
         
         seasonPlaceholder[week].forEach(person => {
-            weeklyNames.push(person.player)
+            if(person.eligiblePosition.includes('D/ST')) {
+                console.log(person)
+                return
+            }
+            if(person.position == 'Bench' || person.position === "IR") {
+                weeklyNames.push(person.player.charAt(0) + '. ' + person.lastName + ' (' + person.projectedPoints.toFixed(2) + ')')
+                return
+            }
+            weeklyNames.unshift(person.player.charAt(0) + '. ' + person.lastName + ' (' + person.projectedPoints.toFixed(2) + ')')
         })
         
         // Create array of season matchup data
@@ -122,13 +133,16 @@ export default function Home() {
 
          
         activePlayers[week].forEach(person => {
+            if(person.position === "D/ST") {
+                return
+            }
             if(person.position === "Bench" || person.position === "IR") {
                 colors.push('#000000c0')
                 performances.push(person.performance)
                 teamOrder.push(person.performance)
             } else {
-                colors.push('#0c7008c0')
-                performances.push(person.performance)
+                colors.unshift('#0c7008c0')
+                performances.unshift(person.performance)
             }
         })
 

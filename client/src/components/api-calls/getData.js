@@ -9,7 +9,7 @@ const mySWID = '{44B1905F-93AB-4B92-B190-5F93ABFB9218}'
 const myClient = new Client({ leagueId: 1156809923 })
 
 myClient.setCookies({ espnS2: myS2, SWID: mySWID })
-console.log(myClient)
+// console.log(myClient)
 
 // Team ID correlation is as follows by person:
 // 1: Alex Kempen
@@ -52,10 +52,13 @@ function getInfo(week) {
     .then(res => res.forEach(matchup => {
         teamProj = 0
         console.log('--------------------------NEW MATCHUP--------------------------')
-          console.log(matchup)  
+        //   console.log(matchup)  
           console.log('--------------------------HOME PLAYERS-----------------------')
           matchup.homeRoster.forEach(homePlayers => {
-            console.log(homePlayers.player)
+            // if(homePlayers.position == 'D/ST') {
+            //     console.log(homePlayers)
+            //     console.log(homePlayers.projectedPointBreakdown)
+            // }
             switch(matchup.homeTeamId) {
                 case 1:
                     playerName = 'Alex'
@@ -121,6 +124,8 @@ function getInfo(week) {
                     }
                 }
                 // console.log('PROJECTED POINTS: ' + projScore)
+                // console.log(homePlayers.player.fullName)
+                // console.log(homePlayers.totalPoints)
                 if(homePlayers.position != 'Bench') {
                     teamProj += projScore
                 }
@@ -128,6 +133,7 @@ function getInfo(week) {
                 playerInfo.push(
                     {
                         player: homePlayers.player.fullName,
+                        lastName: homePlayers.player.lastName,
                         teamId: matchup.homeTeamId,
                         team: teamName,
                         owner: playerName,
@@ -234,6 +240,7 @@ function getInfo(week) {
                     playerInfo.push(
                         {
                             player: awayPlayers.player.fullName,
+                            lastName: awayPlayers.player.lastName,
                             teamId: matchup.awayTeamId,
                             team: teamName,
                             owner: playerName,
@@ -270,7 +277,7 @@ function getInfo(week) {
     .then(res => {
         weeklyPlayerData.push(playerInfo)
         weeklyTeamData.push(teamInfo)
-        console.log(teamInfo)
+        // console.log(teamInfo)
     })
 
     .then(res => {
@@ -280,7 +287,7 @@ function getInfo(week) {
             getInfo((week + 1))
         } else {
             console.log('-------------------ARRAY------------------')
-            console.log(weeklyTeamData)
+            // console.log(weeklyTeamData)
             // console.log(weeklyPlayerData)
             
             let info = JSON.stringify(weeklyPlayerData);
