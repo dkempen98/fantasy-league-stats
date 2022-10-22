@@ -180,7 +180,7 @@ export default function Home() {
     function weekChange(newWeek){
         setWeek(newWeek)
     }
-    
+
 
     return(
         <section className="global-base">
@@ -222,13 +222,13 @@ export default function Home() {
                     <div className="card-title">
                         <h3>Highest Scoring Loser</h3> 
                     </div>
-                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(maxLoser[1] - averageScore).toFixed(2)} points away from the average <br/><br/> He would have beat {loseMax} teams this week</p>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(Math.abs(maxLoser[1] - averageScore)).toFixed(2)} points {parseInt(maxLoser[1]) > averageScore ? 'above' : 'below'} the average <br/><br/> He would have beat {loseMax} teams this week</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Lowest Scoring Winner</h3>
                     </div>
-                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(minWinner[1] - averageScore).toFixed(2)} points away from the average<br/><br/> He would have lost to {beatMin} teams this week</p>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won <br/><br/> This was {(Math.abs(minWinner[1] - averageScore)).toFixed(2)} points {parseInt(minWinner[1]) > averageScore ? 'above' : 'below'} the average<br/><br/> He would have lost to {beatMin} teams this week</p>
                 </div>
             </section>
             <section className="chart-container">
