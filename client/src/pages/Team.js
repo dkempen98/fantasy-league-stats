@@ -9,7 +9,7 @@ import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
     const [year, setYear] = useState(2022)
-    const [week, setWeek] = useState(6)
+    const [week, setWeek] = useState(7)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
@@ -248,7 +248,7 @@ export default function Home() {
                         <option key={5} value={4}>Week 5</option>
                         <option key={6} value={5}>Week 6</option>
                         <option key={7} value={6}>Week 7</option>
-                        {/* <option key={8} value={7}>Week 8</option> */}
+                        <option key={8} value={7}>Week 8</option>
                         {/* <option key={9} value={8}>Week 9</option> */}
                         {/* <option key={10} value={9}>Week 10</option> */}
                         {/* <option key={11} value={10}>Week 11</option> */}
