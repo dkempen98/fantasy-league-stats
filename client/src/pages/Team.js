@@ -252,7 +252,7 @@ export default function Home() {
                         <option key={9} value={8}>Week 9</option>
                         <option key={10} value={9}>Week 10</option>
                         <option key={11} value={10}>Week 11</option>
-                        {/* <option key={12} value={11}>Week 12</option> */}
+                        <option key={12} value={11}>Week 12</option>
                         {/* <option key={13} value={12}>Week 13</option> */}
                     </select>
                     <span className="global-arrow"></span>
