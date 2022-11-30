@@ -288,13 +288,13 @@ export default function Home() {
                         <option key={1} value={1}>Alex</option>
                         <option key={2} value={2}>Ben</option>
                         <option key={3} value={3}>Tony</option>
-                        <option key={4} value={4}>Nate</option>
+                        <option key={4} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
                         <option key={5} value={5}>Henry</option>
                         <option key={6} value={6}>Eric</option>
-                        <option key={7} value={7}>Ivan</option>
+                        <option key={7} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
                         <option key={8} value={8}>Trap</option>
                         <option key={9} value={9}>Drew</option>
-                        <option key={10} value={10}>Joey</option>
+                        <option key={10} value={10}>{season === 2021 ? 'Josh' : 'Joey'}</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
