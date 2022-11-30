@@ -8,7 +8,7 @@ import BarChart from "../components/reusable-stuff/barChart.js";
 import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
-    const [year, setYear] = useState(2022)
+    const [season, setSeason] = useState(2022)
     const [week, setWeek] = useState(11)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
@@ -35,23 +35,23 @@ export default function Home() {
         getWeeklyData()
         getSeasonData()
         positionChart()
-    }, [activeTeamId])
+    }, [activeTeamId, season])
 
     useEffect(() => {
         getWeeklyData()
-    }, [week])
+    }, [week, season])
     
     useEffect(() => {
         generateWeeklyStats()
-    }, [weeklyPlayers])
+    }, [weeklyPlayers, season])
 
     useEffect(() => {
         generateSeasonStats()
-    }, [teamStats])
+    }, [teamStats, season])
 
     useEffect(() => {
         positionChart()
-    }, [activePosition])
+    }, [activePosition, season])
 
     
     function getWeeklyData() {
@@ -234,26 +234,52 @@ export default function Home() {
         setActivePosition(position)
     }
     
+    function seasonChange(newYear){
+        console.log(newYear)
+        if(newYear == 2021){
+            setWeek(0)
+            setSeason(2021)
+            setTeams(twentyOneTeams)
+            setPlayers(twentyOnePlayers)
+        }
+        if(newYear == 2022){
+            setWeek(0)
+            setSeason(2022)
+            setTeams(twentyTwoTeams)
+            setPlayers(twentyTwoPlayers)
+        }
+    }
 
     return(
         <section className="global-base">
             <h1 className="page-header"><span>Team Stats</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
+                    <select value={season} onChange={(e) => seasonChange(e.target.value)}>
+                        <option key={2021} value={2021}>2021</option>
+                        <option key={2022} value={2022}>2022</option>
+                    </select>
+                    <span className="global-arrow"></span>
+                </div>
+                <div className="global-dropdown">
                     <select value={week} onChange={(e) => weekChange(e.target.value)}>
-                        <option key={1} value={0}>Week 1</option>
-                        <option key={2} value={1}>Week 2</option>
-                        <option key={3} value={2}>Week 3</option>
-                        <option key={4} value={3}>Week 4</option>
-                        <option key={5} value={4}>Week 5</option>
-                        <option key={6} value={5}>Week 6</option>
-                        <option key={7} value={6}>Week 7</option>
-                        <option key={8} value={7}>Week 8</option>
-                        <option key={9} value={8}>Week 9</option>
-                        <option key={10} value={9}>Week 10</option>
-                        <option key={11} value={10}>Week 11</option>
-                        <option key={12} value={11}>Week 12</option>
-                        {/* <option key={13} value={12}>Week 13</option> */}
+                    <option key={1} value={0} disabled={teams.length < 1 ? true : false}>Week 1</option>
+                        <option key={2} value={1} disabled={teams.length < 2 ? true : false}>Week 2</option>
+                        <option key={3} value={2} disabled={teams.length < 3 ? true : false}>Week 3</option>
+                        <option key={4} value={3} disabled={teams.length < 4 ? true : false}>Week 4</option>
+                        <option key={5} value={4} disabled={teams.length < 5 ? true : false}>Week 5</option>
+                        <option key={6} value={5} disabled={teams.length < 6 ? true : false}>Week 6</option>
+                        <option key={7} value={6} disabled={teams.length < 7 ? true : false}>Week 7</option>
+                        <option key={8} value={7} disabled={teams.length < 8 ? true : false}>Week 8</option>
+                        <option key={9} value={8} disabled={teams.length < 9 ? true : false}>Week 9</option>
+                        <option key={10} value={9} disabled={teams.length < 10 ? true : false}>Week 10</option>
+                        <option key={11} value={10} disabled={teams.length < 11 ? true : false}>Week 11</option>
+                        <option key={12} value={11} disabled={teams.length < 12 ? true : false}>Week 12</option>
+                        <option key={13} value={12} disabled={teams.length < 13 ? true : false}>Week 13</option>
+                        <option key={14} value={13} disabled={teams.length < 14 ? true : false}>Round 1.1</option>
+                        <option key={15} value={14} disabled={teams.length < 14 ? true : false}>Round 1.2</option>
+                        <option key={16} value={15} disabled={teams.length < 16 ? true : false}>Round 2.1</option>
+                        <option key={17} value={16} disabled={teams.length < 16 ? true : false}>Round 2.2</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>

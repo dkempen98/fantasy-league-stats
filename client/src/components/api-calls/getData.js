@@ -23,7 +23,7 @@ myClient.setCookies({ espnS2: myS2, SWID: mySWID })
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
 
-const season = 2022
+const season = 2021
 let weeklyPlayerData = []
 let playerInfo = []
 let score
@@ -39,14 +39,14 @@ let playerName
 let teamName
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 12
+const maxWeek = 17
 
-getInfo(1)
+getInfo(1, 1)
 
-function getInfo(week) {
+function getInfo(week, matchupId) {
     myClient.getBoxscoreForWeek( {
         seasonId: season,
-        matchupPeriodId: week,
+        matchupPeriodId: matchupId,
         scoringPeriodId: week    
     })
     .then(res => res.forEach(matchup => {
@@ -284,7 +284,10 @@ function getInfo(week) {
         teamInfo = []
         playerInfo = []
         if (week < maxWeek) {
-            getInfo((week + 1))
+            if(week === 14 || week === 16) {
+                matchupId -= 1
+            }
+            getInfo((week + 1), (matchupId + 1))
         } else {
             console.log('-------------------ARRAY------------------')
             // console.log(weeklyTeamData)
