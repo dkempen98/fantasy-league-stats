@@ -224,9 +224,10 @@ export default function Home() {
                         <option key={11} value={10} disabled={teams.length < 11 ? true : false}>Week 11</option>
                         <option key={12} value={11} disabled={teams.length < 12 ? true : false}>Week 12</option>
                         <option key={13} value={12} disabled={teams.length < 13 ? true : false}>Week 13</option>
-                        <option key={14} value={13} disabled={teams.length < 14 ? true : false}>Round 1</option>
+                        <option key={14} value={13} disabled={teams.length < 14 ? true : false}>Round 1.1</option>
                         <option key={15} value={14} disabled={teams.length < 14 ? true : false}>Round 1.2</option>
-                        <option key={16} value={15} disabled={teams.length < 16 ? true : false}>Round 2</option>
+                        <option key={16} value={15} disabled={teams.length < 16 ? true : false}>Round 2.1</option>
+                        <option key={16} value={15} disabled={teams.length < 16 ? true : false}>Round 2.2</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
