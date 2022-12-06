@@ -9,7 +9,7 @@ import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
     const [season, setSeason] = useState(2022)
-    const [week, setWeek] = useState(11)
+    const [week, setWeek] = useState(0)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
@@ -31,6 +31,10 @@ export default function Home() {
     const [teamPositionAverage, setPositionAverage] = useState([])
     const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
     
+    useEffect(() => {
+        setWeek(teams.length - 1)
+    },[])
+
     useEffect(() => {
         getWeeklyData()
         getSeasonData()
@@ -78,7 +82,6 @@ export default function Home() {
         
         seasonPlaceholder[week].forEach(person => {
             if(person.eligiblePosition.includes('D/ST')) {
-                console.log(person)
                 return
             }
             if(person.position == 'Bench' || person.position === "IR") {

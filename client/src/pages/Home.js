@@ -8,7 +8,7 @@ import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
     const [season, setSeason] = useState(2022)
-    const [week, setWeek] = useState(11)
+    const [week, setWeek] = useState(0)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
@@ -165,6 +165,10 @@ export default function Home() {
 
         setWinLossColors(winLoss)
     }
+
+    useEffect(() => {
+        setWeek(teams.length - 1)
+    },[])
 
     useEffect(() => {
         getTeamData()

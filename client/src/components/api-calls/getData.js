@@ -23,7 +23,7 @@ myClient.setCookies({ espnS2: myS2, SWID: mySWID })
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
 
-const season = 2021
+const season = 2022
 let weeklyPlayerData = []
 let playerInfo = []
 let score
@@ -39,7 +39,7 @@ let playerName
 let teamName
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 17
+const maxWeek = 13
 
 getInfo(1, 1)
 
