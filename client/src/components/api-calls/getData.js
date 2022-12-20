@@ -39,7 +39,7 @@ let playerName
 let teamName
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 14
+const maxWeek = 15
 
 getInfo(1, 1)
 
