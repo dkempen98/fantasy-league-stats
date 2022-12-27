@@ -39,7 +39,7 @@ let playerName
 let teamName
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 15
+const maxWeek = 16
 
 getInfo(1, 1)
 
@@ -137,6 +137,8 @@ function getInfo(week, matchupId) {
                         teamId: matchup.homeTeamId,
                         team: teamName,
                         owner: playerName,
+                        week: week,
+                        matchup: matchupId,
                         position: homePlayers.position,
                         eligiblePosition: homePlayers.player.eligiblePositions,
                         points: homePlayers.totalPoints,
@@ -152,12 +154,13 @@ function getInfo(week, matchupId) {
                 } else {
                     won = true
                 }
-
                 headToHead.push(
                     {
                         id: matchup.homeTeamId,
                         team: teamName,
                         owner: playerName,
+                        week: week,
+                        matchup: matchupId,
                         score: matchup.homeScore,
                         projectedScore: teamProj,
                         win: won,
@@ -244,6 +247,8 @@ function getInfo(week, matchupId) {
                             teamId: matchup.awayTeamId,
                             team: teamName,
                             owner: playerName,
+                            week: week,
+                            matchup: matchupId,
                             position: awayPlayers.position,
                             eligiblePosition: awayPlayers.player.eligiblePositions,
                             points: awayPlayers.totalPoints,
@@ -264,6 +269,8 @@ function getInfo(week, matchupId) {
                         id: matchup.awayTeamId,
                         team: teamName,
                         owner: playerName,
+                        week: week,
+                        matchup: matchupId,
                         score: matchup.awayScore,
                         projectedScore: teamProj,
                         win: won,

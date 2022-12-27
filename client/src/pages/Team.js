@@ -109,7 +109,12 @@ export default function Home() {
                     if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                     }
-                    leagueScores += team.score
+                    console.log(teams.length)
+                    if (team.week != 17 && (team.week < 14 || (teams.length) == team.week)) {
+                        leagueScores += team.score
+                    } else {
+                        leagueScores += team.score / 2
+                    }
                 })
             })
             averageScoresPH.push(leagueScores / 10)
@@ -133,7 +138,6 @@ export default function Home() {
         let performances = []
         let colors = []
         let teamOrder = []
-
          
         activePlayers[week].forEach(person => {
             if(person.position === "D/ST") {
@@ -174,17 +178,44 @@ export default function Home() {
         let performance = []
         let colors = []
 
-        teamStats.forEach(week => {
-            scores.push(week.score)
-            performance.push((week.score - parseInt(week.projectedScore)))
-            if (week.win) {
+        for(let i=0; i < teamStats.length; i++) {
+            if(teamStats[i].week > 13) {
+                let weeklyTotal = 0
+                activePlayers[i].forEach(player => {
+                    if(player.position != "Bench" && player.position != "IR") {
+                        weeklyTotal += player.points
+                    }
+                });
+                console.log(teamStats[i].week)
+                console.log(weeklyTotal)
+                scores.push(weeklyTotal)
+            } else {
+                scores.push(teamStats[i].score)
+            }
+
+            // scores.push(teamStats[i].score)
+            performance.push((teamStats[i].score - parseInt(teamStats[i].projectedScore)))
+            if (teamStats[i].win) {
                 wins++
                 colors.push('#0c7008')
             } else {
                 losses++
                 colors.push('#CC1E2B')
             }
-        })
+        }
+
+        // teamStats.forEach(week => {
+        //     scores.push(week.score)
+        //     performance.push((week.score - parseInt(week.projectedScore)))
+        //     if (week.win) {
+        //         wins++
+        //         colors.push('#0c7008')
+        //     } else {
+        //         losses++
+        //         colors.push('#CC1E2B')
+        //     }
+            
+        // })
         setWeeklyScore(scores)
         setRecordColors(colors)
     }

@@ -1,251 +1,362 @@
-// import { Link } from "react-router-dom";
-import { useState, useEffect, React, useDebugValue } from "react";
+import { useState, useEffect, React } from "react";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
-import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
-    const [year, setYear] = useState(2022)
-    const [week, setWeek] = useState(1)
+    const [season, setSeason] = useState(2022)
+    const [week, setWeek] = useState(0)
     const [players, setPlayers] = useState(twentyTwoPlayers)
     const [teams, setTeams] = useState(twentyTwoTeams)
     const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
-    const [activeTeamId, setActiveTeamId] = useState(1)
+    const [id, setId] = useState([])
+    const [ownerNames, setOwners] = useState([])
+    const [margin, setMargin] = useState([])
+    const [activePosition, setActivePosition] = useState('QB')
 
-    const [activePlayers, setActivePlayers] = useState([])
-    const [weeklyPlayers, setWeeklyPlayers] = useState([])
-    const [playerPerformances, setPlayerPerformances] = useState([])
+    const [win, setWin] = useState([])
+    const [teamNames, setTeamNames] = useState([])
+    const [winLossColors, setWinLossColors] = useState([])
+
+    const [closestWinner, setClosestWinner] = useState('')
+    const [closestLoser, setClosestLoser] = useState('')
+    const [closest, setClosest] = useState('')
+    const [closestWeek, setClosestWeek] = useState(0)
+    const [marginAvg, setMarginAvg] = useState(0)
+    const [matchupAvg, setMatchupAvg] = useState(0)
+
+    const [percentBeatByHigh, setPercentBeatByHigh] = useState(0)
+    const [percentBeatLow, setPercentBeatLow] = useState(0)
     
-    const [teamStats, setTeamStats] = useState([])
-    const [weeklyScore, setWeeklyScore] = useState([])
+    const [teamScores, setTeamScores] = useState([])
+    const [averageScore, setAverage] = useState(0)
+    const [minWinner, setMinWinner] = useState([]) // 0 = owner name, 1 = score
+    const [minWeek, setMinWeek] = useState(0)
+    const [maxLoser, setMaxLoser] = useState([]) // 0 = owner name, 1 = score
+    const [maxWeek, setMaxWeek] = useState(0)
+    const [beatMin, setBeatMin] = useState(0)
+    const [loseMax, setLoseMax] = useState(0)
+    const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
 
-    const [benchColors, setBenchColors] = useState([])
-    const [recordColors, setRecordColors] = useState([])
-    
-    useEffect(() => {
-        getWeeklyData()
-        getSeasonData()
-    }, [activeTeamId])
 
-    useEffect(() => {
-        getWeeklyData()
-    }, [week])
-    
-    useEffect(() => {
-        generateWeeklyStats()
-    }, [weeklyPlayers])
-
-    useEffect(() => {
-        generateSeasonStats()
-    }, [teamStats])
-
-    
-    function getWeeklyData() {
-
-        let seasonPlaceholder = []
-        let weekPlaceholder = []
+    function getTeamData() {
+        setOwners([])
+        setMargin([])
+        setTeamScores([])
         
-        players.forEach(week => {
-            week.forEach(person => {
-                if (person.teamId == activeTeamId) {
-                    weekPlaceholder.push(person)
+        let scorePlaceholder = [0,0,0,0,0,0,0,0,0,0]
+
+        let closestGame = 1000
+        let closestWinnerPlaceholder = ''
+        let closestLoserPlaceholder = ''
+        let closestWeekPh = 0
+        let totalMargin = 0
+        let gameCount = 0
+
+        let highLoser = 0
+        let highName
+        let beatByHigh = 0
+        let highWeek = 0
+        let lowWinner = 1000
+        let lowName
+        let beatLow = 0
+        let lowWeek = 0
+        
+        let totalSeasonScore = 0
+        let totalCount = 0
+        let matchupAvgPh = 0
+        let percentBeatByHighPh = 0
+        let percentBeatLowPh = 0
+
+        for(let i = 0; teams.length > i; i++) {
+            if(i != 14 && i != 16){
+                for(let j = 0; teams[i].length > j; j++) {
+                    let matchup = teams[i][j]
+                    scorePlaceholder[matchup[0].id - 1] += matchup[0].score
+                    scorePlaceholder[matchup[1].id - 1] += matchup[1].score
+
+                    // Get closest game of the season
+
+                    if(Math.abs(matchup[0].margin) < closestGame) {
+                        closestGame = Math.abs(matchup[0].margin)
+                        closestWeekPh = matchup[0].week
+                        if (matchup[0].win) {
+                            closestWinnerPlaceholder = matchup[0].owner
+                            closestLoserPlaceholder = matchup[1].owner
+                        } else {
+                            closestWinnerPlaceholder = matchup[1].owner
+                            closestLoserPlaceholder = matchup[0].owner
+                        }
+                    }
+
+                    // Get highest scoring loser and lowest scoring winner on the year and
+                    // calculate the % of teams they would have beaten on the year
+                    if(i != 13 && i != 15){
+                        totalMargin += Math.abs(matchup[0].margin)
+                        gameCount++
+                        matchup.forEach(team => {
+                            if(team.win && team.score < lowWinner) {
+                                lowWinner = team.score;
+                                lowName = team.owner;
+                                lowWeek = team.week;
+                            }
+                            if(!team.win && team.score > highLoser) {
+                                highLoser = team.score;
+                                highName = team.owner;
+                                highWeek = team.week;
+                            }
+                            totalSeasonScore += team.score
+                            totalCount++
+                        });
+                    }
+                    console.log(totalSeasonScore / totalCount)
+                    console.log(totalCount)
+
+                    matchupAvgPh = (totalSeasonScore / totalCount)
                 }
-            })
-            seasonPlaceholder.push(weekPlaceholder)
-            weekPlaceholder = []
-        })
+            }
+        }
 
-        // Create an array of player names for the selected week for reference on items for the rest of this function
-        
-        let weeklyNames = []
-        
-        seasonPlaceholder[week].forEach(person => {
-            weeklyNames.push(person.player)
-        })
-        
-        // Create array of season matchup data
-        
-        
-        setActivePlayers(seasonPlaceholder)
-        setWeeklyPlayers(weeklyNames)
-    }
-    
-    function getSeasonData() {
-        let seasonGamesPH = []
-        
-        teams.forEach(week => {
-            week.forEach(matchup => {
+        for(let i = 0; teams.length > i && i < 13; i++) {
+            for(let j = 0; teams[i].length > j; j++) {
+                let matchup = teams[i][j]
                 matchup.forEach(team => {
-                    if (team.id == activeTeamId) {
-                        seasonGamesPH.push(team)
+                    if(team.score < highLoser) {
+                        beatByHigh++
+                    }
+                    if(team.score > lowWinner) {
+                        beatLow++
                     }
                 })
-            })
-        })
-
-        setTeamStats(seasonGamesPH)
-    }
-
-    function generateWeeklyStats() {
-        // Prevents this function from running on page load before the previous function has time to run
-        if(weeklyPlayers.length == 0) {
-            return
+            }
         }
 
-        // Show each players performance (points over / under projection)
+        percentBeatByHighPh = (beatByHigh * 100) / (totalCount - 1)
+        percentBeatLowPh = (beatLow * 100) / (totalCount - 1)
 
-        // Change color of chart color based on if someone played or not
+        setTeamNames(defaultNames)
+        setOwners(defaultNames)
+        setTeamScores(scorePlaceholder)
 
-        let performances = []
-        let colors = []
+        setClosest(closestGame.toFixed(2))
+        setClosestWinner(closestWinnerPlaceholder)
+        setClosestLoser(closestLoserPlaceholder)
+        setClosestWeek(closestWeekPh)
+        setMarginAvg((totalMargin / gameCount).toFixed(2))
 
-         
-        activePlayers[week].forEach(person => {
-            performances.push(person.performance)
-            if(person.position === "Bench" || person.position === "IR") {
-                colors.push('#000000c0')
-            } else {
-                colors.push('#0c7008c0')
-            }
-        })
+        setMatchupAvg(matchupAvgPh)
+        setPercentBeatByHigh(percentBeatByHighPh.toFixed(2))
+        setPercentBeatLow(percentBeatLowPh.toFixed(2))
 
-        setPlayerPerformances(performances)
-        setBenchColors(colors)
-
+        setMaxLoser([highName, highLoser.toFixed(2)])
+        setMinWinner([lowName, lowWinner.toFixed(2)])
+        setLoseMax(beatByHigh)
+        setMaxWeek(highWeek)
+        setBeatMin(beatLow)
+        setMinWeek(lowWeek)
     }
 
-    function generateSeasonStats() {
-        if(teamStats.length == 0) {
-            return
-        }
+    function getWeeklyStats() {
+        // calculate the average points scored by team
+        setAverage(0)
 
-        let scores = []
-        let wins = 0
-        let losses = 0
-        let performance = []
-        let colors = []
+        let total = 0
+        let avg = 0
+        teamScores.forEach(score => {
+            total += score
+        })
+        
+        avg = total / 10
+        setAverage(avg)
 
-        teamStats.forEach(week => {
-            scores.push(week.score)
-            performance.push((week.score - parseInt(week.projectedScore)))
-            if (week.win) {
-                wins++
-                colors.push('#0c7008')
-            } else {
-                losses++
-                colors.push('#000000')
+        //Find highest scoring loser and lowest scoring winner
+
+        // let highLoser = 0
+        // let highName
+        // let beatByHigh = 0
+        // let lowWinner = 1000
+        // let lowName
+        // let beatLow = 0
+
+        // for(let i = 0; i < 10; i++) {
+        //     if(win[i] && teamScores[i] < lowWinner) {
+        //         lowWinner = teamScores[i];
+        //         lowName = ownerNames[i];
+        //     }
+        //     if(!win[i] && teamScores[i] > highLoser) {
+        //         highLoser = teamScores[i];
+        //         highName = ownerNames[i];
+        //     }
+        // }
+
+        // for(let i = 0; i < 10; i++) {
+        //     if(teamScores[i] < highLoser) {
+        //         beatByHigh++
+        //     }
+        //     if(teamScores[i] > lowWinner) {
+        //         beatLow++
+        //     }
+        // }
+
+        // setMaxLoser([highName, highLoser.toFixed(2)])
+        // setMinWinner([lowName, lowWinner.toFixed(2)])
+        // setLoseMax(beatByHigh)
+        // setBeatMin(beatLow)
+
+
+        // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
+        // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
+
+        let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        players[week].forEach((player) => {
+            if(player.position === "Bench") {
+                benchTotals[player.teamId - 1] += player.points
             }
         })
-        setWeeklyScore(scores)
-        setRecordColors(colors)
+        setBenchScores(benchTotals)
+
+        // Set colors for winning and losing teams
+        let winLoss = []
+
+        win.forEach(game => {
+            if(game){
+                winLoss.push('#0c7008c0')
+            } else {
+                winLoss.push('#000000c0')
+            }
+        });
+
+        setWinLossColors(winLoss)
     }
 
-    
-    
-    
+    useEffect(() => {
+        setWeek(teams.length - 1)
+    },[])
+
+    useEffect(() => {
+        getTeamData()
+    }, [week, season])
+
+    useEffect(() => {
+        getWeeklyStats()
+    }, [teamScores, season])
+
+        
+
+
     function weekChange(newWeek){
         setWeek(newWeek)
     }
 
-    function teamChange(newTeam){
-        setActiveTeamId(newTeam)
+    function seasonChange(newYear){
+        console.log(newYear)
+        if(newYear == 2021){
+            setWeek(0)
+            setSeason(2021)
+            setTeams(twentyOneTeams)
+            setPlayers(twentyOnePlayers)
+            setDefaultNames(["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"])
+        }
+        if(newYear == 2022){
+            setWeek(0)
+            setSeason(2022)
+            setTeams(twentyTwoTeams)
+            setPlayers(twentyTwoPlayers)
+            setDefaultNames(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+        }
     }
-    
+
+    function positionChange(position){
+        setActivePosition(position)
+    }
 
     return(
         <section className="global-base">
-            <h1 className="page-header"><span>Season Stats</span></h1>
+            <h1 className="page-header"><span>Season in Review</span></h1>
             <section className="global-week-header">
                 <div className="global-dropdown">
-                    <select onChange={(e) => teamChange(e.target.value)}>
-                        <option key={1} value={1}>Alex</option>
-                        <option key={2} value={2}>Ben</option>
-                        <option key={3} value={3}>Tony</option>
-                        <option key={4} value={4}>Nate</option>
-                        <option key={5} value={5}>Henry</option>
-                        <option key={6} value={6}>Eric</option>
-                        <option key={7} value={7}>Ivan</option>
-                        <option key={8} value={8}>Trap</option>
-                        <option key={9} value={9}>Drew</option>
-                        <option key={10} value={10}>Joey</option>
+                    <select value={season} onChange={(e) => seasonChange(e.target.value)}>
+                        <option key={2021} value={2021}>2021</option>
+                        <option key={2022} value={2022}>2022</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
             </section>
             <section className="stat-card-container">
-
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Closest Game</h3> 
+                        <h3>Average Score</h3>
                     </div>
-                    <p>Here is some stuff</p>
+                    <p>The average total score for {season} is {averageScore.toFixed(2)} points <br/><br/> The average weekly score for the year is {matchupAvg.toFixed(2)}</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Closest Game</h3> 
                     </div>
-                    <p>Here is some stuff</p>
+                    <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year is {marginAvg} points</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Closest Game</h3> 
+                        <h3>Highest Scoring Loser</h3> 
                     </div>
-                    <p>Here is some stuff</p>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost in week {maxWeek} <br/><br/> This was {(Math.abs(maxLoser[1] - matchupAvg)).toFixed(2)} points {parseInt(maxLoser[1]) > matchupAvg ? 'above' : 'below'} the weekly average <br/><br/> They would have won against {percentBeatByHigh}% of matchups on the year</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Closest Game</h3> 
+                        <h3>Lowest Scoring Winner</h3>
                     </div>
-                    <p>Here is some stuff</p>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won in week {minWeek} <br/><br/> This was {(Math.abs(minWinner[1] - matchupAvg)).toFixed(2)} points {parseInt(minWinner[1]) > matchupAvg ? 'above' : 'below'} the weekly average<br/><br/> They would have lost against {percentBeatLow}% of matchups on the year</p>
                 </div>
-                
+            </section>
+            <section className="chart-container">
                 <div className="chart-border">
                     <div className="chart-title">
-                        <h3>Points Away From Projection</h3>
+                        <h3>Total {season} Points</h3>
                     </div>
-                    <div className="chart large-chart">
+                    <div className="chart medium-chart">
                         <BarChart chartData={
                             {
-                                labels: weeklyPlayers,
+                                labels: ownerNames,
                                 datasets: [{
                                     label: '',
-                                    data: playerPerformances,
-                                    backgroundColor: benchColors,
+                                    data: teamScores,
+                                    backgroundColor: ["#0c7008c0", "#000000c0"],
+                                }]
+                            }
+                        }/>
+                    </div>
+                </div>
+                {/* <div className="chart-border">
+                    <div className="chart-title">
+                        <h3>Average by Position</h3>
+                    </div>
+                <div className="chart-dropdown">
+                    <select onChange={(e) => positionChange(e.target.value)}>
+                        <option key={1} value={'QB'}>QB</option>
+                        <option key={2} value={'WR'}>WR</option>
+                        <option key={3} value={'RB'}>RB</option>
+                        <option key={4} value={'TE'}>TE</option>
+                        <option key={5} value={'D/ST'}>D/ST</option>
+                        <option key={6} value={'K'}>K</option>
+                    </select>
+                    <span className="global-arrow"></span>
+                </div>
+                    <div className="chart medium-chart">
+                        <BarChart chartData={
+                            {
+                                labels: defaultNames,
+                                datasets: [{
+                                    label: '',
+                                    data: benchScores,
+                                    backgroundColor: ["#0c7008c0", "#000000c0"],
                                     barPercentage: 1 
                                 }]
                             }
                         }/>
                     </div>
-                    <ul className="legend">
-                        <li className="bright-legend">Starters</li>
-                        <li className="dark-legend">Bench Players</li>
-                    </ul>
-                </div>
-
-                <div className="chart-border">
-                    <div className="chart-title">
-                        <h3>Weekly Score</h3>
-                    </div>
-                    <div className="chart medium-chart line-chart">
-                        <LineChart chartData={
-                            {
-                                labels: [1,2,3,4,5,6,7,8,9,10],
-                                datasets: [{
-                                    label: '',
-                                    data: weeklyScore,
-                                    backgroundColor: recordColors,
-                                }]
-                            }
-                        }/>
-                    </div>
-                    <ul className="legend">
-                        <li className="bright-legend">Win</li>
-                        <li className="dark-legend">Loss</li>
-                    </ul>
-                </div>
+                </div> */}
             </section>
         </section>
     )
