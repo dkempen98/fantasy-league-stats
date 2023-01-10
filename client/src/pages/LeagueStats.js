@@ -301,13 +301,13 @@ export default function Home() {
                     <div className="card-title">
                         <h3>Highest Scoring Loser</h3> 
                     </div>
-                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost in week {maxWeek} <br/><br/> This was {(Math.abs(maxLoser[1] - matchupAvg)).toFixed(2)} points {parseInt(maxLoser[1]) > matchupAvg ? 'above' : 'below'} the weekly average <br/><br/> They would have won against {percentBeatByHigh}% of matchups on the year</p>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost in week {maxWeek} <br/><br/> This was {(Math.abs(maxLoser[1] - matchupAvg)).toFixed(2)} points {parseInt(maxLoser[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have won against {percentBeatByHigh}% of matchups on the year</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Lowest Scoring Winner</h3>
                     </div>
-                    <p>{minWinner[0]} scored {minWinner[1]} points and won in week {minWeek} <br/><br/> This was {(Math.abs(minWinner[1] - matchupAvg)).toFixed(2)} points {parseInt(minWinner[1]) > matchupAvg ? 'above' : 'below'} the weekly average<br/><br/> They would have lost against {percentBeatLow}% of matchups on the year</p>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won in week {minWeek} <br/><br/> This was {(Math.abs(minWinner[1] - matchupAvg)).toFixed(2)} points {parseInt(minWinner[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have lost against {percentBeatLow}% of matchups on the year</p>
                 </div>
             </section>
             <section className="chart-container">
