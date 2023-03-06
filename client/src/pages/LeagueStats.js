@@ -40,6 +40,14 @@ export default function Home() {
     const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
 
+    const [positionScores, setPositionScores] = useState([]) // Set active position scores in order of team ID
+    const [positionCount, setPositionCount] = useState([]) // Set count of position for averages
+    const [flexScores, setFlexScores] = useState([]) // Score of people in active position that were in the flex
+    const [flexCount, setFlexCount] = useState([]) // Set count of position for averages
+    const [useFlex, setUseFlex] = useState(true)
+    const [useAverage, setUseAverage] = useState(false)
+    const [chartScores, setChartScores] = useState([])
+
 
     function getTeamData() {
         setOwners([])
@@ -171,41 +179,6 @@ export default function Home() {
         avg = total / 10
         setAverage(avg)
 
-        //Find highest scoring loser and lowest scoring winner
-
-        // let highLoser = 0
-        // let highName
-        // let beatByHigh = 0
-        // let lowWinner = 1000
-        // let lowName
-        // let beatLow = 0
-
-        // for(let i = 0; i < 10; i++) {
-        //     if(win[i] && teamScores[i] < lowWinner) {
-        //         lowWinner = teamScores[i];
-        //         lowName = ownerNames[i];
-        //     }
-        //     if(!win[i] && teamScores[i] > highLoser) {
-        //         highLoser = teamScores[i];
-        //         highName = ownerNames[i];
-        //     }
-        // }
-
-        // for(let i = 0; i < 10; i++) {
-        //     if(teamScores[i] < highLoser) {
-        //         beatByHigh++
-        //     }
-        //     if(teamScores[i] > lowWinner) {
-        //         beatLow++
-        //     }
-        // }
-
-        // setMaxLoser([highName, highLoser.toFixed(2)])
-        // setMinWinner([lowName, lowWinner.toFixed(2)])
-        // setLoseMax(beatByHigh)
-        // setBeatMin(beatLow)
-
-
         // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
         // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
 
@@ -231,23 +204,62 @@ export default function Home() {
         setWinLossColors(winLoss)
     }
 
-    useEffect(() => {
-        setWeek(teams.length - 1)
-    },[])
+    function positionChartTotals() {
 
-    useEffect(() => {
-        getTeamData()
-    }, [week, season])
+        function setZero(incoming) {
+            for(let i=0; i < incoming.length; i++) {
+                incoming[i] = 0
+            }
+            return incoming
+        }
 
-    useEffect(() => {
-        getWeeklyStats()
-    }, [teamScores, season])
+        let positionScoresPH = setZero(Array(ownerNames.length))
+        let flexScoresPH = setZero(Array(ownerNames.length))
 
-        
+        let positionCountPH = setZero(Array(ownerNames.length))
+        let flexCountPH = setZero(Array(ownerNames.length))
 
+        players.forEach(week => {
+            week.forEach(person => {
+                if(person.eligiblePosition.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
+                    if(person.position.includes("/") && person.position != "D/ST") {
+                        flexScoresPH[person.teamId - 1] += person.points
+                        flexCountPH[person.teamId - 1]++
+                    } else {
+                        positionScoresPH[person.teamId - 1] += person.points
+                        positionCountPH[person.teamId - 1]++ 
+                    }
+                }
+            })
+        })
+        setPositionScores(positionScoresPH)
+        setPositionCount(positionCountPH)
+        setFlexScores(flexScoresPH)
+        setFlexCount(flexCountPH)
+    }
 
-    function weekChange(newWeek){
-        setWeek(newWeek)
+    function positionChart() {
+        let scoreTotals = []
+        let averageCounts = []
+
+        if(useFlex) {
+            for(let i = 0; i < positionScores.length; i++) {
+                scoreTotals[i] = positionScores[i] + flexScores[i]
+                averageCounts[i] = positionCount[i] + flexCount[i]
+            }
+        } else {
+            for(let i = 0; i < positionScores.length; i++) {
+                scoreTotals[i] = positionScores[i]
+                averageCounts[i] = positionCount[i]
+            }
+        }
+        console.log(averageCounts)
+        if(useAverage) {
+            for(let i = 0; i < scoreTotals.length; i++) {
+                scoreTotals[i] = scoreTotals[i] / averageCounts[i]
+            }
+        }
+        setChartScores(scoreTotals)
     }
 
     function seasonChange(newYear){
@@ -271,6 +283,35 @@ export default function Home() {
     function positionChange(position){
         setActivePosition(position)
     }
+
+    function flexChange() {
+        setUseFlex(!useFlex)
+    }
+
+    function averageChange() {
+        setUseAverage(!useAverage)
+    }
+    
+    useEffect(() => {
+        setWeek(teams.length - 1)
+    },[])
+
+    useEffect(() => {
+        getTeamData()
+    }, [week, season])
+
+    useEffect(() => {
+        getWeeklyStats()
+    }, [teamScores, season])
+
+    useEffect(() => {
+        positionChartTotals()
+    }, [activePosition, week, season])
+
+    useEffect(() => {
+        positionChart()
+    }, [positionScores, useFlex, useAverage])
+
 
     return(
         <section className="global-base">
@@ -328,20 +369,42 @@ export default function Home() {
                         }/>
                     </div>
                 </div>
-                {/* <div className="chart-border">
+                <div className="chart-border">
                     <div className="chart-title">
-                        <h3>Average by Position</h3>
+                        <h3>Positional Breakdown</h3>
                     </div>
-                <div className="chart-dropdown">
-                    <select onChange={(e) => positionChange(e.target.value)}>
-                        <option key={1} value={'QB'}>QB</option>
-                        <option key={2} value={'WR'}>WR</option>
-                        <option key={3} value={'RB'}>RB</option>
-                        <option key={4} value={'TE'}>TE</option>
-                        <option key={5} value={'D/ST'}>D/ST</option>
-                        <option key={6} value={'K'}>K</option>
-                    </select>
-                    <span className="global-arrow"></span>
+                <div className="chart-options">
+                    <div className="chart-dropdown">
+                        <select onChange={(e) => positionChange(e.target.value)}>
+                            <option key={1} value={'QB'}>QB</option>
+                            <option key={2} value={'WR'}>WR</option>
+                            <option key={3} value={'RB'}>RB</option>
+                            <option key={4} value={'TE'}>TE</option>
+                            <option key={5} value={'D/ST'}>D/ST</option>
+                            <option key={6} value={'K'}>K</option>
+                        </select>
+                        <span className="global-arrow"></span>
+                    </div>
+                    <div className="chart-checkbox">
+                        <label className="checkbox-label">
+                            <input 
+                                type={"checkbox"}
+                                checked={useFlex}
+                                onChange={() => flexChange()}
+                                className={"checkbox"}
+                            />
+                            Flex
+                        </label>
+                        <label className="checkbox-label">
+                            <input 
+                                type={"checkbox"}
+                                checked={useAverage}
+                                onChange={() => averageChange()}
+                                className={"checkbox"}
+                            />
+                            Average
+                        </label>
+                    </div>
                 </div>
                     <div className="chart medium-chart">
                         <BarChart chartData={
@@ -349,14 +412,14 @@ export default function Home() {
                                 labels: defaultNames,
                                 datasets: [{
                                     label: '',
-                                    data: benchScores,
+                                    data: chartScores,
                                     backgroundColor: ["#0c7008c0", "#000000c0"],
                                     barPercentage: 1 
                                 }]
                             }
                         }/>
                     </div>
-                </div> */}
+                </div>
             </section>
         </section>
     )

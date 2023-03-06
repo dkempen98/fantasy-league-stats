@@ -313,6 +313,13 @@ h6 {
   min-height: 0rem;
 }
 
+.chart-options {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .chart-dropdown {
   position: relative;
   align-self: flex-start;
@@ -324,6 +331,23 @@ h6 {
   padding: 2px 2rem 2px .5rem;
   background-color: var(--bright);
   border: 0;
+}
+
+.chart-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  margin-right: 10px;
+  margin-left: 5px;
+  display: flex;
+  font-size: large;
+}
+
+.checkbox {
+  accent-color: var(--bright);
+  margin-right: 5px;
 }
 
 .legend {
