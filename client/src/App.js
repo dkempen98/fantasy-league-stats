@@ -6,7 +6,7 @@ import Team from './pages/Team.js'
 import LeagueStats from './pages/LeagueStats.js'
 
 import 'normalize.css';
-import './App.css';
+import './App.scss';
 
 
 function App() {

@@ -27,6 +27,11 @@ export default function Home() {
     const [benchColors, setBenchColors] = useState([])
     const [recordColors, setRecordColors] = useState([])
 
+    const [winColor, setWinColor] = useState("#48ACF0c0")
+    const [loseColor, setLoseColor] = useState("#670000c0")
+    const [winSolid, setWinSolid] = useState("#48ACF0")
+    const [loseSolid, setLoseSolid] = useState("#670000")
+
     const [activePosition, setActivePosition] = useState('QB')
     const [teamPositionAverage, setPositionAverage] = useState([])
     const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
@@ -109,7 +114,6 @@ export default function Home() {
                     if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                     }
-                    console.log(teams.length)
                     if (team.week != 17 && (team.week < 14 || (teams.length) == team.week)) {
                         leagueScores += team.score
                     } else {
@@ -144,11 +148,11 @@ export default function Home() {
                 return
             }
             if(person.position === "Bench" || person.position === "IR") {
-                colors.push('#000000c0')
+                colors.push(winColor)
                 performances.push(person.performance)
                 teamOrder.push(person.performance)
             } else {
-                colors.unshift('#0c7008c0')
+                colors.unshift(loseColor)
                 performances.unshift(person.performance)
             }
         })
@@ -186,8 +190,6 @@ export default function Home() {
                         weeklyTotal += player.points
                     }
                 });
-                console.log(teamStats[i].week)
-                console.log(weeklyTotal)
                 scores.push(weeklyTotal)
             } else {
                 scores.push(teamStats[i].score)
@@ -197,10 +199,10 @@ export default function Home() {
             performance.push((teamStats[i].score - parseInt(teamStats[i].projectedScore)))
             if (teamStats[i].win) {
                 wins++
-                colors.push('#0c7008')
+                colors.push(winSolid)
             } else {
                 losses++
-                colors.push('#CC1E2B')
+                colors.push(loseSolid)
             }
         }
 
@@ -395,8 +397,8 @@ export default function Home() {
                     </div>
                     <ul className="legend">
                         <li className="bright-legend">Win</li>
-                        <li className="red-legend">Loss</li>
-                        <li className="dark-legend">League Average</li>
+                        <li className="dark-legend">Loss</li>
+                        <li className="black-legend">League Average</li>
                     </ul>
                 </div>
             <div className="chart-border">
@@ -422,8 +424,8 @@ export default function Home() {
                                     {
                                         label: '',
                                         data: teamPositionAverage,
-                                        borderColor: '#0c7008',
-                                        backgroundColor: '#0c7008',
+                                        borderColor: loseSolid,
+                                        backgroundColor: loseSolid,
                                     },
                                     {
                                         label: '',
@@ -436,8 +438,8 @@ export default function Home() {
                         }/>
                     </div>
                     <ul className="legend">
-                        <li className="bright-legend">Team average starting {activePosition}</li>
-                        <li className="dark-legend">Rest of league average starting {activePosition}</li>
+                        <li className="dark-legend">Team average starting {activePosition}</li>
+                        <li className="black-legend">Rest of league average starting {activePosition}</li>
                     </ul>
                 </div>
             </section>

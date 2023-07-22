@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/dkempen98/fantasy-league-stats/issues"
   },
-  "homepage": "https://github.com/dkempen98/fantasy-league-stats#readme"
+  "homepage": "https://github.com/dkempen98/fantasy-league-stats#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "sass": "^1.64.0"
+  }
 }

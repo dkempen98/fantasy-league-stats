@@ -1,97 +1,123 @@
 // import { Link } from "react-router-dom";
-import { useState, useEffect, React } from "react";
-import players from "../components/data/players2022.json"
+import { useState, useEffect, useRef, React } from "react";
+import players2021 from "../components/data/players2021.json"
+import players2022 from "../components/data/players2022.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 export default function Home() {
+    const refOne = useRef(null)
+
     const [week, setWeek] = useState(0)
-    const [maxName, setMaxName] = useState()
-    const [maxSplit, setMaxSplit] = useState(0)
-    const [minName, setMinName] = useState()
-    const [minSplit, setMinSplit] = useState(0)
+    const [searchQuery, setSearchQuery] = useState('')
+    const [playerSearch, setPlayerSearch] = useState([])
 
-    console.log(typeof(week))
+    const [playerList, setPlayerList] = useState()
+    const [searchResults, setSearchResults] = useState([])
 
-    useEffect(() => {
-        setCharts()
-    }, [week])
-    
-    function setCharts() {
-        let bestName = maxName;
-        let bestScore = maxSplit;
-        let worstName = minName;
-        let worstScore = minSplit;
-
-            players[week].forEach(person => {
-                if(person.performance > bestScore && person.points != 0 && person.projectedPoints != 0) {
-                    bestScore = person.performance
-                    bestName = person.player
-                }
-                if(person.performance < worstScore && person.points != 0 && person.projectedPoints != 0) {
-                    worstScore = person.performance
-                    worstName = person.player
-                }
-            })
-
-            setMaxName(bestName)
-            setMaxSplit(bestScore)
-
-            setMinName(worstName)
-            setMinSplit(worstScore)
-        }
+    const [activePlayer, setActivePlayer] = useState("Player")
         
         useEffect(() => {
-            console.log(maxName)
-            console.log(maxSplit)
-        }, [maxSplit])
-    
+            createPlayerList()
+            document.addEventListener("click", handleClickOutside, true)
+
+            return () => {
+                document.removeEventListener("click", handleClickOutside, true)
+            }
+        }, [])
+
         useEffect(() => {
-            console.log(minName)
-            console.log(minSplit)
-        }, [minSplit, maxSplit])
+            filteredPlayers()
+        }, [searchQuery])
+
+        useEffect(() => {
+            
+        })
+
+        function handleClickOutside(e) {
+            if(!refOne.current.contains(e.target)) {
+                setSearchQuery('')
+                document.getElementById('search-bar').style.borderRadius = '30px';
+                document.getElementById('search-bar-input').value = '';
+            }
+        }
 
     function weekChange(newWeek){
-        setMaxSplit(0)
-        setMinSplit(0)
         setWeek(newWeek)
+    }
+
+    function createPlayerList() {
+        setPlayerSearch(() => {
+            let playerList = []
+            players2021.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
+            players2022.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
+            return playerList
+        })
+    }
+
+    function playerSelected(selectedId) {
+        console.log(selectedId)
+        setSearchQuery('')
+        document.getElementById('search-bar-input').value = '';
+    }
+
+    function filteredPlayers() {
+        if(searchQuery.length < 3 || !searchQuery) {
+            setPlayerList()
+            document.getElementById('search-bar').style.borderRadius = '30px';
+            return
+        }
+
+        setSearchResults(() => {
+            let results = playerSearch.filter(person => person.player.toLowerCase().includes(searchQuery.toLowerCase()))
+            return results.map((p) =>
+                <li key={p.id} className="search-results-items" onClick={() => playerSelected(p.id)}>{p.player}</li>
+            );
+        })
+
+        setPlayerList(
+            <ul className="search-results" >
+                {searchResults}
+            </ul>
+        )
+
+        document.getElementById('search-bar').style.borderBottomLeftRadius = '0px';
+        document.getElementById('search-bar').style.borderBottomRightRadius = '0px';
+        return 
+    }
+
+    function setCharts() {
+        
     }
     
     return(
         <section className="global-base">
-            <h1 className="page-header">Player Stats</h1>
-            <section className="global-week-header">
-                <div className="global-dropdown">
-                    <select onChange={(e) => weekChange(e.target.value)}>
-                        <option key={1} value={0}>Week 1</option>
-                        {/* <option key={2} value={1}>Week 2</option> */}
-                        {/* <option key={3} value={2}>Week 3</option> */}
-                        {/* <option key={4} value={3}>Week 4</option> */}
-                        {/* <option key={5} value={4}>Week 5</option> */}
-                        {/* <option key={6} value={5}>Week 6</option> */}
-                        {/* <option key={7} value={6}>Week 7</option> */}
-                        {/* <option key={8} value={7}>Week 8</option> */}
-                        {/* <option key={9} value={8}>Week 9</option> */}
-                        {/* <option key={10} value={9}>Week 10</option> */}
-                        {/* <option key={11} value={10}>Week 11</option> */}
-                        {/* <option key={12} value={11}>Week 12</option> */}
-                        {/* <option key={13} value={12}>Week 13</option> */}
-                    </select>
-                    <span className="global-arrow"></span>
+            <h1 className="page-header"><span>{ activePlayer } Stats</span></h1>
+            <div className="search-container" ref={refOne}>
+                <div className="search-bar" id="search-bar">
+                    <input type="text" className="search-bar-input" placeholder="Search for a Player" aria-label="Player Search" id="search-bar-input" onChange={e => setSearchQuery(e.target.value)}/>
+                    <button className="search-bar-submit"><FontAwesomeIcon aria-label="Submit Player Search" icon={faMagnifyingGlass} /></button>
                 </div>
-            </section>
-            <h3>Players with most points over and under their projections</h3>
-            <div className="chart small-chart">
-                <BarChart chartData={
-                    {
-                        labels: [maxName, minName],
-                        datasets: [{
-                            label: "Points away from projection",
-                            data: [maxSplit, minSplit],
-                            backgroundColor: ["#003B66", "#CC1E2B"],
-                            color: "white"
-                        }]
-                    }
-                }/>
+                {playerList}
             </div>
         </section>
     )

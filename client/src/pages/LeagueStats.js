@@ -48,6 +48,9 @@ export default function Home() {
     const [useAverage, setUseAverage] = useState(false)
     const [chartScores, setChartScores] = useState([])
 
+    const [winColor, setWinColor] = useState("#48ACF0c0")
+    const [loseColor, setLoseColor] = useState("#670000c0")
+
 
     function getTeamData() {
         setOwners([])
@@ -119,9 +122,7 @@ export default function Home() {
                             totalCount++
                         });
                     }
-                    console.log(totalSeasonScore / totalCount)
-                    console.log(totalCount)
-
+                    
                     matchupAvgPh = (totalSeasonScore / totalCount)
                 }
             }
@@ -164,44 +165,6 @@ export default function Home() {
         setMaxWeek(highWeek)
         setBeatMin(beatLow)
         setMinWeek(lowWeek)
-    }
-
-    function getWeeklyStats() {
-        // calculate the average points scored by team
-        setAverage(0)
-
-        let total = 0
-        let avg = 0
-        teamScores.forEach(score => {
-            total += score
-        })
-        
-        avg = total / 10
-        setAverage(avg)
-
-        // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
-        // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
-
-        let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        players[week].forEach((player) => {
-            if(player.position === "Bench") {
-                benchTotals[player.teamId - 1] += player.points
-            }
-        })
-        setBenchScores(benchTotals)
-
-        // Set colors for winning and losing teams
-        let winLoss = []
-
-        win.forEach(game => {
-            if(game){
-                winLoss.push('#0c7008c0')
-            } else {
-                winLoss.push('#000000c0')
-            }
-        });
-
-        setWinLossColors(winLoss)
     }
 
     function positionChartTotals() {
@@ -301,10 +264,6 @@ export default function Home() {
     }, [week, season])
 
     useEffect(() => {
-        getWeeklyStats()
-    }, [teamScores, season])
-
-    useEffect(() => {
         positionChartTotals()
     }, [activePosition, week, season])
 
@@ -363,7 +322,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: teamScores,
-                                    backgroundColor: ["#0c7008c0", "#000000c0"],
+                                    backgroundColor: [winColor, loseColor],
                                 }]
                             }
                         }/>
@@ -413,7 +372,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: chartScores,
-                                    backgroundColor: ["#0c7008c0", "#000000c0"],
+                                    backgroundColor: [winColor, loseColor],
                                     barPercentage: 1 
                                 }]
                             }

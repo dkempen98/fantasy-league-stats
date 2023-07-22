@@ -15,10 +15,12 @@ better to have several variable colors than it is to hard code them in.
 
 :root {
   --bg: #505050;
-  --bright: #0c7008;
+  --bright: #670000;
   --dark: #000000;
   --text: white;
   --alt-text: black;
+  --winner-legend: #48ACF0;
+  --loser-legend: #670000;
 }
 
 *{
@@ -189,6 +191,10 @@ h6 {
 }
 
 .nb-container {
+  /* position: fixed;
+  top: 0px;
+  width: 100%; */
+
   align-items: center;
   justify-content: space-between;
 }
@@ -256,6 +262,87 @@ h6 {
   display: none;
 }
 
+/* Search bar */
+
+.search-container {
+  margin-top: -25px;
+  margin-left: -5px;
+}
+
+.search-results {
+  background-color: #000000;
+  width: calc(20rem + 6px);
+  max-width: 80vw;
+  margin: 0;
+  padding: 0;
+  border: solid 2px var(--bright);
+  border-top: none;
+
+  &-items {
+    border-bottom: 2px solid var(--bright);
+    line-height: 2rem;
+    padding-left: 5px;
+  }
+}
+
+.search-bar {
+  --size: 50px;
+  border: 2px solid var(--bright);
+  display: flex;
+  border-radius: 30px;
+  height: var(--size);
+  width: var(--size);
+  padding: 3px;
+  position: relative;
+  transition: width 300ms cubic-bezier(0.18, 0.89, 0.32, 1.15), border-radius 100ms;
+  overflow: hidden;
+  background: var(--dark);
+
+  &-input {
+    flex-grow: 1;
+    font-size: 1.5rem;
+    padding: 0 0.5em;
+    border: 0;
+    position: absolute;
+    background: black;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    line-height: calc(var(--size) - 3px);
+    opacity: 0;
+    cursor: pointer;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  &-submit {
+    align-self: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 50%;
+    width: var(--size);
+    height: var(--size);
+    margin-left: auto;
+    padding: 0;
+    border: none;
+  }
+
+  &:focus-within {
+    width: 20rem;
+    max-width: 80vw;
+    
+
+    .search-bar-input {
+      opacity: 1;
+      cursor: initial;
+      width: calc(100% - var(--size) * 1.6);
+    }
+  }
+}
+
 .chart-container {
   display: flex;
   align-items: center;
@@ -288,6 +375,7 @@ h6 {
 }
 
 .chart {
+  color: white;
   background-color: white;
   margin-bottom: 10px;
   width: 95%;
@@ -358,7 +446,7 @@ h6 {
 
 .bright-legend::before {
   content: "\25A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: var(--bright); /* Change the color */
+  color: var(--winner-legend); /* Change the color */
   font-weight: bold; /* If you want it to be bold */
   display: inline-block; /* Needed to add space between the bullet and the text */
   width: 1em; /* Also needed for space (tweak if needed) */
@@ -366,17 +454,26 @@ h6 {
 }
 
 .dark-legend::before {
-  content: "\25A1";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: white; /* Change the color */
+  content: "\25A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: var(--loser-legend); /* Change the color */
   font-weight: bold; /* If you want it to be bold */
   display: inline-block; /* Needed to add space between the bullet and the text */
   width: 1em; /* Also needed for space (tweak if needed) */
   margin-left: -1em; /* Also needed for space (tweak if needed) */
 }
 
-.red-legend::before {
+.default-legend::before {
   content: "\25A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: #CC1E2B; /* Change the color */
+  color: var(--bright); /* Change the color */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+.black-legend::before {
+  content: "\25A1";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: white; /* Change the color */
   font-weight: bold; /* If you want it to be bold */
   display: inline-block; /* Needed to add space between the bullet and the text */
   width: 1em; /* Also needed for space (tweak if needed) */

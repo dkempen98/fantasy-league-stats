@@ -29,6 +29,8 @@ export default function Home() {
     const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
     const [winLossColors, setWinLossColors] = useState([])
+    const [winColor, setWinColor] = useState("#48ACF0c0")
+    const [loseColor, setLoseColor] = useState("#670000c0")
 
 
     function getTeamData() {
@@ -157,10 +159,10 @@ export default function Home() {
 
         win.forEach(game => {
             if(game){
-                winLoss.push('#0c7008c0')
+                winLoss.push(winColor)
             } else {
-                winLoss.push('#000000c0')
-            }
+                winLoss.push(loseColor)
+            } 
         });
 
         setWinLossColors(winLoss)
@@ -232,7 +234,7 @@ export default function Home() {
                         <option key={14} value={13} disabled={teams.length < 14 ? true : false}>Round 1.1</option>
                         <option key={15} value={14} disabled={teams.length < 14 ? true : false}>Round 1.2</option>
                         <option key={16} value={15} disabled={teams.length < 16 ? true : false}>Round 2.1</option>
-                        <option key={16} value={16} disabled={teams.length < 16 ? true : false}>Round 2.2</option>
+                        <option key={17} value={16} disabled={teams.length < 16 ? true : false}>Round 2.2</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
@@ -296,7 +298,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: benchScores,
-                                    backgroundColor: ["#0c7008c0", "#000000c0"],
+                                    backgroundColor: [winColor, loseColor],
                                     barPercentage: 1 
                                 }]
                             }

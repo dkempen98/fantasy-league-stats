@@ -133,6 +133,7 @@ function getInfo(week, matchupId) {
                 scoreDifference = score - projScore
                 playerInfo.push(
                     {
+                        id: homePlayers.player.id,
                         player: homePlayers.player.fullName,
                         lastName: homePlayers.player.lastName,
                         teamId: matchup.homeTeamId,
@@ -162,6 +163,7 @@ function getInfo(week, matchupId) {
                         owner: playerName,
                         week: week,
                         matchup: matchupId,
+                        opponent: matchup.awayTeamId,
                         score: matchup.homeScore,
                         projectedScore: teamProj,
                         win: won,
@@ -232,6 +234,7 @@ function getInfo(week, matchupId) {
                     // console.log('NAME: ' + awayPlayers.player.fullName)
                     // console.log('POSITION: ' + awayPlayers.position)
                     // console.log('POINTS: ' + awayPlayers.totalPoints)
+                    // console.log(awayPlayers.player)
                     for (const [key, value] of Object.entries(awayPlayers.projectedPointBreakdown)) {        
                         if(typeof(value) === "number") {
                             projScore += value
@@ -243,6 +246,7 @@ function getInfo(week, matchupId) {
                     scoreDifference = score - projScore
                     playerInfo.push(
                         {
+                            id: awayPlayers.player.id,
                             player: awayPlayers.player.fullName,
                             lastName: awayPlayers.player.lastName,
                             teamId: matchup.awayTeamId,
@@ -272,6 +276,7 @@ function getInfo(week, matchupId) {
                         owner: playerName,
                         week: week,
                         matchup: matchupId,
+                        opponent: matchup.homeTeamId,
                         score: matchup.awayScore,
                         projectedScore: teamProj,
                         win: won,
