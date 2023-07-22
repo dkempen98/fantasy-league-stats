@@ -442,6 +442,10 @@ h6 {
   align-self: flex-start;
   list-style: none;
   margin-top: -10px;
+
+  &-info {
+    list-style: square;
+  }
 }
 
 .bright-legend::before {

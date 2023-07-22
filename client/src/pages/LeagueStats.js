@@ -167,6 +167,44 @@ export default function Home() {
         setMinWeek(lowWeek)
     }
 
+    function getWeeklyStats() {
+        // calculate the average points scored by team
+        setAverage(0)
+
+        let total = 0
+        let avg = 0
+        teamScores.forEach(score => {
+            total += score
+        })
+        
+        avg = total / 10
+        setAverage(avg)
+
+        // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
+        // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
+
+        let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        players[week].forEach((player) => {
+            if(player.position === "Bench") {
+                benchTotals[player.teamId - 1] += player.points
+            }
+        })
+        setBenchScores(benchTotals)
+
+        // Set colors for winning and losing teams
+        let winLoss = []
+
+        win.forEach(game => {
+            if(game){
+                winLoss.push(winColor)
+            } else {
+                winLoss.push(loseColor)
+            }
+        });
+
+        setWinLossColors(winLoss)
+    }
+
     function positionChartTotals() {
 
         function setZero(incoming) {
@@ -264,6 +302,10 @@ export default function Home() {
     }, [week, season])
 
     useEffect(() => {
+        getWeeklyStats()
+    }, [teamScores, season])
+
+    useEffect(() => {
         positionChartTotals()
     }, [activePosition, week, season])
 
@@ -287,15 +329,15 @@ export default function Home() {
             <section className="stat-card-container">
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Average Score</h3>
+                        <h3>Season Total</h3>
                     </div>
-                    <p>The average total score for {season} is {averageScore.toFixed(2)} points <br/><br/> The average weekly score for the year is {matchupAvg.toFixed(2)}</p>
+                    <p>The average total season score for {season} was {averageScore.toFixed(2)} points <br/><br/> The average weekly score for the year was {matchupAvg.toFixed(2)}</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Closest Game</h3> 
                     </div>
-                    <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year is {marginAvg} points</p>
+                    <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year was {marginAvg} points</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
@@ -378,6 +420,11 @@ export default function Home() {
                             }
                         }/>
                     </div>
+                    <ul className="legend">
+                        <li className="legend-info">Selecting the <i>Flex</i> option includes players eligible for the selected position who were slotted as a flex player</li>
+                        <br/>
+                        <li className="legend-info">Selecting the <i>Average</i> switches the chart from showing the total number of points scored from the selected position for the full season to the average number of points one player scored per week</li>
+                    </ul>
                 </div>
             </section>
         </section>
