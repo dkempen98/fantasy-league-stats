@@ -1,28 +1,96 @@
-// import Client from 'espn-fantasy-football-api/node.js';
-import { Client } from 'espn-fantasy-football-api';
+import pkg from 'espn-fantasy-football-api/node.js';
+const { Client } = pkg;
+import fs from 'fs'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
-const myLeague = 1156809923
-const myS2 = 'AECVy%2FQ6idn3xVdL4ZHI9KOU1bO1WR6vaUFXGnDPgWsyBykDLDoCB%2BGig8vmKLcPlRYy0eX7ZfdlO4dTyi1qK4eg0dHzVYNVj9urCsdfneaB3GnvO%2FR1BwUJOdGg40wgmuOh%2BHDM8afdsftRHvwBCWiNvZsiDxRc4SPI0XRL9BWUmiasUGPlOX5vPBpCS6TPWnszQDvtwaPy2zbXQ44GqzDLSZZUTWTLZm%2FzyM6OvS%2BeVfCsL2WH8iszk7z1VLgkNANTWA%2B1eohySymXjATrnj3%2FtBpz4lswBhPhOqnEu4iijg%3D%3D'
-const mySWID = '{44B1905F-93AB-4B92-B190-5F93ABFB9218}'
+console.log("----------------API-----------------")
 
-export default function league() {
- 
-    
-    const myClient = new Client({ leagueId: myLeague })
-    myClient.setCookies({ espnS2: myS2, SWID: mySWID })
-    console.log(myClient)
-    
-    return myClient
-}
+const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 
-
-// const season = 2021
-
-// myClient.getBoxscoreForWeek( {
-//     seasonId: season,
-//     matchupPeriodId: 1,
-//     scoringPeriodId: 1    
-// })
-// .then(res => console.log(res))
-
+myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // console.log(myClient)
+
+// Team ID correlation is as follows by person:
+// 1: Alex Kempen
+// 2: Ben Fischer
+// 3: Tony Gault
+// 4: Nate Labine (2021: Kayla Gault)
+// 5: Henry Morris
+// 6: Eric Leprotti
+// 7: Ivan Goya (2021: Kieffer)
+// 8: Trap
+// 9: Drew Kempen
+// 10: Joey Simmons (2021: Josh Beltz)
+
+const season = 2021
+let league = []
+
+leagueData(season)
+
+function leagueData(season, week = 18) {
+    myClient.getTeamsAtWeek( {
+        seasonId: season,
+        scoringPeriodId: week
+    })
+    .then(res => {
+        res.forEach(team => {
+            delete team.roster
+            delete team.homeWins
+            delete team.awayWins
+            delete team.homeLosses
+            delete team.awayLosses
+            delete team.homeTies
+            delete team.awayTies
+
+            switch(team.id) {
+                case 1:
+                    team.owner = 'Alex'
+                    break
+                case 2:
+                    team.owner = 'Ben'
+                    break
+                case 3:
+                    team.owner = 'Tony'
+                    break
+                case 4:
+                    team.owner = 'Nate'
+                    if(season === 2021) {
+                        team.owner = 'Kayla'
+                    }
+                    break
+                case 5:
+                    team.owner = 'Henry'
+                    break
+                case 6:
+                    team.owner = 'Eric'
+                    break
+                case 7:
+                    team.owner = 'Ivan'
+                    if(season === 2021) {
+                        team.owner = 'Kief'
+                    }
+                    break
+                case 8:
+                    team.owner = 'Trap'
+                    break
+                case 9:
+                    team.owner = 'Drew'
+                    break
+                case 10:
+                    team.owner = 'Joey'
+                    if(season === 2021) {
+                        team.owner = 'Josh'
+                    }
+                    break
+            }
+
+            league.push(team)
+        })
+        let leagueInfo = JSON.stringify(league);
+        fs.writeFileSync(`./client/src/components/data/league${season}.json`, leagueInfo)
+
+        console.log('Files Created!')
+    })
+
+}

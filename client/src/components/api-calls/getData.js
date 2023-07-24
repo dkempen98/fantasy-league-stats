@@ -24,7 +24,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
 
-const season = 2022
+const season = 2021
 let weeklyPlayerData = []
 let playerInfo = []
 let score
@@ -40,7 +40,7 @@ let playerName
 let teamName
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 17
+const maxWeek = 18
 
 getInfo(1, 1)
 
@@ -48,7 +48,7 @@ function getInfo(week, matchupId) {
     myClient.getBoxscoreForWeek( {
         seasonId: season,
         matchupPeriodId: matchupId,
-        scoringPeriodId: week    
+        scoringPeriodId: week
     })
     .then(res => res.forEach(matchup => {
         teamProj = 0
@@ -56,10 +56,7 @@ function getInfo(week, matchupId) {
         //   console.log(matchup)  
           console.log('--------------------------HOME PLAYERS-----------------------')
           matchup.homeRoster.forEach(homePlayers => {
-            // if(homePlayers.position == 'D/ST') {
-            //     console.log(homePlayers)
-            //     console.log(homePlayers.projectedPointBreakdown)
-            // }
+            // console.log(homePlayers.player)
             switch(matchup.homeTeamId) {
                 case 1:
                     playerName = 'Alex'
@@ -139,13 +136,16 @@ function getInfo(week, matchupId) {
                         teamId: matchup.homeTeamId,
                         team: teamName,
                         owner: playerName,
+                        seasonId: season,
                         week: week,
                         matchup: matchupId,
                         position: homePlayers.position,
                         eligiblePosition: homePlayers.player.eligiblePositions,
                         points: homePlayers.totalPoints,
                         projectedPoints: projScore,
-                        performance: scoreDifference
+                        performance: scoreDifference,
+                        rawStats: homePlayers.rawStats,
+                        pointStats: homePlayers.pointBreakdown
                     }
                     )
                     
@@ -252,13 +252,16 @@ function getInfo(week, matchupId) {
                             teamId: matchup.awayTeamId,
                             team: teamName,
                             owner: playerName,
+                            seasonId: season,
                             week: week,
                             matchup: matchupId,
                             position: awayPlayers.position,
                             eligiblePosition: awayPlayers.player.eligiblePositions,
                             points: awayPlayers.totalPoints,
                             projectedPoints: projScore,
-                            performance: scoreDifference
+                            performance: scoreDifference,
+                            rawStats: awayPlayers.rawStats,
+                            pointStats: awayPlayers.pointBreakdown
                         }
                         )
                     })
