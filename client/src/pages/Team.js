@@ -37,7 +37,11 @@ export default function Home() {
     const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
     
     useEffect(() => {
+        if(teams.length == 18) {
+            setWeek(teams.length - 2)
+        } else {
         setWeek(teams.length - 1)
+        }
     },[])
 
     useEffect(() => {

@@ -34,6 +34,9 @@ export default function Home() {
 
 
     function getTeamData() {
+
+        console.log('getTeamData firing')
+
         setTeamNames([])
         setOwners([])
         setMargin([])
@@ -68,6 +71,9 @@ export default function Home() {
     }
 
     function getWeeklyStats() {
+
+        console.log('getWeeklyStats firing')
+
         // calculate the average points scored by team
         setAverage(0)
 
@@ -169,7 +175,11 @@ export default function Home() {
     }
 
     useEffect(() => {
+        if(teams.length == 18) {
+            setWeek(teams.length - 2)
+        } else {
         setWeek(teams.length - 1)
+        }
     },[])
 
     useEffect(() => {

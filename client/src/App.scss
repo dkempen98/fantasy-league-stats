@@ -344,6 +344,39 @@ h6 {
   }
 }
 
+.team-logo {
+  border-radius: 50px;
+  background-color: white;
+  height: 75px;
+  width: 75px;
+}
+
+.pro-logo {
+  border-radius: 5px;
+  background-color: white;
+  max-height: 75px;
+}
+
+// TODO:: Update this to #BeBetter
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #fafafa;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  background-color: black;
+}
+
+tr:nth-child(even) {
+  background-color: #303030;
+}
+
 .chart-container {
   display: flex;
   align-items: center;

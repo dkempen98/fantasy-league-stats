@@ -78,47 +78,151 @@ export default function Home() {
     }
 
     function playerSelected(person) {
-        console.log(person)
         setSearchQuery('')
         document.getElementById('search-bar-input').value = '';
         
-        let playerStats = []
+        let playerLogs = []
         let allStats = [...players2021, ...players2022]
 
-        let headerKeys = []
-        let activeHeaders = []
+        let headerKeys = ['year', 'week', 'team']
+        let activeHeaders = ['Year', 'Week', 'Team']
 
         allStats.forEach(week => {
             week.forEach(record => {
                 if(record.id !== person.id) return
+                delete record.rawStats.usesPoints
 
-                playerStats.push(record)
+                playerLogs.push(record)
+
                 for (const [key, val] of Object.entries(record.rawStats)) {
-                    if(key !== 'usesPoints') {
                         if(!headerKeys.includes(key)) {
                             headerKeys.push(key)
-                        }
                     }
                 }
             })
         })
 
+
+        let tableRows = []
+
+        playerLogs.forEach(gameLog => {
+            let statLog = [gameLog.seasonId, gameLog.week, gameLog.owner]
+
+            if(headerKeys.includes('passingYards')){
+                if(gameLog.rawStats.hasOwnProperty("passingYards")) {
+                    statLog.push(gameLog.rawStats.passingYards)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('passingTouchdowns')){
+                if(gameLog.rawStats.hasOwnProperty("passingYards")) {
+                    statLog.push(gameLog.rawStats.passingYards)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('rushingYards')){
+                if(gameLog.rawStats.hasOwnProperty("passingTouchdowns")) {
+                    statLog.push(gameLog.rawStats.passingTouchdowns)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('rushingTouchdowns')){
+                if(gameLog.rawStats.hasOwnProperty("rushingTouchdowns")) {
+                    statLog.push(gameLog.rawStats.rushingTouchdowns)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('receivingReceptions')){
+                if(gameLog.rawStats.hasOwnProperty("receivingReceptions")) {
+                    statLog.push(gameLog.rawStats.receivingReceptions)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('receivingYards')){
+                if(gameLog.rawStats.hasOwnProperty("receivingYards")) {
+                    statLog.push(gameLog.rawStats.receivingYards)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('receivingTouchdowns')){
+                if(gameLog.rawStats.hasOwnProperty("receivingTouchdowns")) {
+                    statLog.push(gameLog.rawStats.receivingTouchdowns)
+                } else {
+                    statLog.push('-')
+                }
+            
+            } 
+            if(headerKeys.includes('passingInterceptions')){
+                if(gameLog.rawStats.hasOwnProperty("passingInterceptions")) {
+                    statLog.push(gameLog.rawStats.passingInterceptions)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('lostFumbles')){
+                if(gameLog.rawStats.hasOwnProperty("lostFumbles")) {
+                    statLog.push(gameLog.rawStats.lostFumbles)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('rushing2PtConversions')){
+                if(gameLog.rawStats.hasOwnProperty("rushing2PtConversions")) {
+                    statLog.push(gameLog.rawStats.rushing2PtConversions)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('receiving2PtConversions')){
+                if(gameLog.rawStats.hasOwnProperty("receiving2PtConversions")) {
+                    statLog.push(gameLog.rawStats.receiving2PtConversions)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            if(headerKeys.includes('passing2PtConversions')){
+                if(gameLog.rawStats.hasOwnProperty("passing2PtConversions")) {
+                    statLog.push(gameLog.rawStats.passing2PtConversions)
+                } else {
+                    statLog.push('-')
+                }
+            } 
+            
+            let rowInfo = statLog.map((stat, index) =>
+                <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()}>{stat}</td>
+            );
+
+            tableRows.push(<tr key={gameLog.seasonId.toString() + gameLog.week.toString()}>{rowInfo}</tr>)
+            
+        })
+
+
+
+        if(headerKeys.includes('passingYards')) activeHeaders.push('Passing Yards')
+        if(headerKeys.includes('passingTouchdowns')) activeHeaders.push("Passing TDs")
         if(headerKeys.includes('rushingYards')) activeHeaders.push("Rushing Yards");
         if(headerKeys.includes('rushingTouchdowns')) activeHeaders.push("Rushing TDs")
         if(headerKeys.includes('receivingReceptions')) activeHeaders.push("Receptions")
         if(headerKeys.includes('receivingYards')) activeHeaders.push("Receiving Yards")
         if(headerKeys.includes('receivingTouchdowns')) activeHeaders.push("Receiving TDs")
-        if(headerKeys.includes('passingYards')) activeHeaders.push('Passing Yards')
-        if(headerKeys.includes('passingTouchdowns')) activeHeaders.push("Passing TDs")
         if(headerKeys.includes('passingInterceptions')) activeHeaders.push("Interceptions")
         if(headerKeys.includes('lostFumbles')) activeHeaders.push("Lost Fumbles")
         if(headerKeys.includes('rushing2PtConversions')) activeHeaders.push("Rushing 2PTs")
         if(headerKeys.includes('receiving2PtConversions')) activeHeaders.push("Receiving 2PTs")
-        if(headerKeys.includes('passing2PtConversion')) activeHeaders.push("Passing 2PTs")
+        if(headerKeys.includes('passing2PtConversions')) activeHeaders.push("Passing 2PTs")
+
 
         let playerOwner = {}
-        let season = playerStats[playerStats.length - 1].seasonId
-        let ownerId = playerStats[playerStats.length - 1].teamId
+        let season = playerLogs[playerLogs.length - 1].seasonId
+        let ownerId = playerLogs[playerLogs.length - 1].teamId
+        let proTeam = playerLogs[playerLogs.length - 1].proTeam
+        let proLogo = "/images/proLogos/" + proTeam + ".png"
 
         if (season == '2021') {
             playerOwner = league2021[ownerId-1]
@@ -126,26 +230,31 @@ export default function Home() {
             playerOwner = league2022[ownerId-1]
         }
 
-        console.log(playerOwner)
 
         let mappedHeaders = activeHeaders.map((header, index) =>
                 <th key={index} className="table-header">{header}</th>
             );
             
-        console.log(playerStats)
-        console.log(activeHeaders)
 
         setActivePlayer(person.player)
 
+        function setGenericImage() {
+            document.getElementById("pro-logo").src = "https://static.www.nfl.com/image/upload/v1554321393/league/nvfr7ogywskqrfaiu38m.svg"
+        }
+
         setPlayerOutline(
             <div>
-                <img src={playerOwner.logoURL} height="100" width="100"/>
+                <img src={proLogo} id="pro-logo" className="pro-logo" onError={() => setGenericImage()}/>
+                <img src={playerOwner.logoURL} className="team-logo"/>
                 <table>
                     <thead>
                         <tr>
                             {mappedHeaders}
                         </tr>
                     </thead>
+                    <tbody>
+                        {tableRows}
+                    </tbody>
                 </table>
             </div>
         )

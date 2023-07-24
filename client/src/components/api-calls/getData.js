@@ -24,7 +24,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
 
-const season = 2021
+const season = 2022
 let weeklyPlayerData = []
 let playerInfo = []
 let score
@@ -136,6 +136,7 @@ function getInfo(week, matchupId) {
                         teamId: matchup.homeTeamId,
                         team: teamName,
                         owner: playerName,
+                        proTeam: homePlayers.player.proTeamAbbreviation,
                         seasonId: season,
                         week: week,
                         matchup: matchupId,
@@ -252,6 +253,7 @@ function getInfo(week, matchupId) {
                             teamId: matchup.awayTeamId,
                             team: teamName,
                             owner: playerName,
+                            proTeam: awayPlayers.player.proTeamAbbreviation,
                             seasonId: season,
                             week: week,
                             matchup: matchupId,
