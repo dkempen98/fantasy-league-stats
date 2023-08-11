@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import { StateProvider } from './StateContext.js';
 import Navbar from './components/reusable-stuff/navbar.js';
 import Home from './pages/Home.js'
 import Players from './pages/PlayerStats.js'
@@ -11,33 +12,35 @@ import './App.scss';
 
 function App() {
   return (
-      <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Navbar />
-          <div className="container">
-            <Routes>
-              <Route 
-                path="/"
-                element={<Home />}
-              />
-              <Route 
-                path="/season"
-                element={<LeagueStats />}
-              />
-              <Route 
-                path="/:teamId"
-                element={<Team />}
-              />
+      <StateProvider>
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            <Navbar />
+            <div className="container">
+              <Routes>
+                <Route 
+                  path="/"
+                  element={<Home />}
+                />
+                <Route 
+                  path="/season"
+                  element={<LeagueStats />}
+                />
+                <Route 
+                  path="/:teamId"
+                  element={<Team />}
+                />
 
-              <Route
-                path="/players"
-                element={<Players />}
-              />
-              
-            </Routes>
+                <Route
+                  path="/players"
+                  element={<Players />}
+                />
+                
+              </Routes>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </StateProvider>
   );
 }
 

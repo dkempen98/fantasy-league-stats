@@ -1,4 +1,5 @@
 import { useState, useEffect, React } from "react";
+import { useStateContext } from "../StateContext.js";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
@@ -18,7 +19,6 @@ export default function Home() {
 
     const [win, setWin] = useState([])
     const [teamNames, setTeamNames] = useState([])
-    const [winLossColors, setWinLossColors] = useState([])
 
     const [closestWinner, setClosestWinner] = useState('')
     const [closestLoser, setClosestLoser] = useState('')
@@ -48,8 +48,12 @@ export default function Home() {
     const [useAverage, setUseAverage] = useState(false)
     const [chartScores, setChartScores] = useState([])
 
-    const [winColor, setWinColor] = useState("#48ACF0c0")
-    const [loseColor, setLoseColor] = useState("#670000c0")
+    const { 
+        primaryColor,
+        winColor, 
+        secondaryColor, 
+        loseColor,
+    } = useStateContext()
 
 
     function getTeamData() {
@@ -190,19 +194,6 @@ export default function Home() {
             }
         })
         setBenchScores(benchTotals)
-
-        // Set colors for winning and losing teams
-        let winLoss = []
-
-        win.forEach(game => {
-            if(game){
-                winLoss.push(winColor)
-            } else {
-                winLoss.push(loseColor)
-            }
-        });
-
-        setWinLossColors(winLoss)
     }
 
     function positionChartTotals() {
@@ -364,7 +355,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: teamScores,
-                                    backgroundColor: [winColor, loseColor],
+                                    backgroundColor: [primaryColor, secondaryColor],
                                 }]
                             }
                         }/>
@@ -414,7 +405,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: chartScores,
-                                    backgroundColor: [winColor, loseColor],
+                                    backgroundColor: [primaryColor, secondaryColor],
                                     barPercentage: 1 
                                 }]
                             }

@@ -1,5 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
+import { useStateContext } from "../StateContext.js";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
@@ -29,8 +30,25 @@ export default function Home() {
     const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
     const [winLossColors, setWinLossColors] = useState([])
-    const [winColor, setWinColor] = useState("#48ACF0c0")
-    const [loseColor, setLoseColor] = useState("#670000c0")
+    
+    const { 
+        primaryColor,
+        setPrimaryColor,
+        primarySolid,
+        setPrimarySolid,
+        winColor, 
+        setWinColor,
+        winSolid, 
+        setWinSolid,
+        secondaryColor, 
+        setSecondaryColor,
+        secondarySolid, 
+        setSecondarySolid,
+        loseColor,
+        setLoseColor,
+        loseSolid, 
+        setLoseSolid
+    } = useStateContext()
 
 
     function getTeamData() {
@@ -293,8 +311,8 @@ export default function Home() {
                         }/>
                     </div>
                     <ul className="legend">
-                        <li className="bright-legend">Winner</li>
-                        <li className="dark-legend">Loser</li>
+                        <li className="legend-square legend-win">Winner</li>
+                        <li className="legend-square legend-loss">Loser</li>
                     </ul>
                 </div>
                 <div className="chart-border">
@@ -308,7 +326,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: benchScores,
-                                    backgroundColor: [winColor, loseColor],
+                                    backgroundColor: [primaryColor, secondaryColor],
                                     barPercentage: 1 
                                 }]
                             }

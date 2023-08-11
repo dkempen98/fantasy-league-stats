@@ -1,5 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, React, useDebugValue } from "react";
+import { useStateContext } from "../StateContext.js";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
@@ -27,14 +28,28 @@ export default function Home() {
     const [benchColors, setBenchColors] = useState([])
     const [recordColors, setRecordColors] = useState([])
 
-    const [winColor, setWinColor] = useState("#48ACF0c0")
-    const [loseColor, setLoseColor] = useState("#670000c0")
-    const [winSolid, setWinSolid] = useState("#48ACF0")
-    const [loseSolid, setLoseSolid] = useState("#670000")
-
     const [activePosition, setActivePosition] = useState('QB')
     const [teamPositionAverage, setPositionAverage] = useState([])
     const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
+
+    const { 
+        primaryColor,
+        setPrimaryColor,
+        primarySolid,
+        setPrimarySolid,
+        winColor, 
+        setWinColor,
+        winSolid, 
+        setWinSolid,
+        secondaryColor, 
+        setSecondaryColor,
+        secondarySolid, 
+        setSecondarySolid,
+        loseColor,
+        setLoseColor,
+        loseSolid, 
+        setLoseSolid
+    } = useStateContext()
     
     useEffect(() => {
         if(teams.length == 18) {
@@ -152,7 +167,7 @@ export default function Home() {
                 return
             }
             if(person.position === "Bench" || person.position === "IR") {
-                colors.push(winColor)
+                colors.push(secondaryColor)
                 performances.push(person.performance)
                 teamOrder.push(person.performance)
             } else {
@@ -365,8 +380,8 @@ export default function Home() {
                         }/>
                     </div>
                     <ul className="legend">
-                        <li className="bright-legend">Starters</li>
-                        <li className="dark-legend">Bench Players</li>
+                        <li className="legend-square legend-primary">Starters</li>
+                        <li className="legend-square legend-secondary">Bench Players</li>
                     </ul>
                 </div>
 
@@ -400,9 +415,9 @@ export default function Home() {
                         }/>
                     </div>
                     <ul className="legend">
-                        <li className="bright-legend">Win</li>
-                        <li className="dark-legend">Loss</li>
-                        <li className="black-legend">League Average</li>
+                        <li className="legend-square legend-win">Win</li>
+                        <li className="legend-square legend-loss">Loss</li>
+                        <li className="legend-square legend-black">League Average</li>
                     </ul>
                 </div>
             <div className="chart-border">
@@ -428,8 +443,8 @@ export default function Home() {
                                     {
                                         label: '',
                                         data: teamPositionAverage,
-                                        borderColor: loseSolid,
-                                        backgroundColor: loseSolid,
+                                        borderColor: primarySolid,
+                                        backgroundColor: primarySolid,
                                     },
                                     {
                                         label: '',
@@ -442,8 +457,8 @@ export default function Home() {
                         }/>
                     </div>
                     <ul className="legend">
-                        <li className="dark-legend">Team average starting {activePosition}</li>
-                        <li className="black-legend">Rest of league average starting {activePosition}</li>
+                        <li className="legend-square legend-primary">Team average starting {activePosition}</li>
+                        <li className="legend-square legend-black">Rest of league average starting {activePosition}</li>
                     </ul>
                 </div>
             </section>

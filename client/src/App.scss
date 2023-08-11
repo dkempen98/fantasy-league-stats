@@ -19,12 +19,13 @@ better to have several variable colors than it is to hard code them in.
   --dark: #000000;
   --text: white;
   --alt-text: black;
-  --winner-legend: #48ACF0;
+  --winner-legend: #105825;
   --loser-legend: #670000;
+  --primary-legend: #670000;
+  --secondary-legend: #383838;
 }
 
 *{
-  color: var(--text);
   font-family: 'News Cycle', sans-serif;
 }
 
@@ -40,6 +41,8 @@ body {
   background-attachment: fixed;
 
   overflow-x: hidden;
+
+  color: var(--text);
 }
 
 h1,
@@ -73,6 +76,7 @@ h6 {
   padding: 2px 2rem 2px .5rem;
   background-color: var(--bright);
   border: 0;
+  color: var(--text);
 }
 
 .global-arrow {
@@ -306,6 +310,7 @@ h6 {
     border: 0;
     position: absolute;
     background: black;
+    color: var(--text);
     top: 0;
     bottom: 0;
     left: 0;
@@ -352,16 +357,17 @@ h6 {
 }
 
 .pro-logo {
+  border: none;
   border-radius: 5px;
   background-color: white;
   max-height: 75px;
 }
 
 // TODO:: Update this to #BeBetter
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
+// table {
+//   border-collapse: collapse;
+//   width: 100%;
+// }
 
 td, th {
   border: 1px solid #fafafa;
@@ -453,6 +459,7 @@ tr:nth-child(even) {
   padding: 2px 2rem 2px .5rem;
   background-color: var(--bright);
   border: 0;
+  color: var(--text);
 }
 
 .chart-checkbox {
@@ -480,42 +487,35 @@ tr:nth-child(even) {
   &-info {
     list-style: square;
   }
-}
 
-.bright-legend::before {
-  content: "\25A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: var(--winner-legend); /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
-}
+  &-square::before {
+    content: "\25A0";
+    font-weight: bold; 
+    display: inline-block;
+    width: 1em; 
+    margin-left: -1em;
+  }
 
-.dark-legend::before {
-  content: "\25A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: var(--loser-legend); /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
-}
+  &-primary::before {
+    color: var(--primary-legend);
+  }
 
-.default-legend::before {
-  content: "\25A0";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: var(--bright); /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
-}
+  &-secondary::before {
+    color: var(--secondary-legend);
+  }
 
-.black-legend::before {
-  content: "\25A1";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  color: white; /* Change the color */
-  font-weight: bold; /* If you want it to be bold */
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
+  &-win::before {
+    color: var(--winner-legend);
+  }
+
+  &-loss::before {
+    color: var(--loser-legend);
+  }
+
+  &-black::before {
+    content: "\25A1"; 
+    color: white;
+  }
 }
 
 @media (max-width: 820px) {

@@ -1,5 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, React } from "react";
+import { useStateContext } from "../StateContext.js";
 import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import players2021 from "../components/data/players2021.json"
@@ -7,6 +8,8 @@ import players2022 from "../components/data/players2022.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { Grid } from 'gridjs-react';
+import "gridjs/dist/theme/mermaid.css";
 
 export default function Home() {
     const refOne = useRef(null)
@@ -20,31 +23,25 @@ export default function Home() {
 
     const [activePlayer, setActivePlayer] = useState("Player")
     const [playerOutline, setPlayerOutline] = useState(<h3>Select a Player</h3>)
+
+    const [gridData, setGridData] = useState([])
+    const [gridColumns, setGridColumns] = useState([])
+
+    const { 
+        winColor, 
+        setWinColor,
+        loseColor,
+        setLoseColor 
+    } = useStateContext()
         
-        useEffect(() => {
-            createPlayerList()
-            document.addEventListener("click", handleClickOutside, true)
 
-            return () => {
-                document.removeEventListener("click", handleClickOutside, true)
-            }
-        }, [])
-
-        useEffect(() => {
-            filteredPlayers()
-        }, [searchQuery])
-
-        useEffect(() => {
-            
-        })
-
-        function handleClickOutside(e) {
-            if(!refOne.current.contains(e.target)) {
-                setSearchQuery('')
-                document.getElementById('search-bar').style.borderRadius = '30px';
-                document.getElementById('search-bar-input').value = '';
-            }
+    function handleClickOutside(e) {
+        if(!refOne.current.contains(e.target)) {
+            setSearchQuery('')
+            document.getElementById('search-bar').style.borderRadius = '30px';
+            document.getElementById('search-bar-input').value = '';
         }
+    }
 
     function weekChange(newWeek){
         setWeek(newWeek)
@@ -198,9 +195,12 @@ export default function Home() {
                 <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()}>{stat}</td>
             );
 
+            // tableRows.push(statLog)
+
             tableRows.push(<tr key={gameLog.seasonId.toString() + gameLog.week.toString()}>{rowInfo}</tr>)
             
         })
+
 
 
 
@@ -258,6 +258,40 @@ export default function Home() {
                 </table>
             </div>
         )
+
+
+        // setPlayerOutline(
+        //     <div>
+        //         <img src={proLogo} id="pro-logo" className="pro-logo" onError={() => setGenericImage()}/>
+        //         <img src={playerOwner.logoURL} className="team-logo"/>
+        //         <Grid
+        //             data={tableRows}
+        //             columns={activeHeaders}
+        //             fixedHeader={true}
+        //             height={'90vh'}
+        //             style={{
+        //                 table: {
+        //                     'border': '1px solid #000000'
+        //                 },
+        //                 th: {
+        //                   'background-color': 'rgba(0, 0, 0, 0.1)',
+        //                   'color': '#000',
+        //                   'border-bottom': '3px solid #ccc',
+        //                   'text-align': 'center'
+        //                 },
+        //                 td: {
+        //                   'text-align': 'center',
+        //                 },
+        //                 tr: `
+        //                     background-color: black;
+        //                         tr:nth-child(even) {
+        //                             background-color: #303030;
+        //                         }
+        //                 `
+        //               }}
+        //         />
+        //     </div>
+        // )
     }
 
     function filteredPlayers() {
@@ -274,6 +308,16 @@ export default function Home() {
             );
         })
 
+        return 
+    }
+
+    function addPlayerList() {
+        if(searchQuery.length < 3 || !searchQuery) {
+            setPlayerList()
+            document.getElementById('search-bar').style.borderRadius = '30px';
+            return
+        }
+
         setPlayerList(
             <ul className="search-results" >
                 {searchResults}
@@ -282,20 +326,36 @@ export default function Home() {
 
         document.getElementById('search-bar').style.borderBottomLeftRadius = '0px';
         document.getElementById('search-bar').style.borderBottomRightRadius = '0px';
-        return 
+        return
     }
 
-    function setCharts() {
-        
-    }
+
+    useEffect(() => {
+        createPlayerList()
+        document.addEventListener("click", handleClickOutside, true)
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside, true)
+        }
+    }, [])
+
+    useEffect(() => {
+        filteredPlayers()
+    }, [searchQuery])
+
+    useEffect(() => {
+        addPlayerList()
+    }, [searchResults])
     
+
+
     return(
         <section className="global-base">
-            <h1 className="page-header"><span>{ activePlayer } Stats</span></h1>
+            <h1 className="page-header"><span>Player Stats</span></h1>
             <div className="search-container" ref={refOne}>
                 <div className="search-bar" id="search-bar">
-                    <input type="text" className="search-bar-input" placeholder="Search for a Player" aria-label="Player Search" id="search-bar-input" onChange={e => setSearchQuery(e.target.value)}/>
-                    <button className="search-bar-submit"><FontAwesomeIcon aria-label="Submit Player Search" icon={faMagnifyingGlass} /></button>
+                    <input autocomplete="off" type="text" className="search-bar-input" placeholder="Search for a Player" aria-label="Player Search" id="search-bar-input" onChange={e => setSearchQuery(e.target.value)}/>
+                    <button className="search-bar-submit"><FontAwesomeIcon aria-label="Submit Player Search" icon={faMagnifyingGlass} style={{color: "#ffffff"}} /></button>
                 </div>
                 {playerList}
                 {playerOutline}
