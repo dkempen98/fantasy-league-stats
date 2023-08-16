@@ -116,7 +116,7 @@ export default function Home() {
                 }
             } 
             if(headerKeys.includes('passingTouchdowns')){
-                if(gameLog.rawStats.hasOwnProperty("passingYards")) {
+                if(gameLog.rawStats.hasOwnProperty("passingTouchdowns")) {
                     statLog.push(gameLog.rawStats.passingYards)
                     rowData.push('Passing TDs')
                 } else {
@@ -125,8 +125,8 @@ export default function Home() {
                 }
             } 
             if(headerKeys.includes('rushingYards')){
-                if(gameLog.rawStats.hasOwnProperty("passingTouchdowns")) {
-                    statLog.push(gameLog.rawStats.passingTouchdowns)
+                if(gameLog.rawStats.hasOwnProperty("rushingYards")) {
+                    statLog.push(gameLog.rawStats.rushingYards)
                     rowData.push('Rushing Yards')
                 } else {
                     statLog.push('-')
