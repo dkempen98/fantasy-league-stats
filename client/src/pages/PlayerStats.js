@@ -104,95 +104,120 @@ export default function Home() {
 
         playerLogs.forEach(gameLog => {
             let statLog = [gameLog.seasonId, gameLog.week, gameLog.owner]
+            let rowData = ["Year", "Week", "Team"]
 
             if(headerKeys.includes('passingYards')){
                 if(gameLog.rawStats.hasOwnProperty("passingYards")) {
                     statLog.push(gameLog.rawStats.passingYards)
+                    rowData.push('Passing Yards')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('passingTouchdowns')){
                 if(gameLog.rawStats.hasOwnProperty("passingYards")) {
                     statLog.push(gameLog.rawStats.passingYards)
+                    rowData.push('Passing TDs')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('rushingYards')){
                 if(gameLog.rawStats.hasOwnProperty("passingTouchdowns")) {
                     statLog.push(gameLog.rawStats.passingTouchdowns)
+                    rowData.push('Rushing Yards')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('rushingTouchdowns')){
                 if(gameLog.rawStats.hasOwnProperty("rushingTouchdowns")) {
                     statLog.push(gameLog.rawStats.rushingTouchdowns)
+                    rowData.push('Rushing TDs')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receivingReceptions')){
                 if(gameLog.rawStats.hasOwnProperty("receivingReceptions")) {
                     statLog.push(gameLog.rawStats.receivingReceptions)
+                    rowData.push('Receptions')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receivingYards')){
                 if(gameLog.rawStats.hasOwnProperty("receivingYards")) {
                     statLog.push(gameLog.rawStats.receivingYards)
+                    rowData.push('Receiving Yards')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receivingTouchdowns')){
                 if(gameLog.rawStats.hasOwnProperty("receivingTouchdowns")) {
                     statLog.push(gameLog.rawStats.receivingTouchdowns)
+                    rowData.push('Receiving TDs')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
-            
+                
             } 
             if(headerKeys.includes('passingInterceptions')){
                 if(gameLog.rawStats.hasOwnProperty("passingInterceptions")) {
                     statLog.push(gameLog.rawStats.passingInterceptions)
+                    rowData.push('Interceptions')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('lostFumbles')){
                 if(gameLog.rawStats.hasOwnProperty("lostFumbles")) {
                     statLog.push(gameLog.rawStats.lostFumbles)
+                    rowData.push('Lost Fumbles')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('rushing2PtConversions')){
                 if(gameLog.rawStats.hasOwnProperty("rushing2PtConversions")) {
                     statLog.push(gameLog.rawStats.rushing2PtConversions)
+                    rowData.push('Rushing 2PTs')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receiving2PtConversions')){
                 if(gameLog.rawStats.hasOwnProperty("receiving2PtConversions")) {
                     statLog.push(gameLog.rawStats.receiving2PtConversions)
+                    rowData.push('Receiving 2PTs')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('passing2PtConversions')){
                 if(gameLog.rawStats.hasOwnProperty("passing2PtConversions")) {
                     statLog.push(gameLog.rawStats.passing2PtConversions)
+                    rowData.push('Passing 2PTs')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             
             let rowInfo = statLog.map((stat, index) =>
-                <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()}>{stat}</td>
+                <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()} data-cell={rowData[index]}>{stat}</td>
             );
 
             // tableRows.push(statLog)
@@ -222,7 +247,13 @@ export default function Home() {
         let season = playerLogs[playerLogs.length - 1].seasonId
         let ownerId = playerLogs[playerLogs.length - 1].teamId
         let proTeam = playerLogs[playerLogs.length - 1].proTeam
-        let proLogo = "/images/proLogos/" + proTeam + ".png"
+        let proLogo = ""
+
+        if(proTeam) {
+            proLogo = "/images/proLogos/" + proTeam + ".png"
+        } else {
+            proLogo = "/images/proLogos/nfl.png"
+        }
 
         if (season == '2021') {
             playerOwner = league2021[ownerId-1]
@@ -232,30 +263,38 @@ export default function Home() {
 
 
         let mappedHeaders = activeHeaders.map((header, index) =>
-                <th key={index} className="table-header">{header}</th>
+                <th key={index} className="table-header-item">{header}</th>
             );
             
 
         setActivePlayer(person.player)
+        console.log(playerOwner)
 
-        function setGenericImage() {
-            document.getElementById("pro-logo").src = "https://static.www.nfl.com/image/upload/v1554321393/league/nvfr7ogywskqrfaiu38m.svg"
-        }
 
         setPlayerOutline(
-            <div>
-                <img src={proLogo} id="pro-logo" className="pro-logo" onError={() => setGenericImage()}/>
-                <img src={playerOwner.logoURL} className="team-logo"/>
-                <table>
-                    <thead>
-                        <tr>
-                            {mappedHeaders}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableRows}
-                    </tbody>
-                </table>
+            <div className='player-container'>
+                <div style={{backgroundImage: `url(${proLogo}`}} className='player-overview'>
+                    <h3>{person.player}</h3>
+                    {/* <ul>
+                        <li>Current Owner: {playerOwner.owner}</li>
+                    </ul> */}
+                    <img src={playerOwner.logoURL} className="team-logo"/>
+                </div>
+                <div className="table-wrapper">
+                    <div className="table-container">
+                        <table>
+                            <caption>PLAYER STATS</caption>
+                            <thead id="table-head">
+                                <tr>
+                                    {mappedHeaders}
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                {tableRows}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         )
 
@@ -329,6 +368,43 @@ export default function Home() {
         return
     }
 
+    function AddTableARIA() {
+        try {
+          var allTables = document.querySelectorAll('table');
+          for (var i = 0; i < allTables.length; i++) {
+            allTables[i].setAttribute('role','table');
+          }
+          var allCaptions = document.querySelectorAll('caption');
+          for (var i = 0; i < allCaptions.length; i++) {
+            allCaptions[i].setAttribute('role','caption');
+          }
+          var allRowGroups = document.querySelectorAll('thead, tbody, tfoot');
+          for (var i = 0; i < allRowGroups.length; i++) {
+            allRowGroups[i].setAttribute('role','rowgroup');
+          }
+          var allRows = document.querySelectorAll('tr');
+          for (var i = 0; i < allRows.length; i++) {
+            allRows[i].setAttribute('role','row');
+          }
+          var allCells = document.querySelectorAll('td');
+          for (var i = 0; i < allCells.length; i++) {
+            allCells[i].setAttribute('role','cell');
+          }
+          var allHeaders = document.querySelectorAll('th');
+          for (var i = 0; i < allHeaders.length; i++) {
+            allHeaders[i].setAttribute('role','columnheader');
+          }
+          // this accounts for scoped row headers
+          var allRowHeaders = document.querySelectorAll('th[scope=row]');
+          for (var i = 0; i < allRowHeaders.length; i++) {
+            allRowHeaders[i].setAttribute('role','rowheader');
+          }
+        } catch (e) {
+          console.log("AddTableARIA(): " + e);
+        }
+      }
+      
+
 
     useEffect(() => {
         createPlayerList()
@@ -346,6 +422,10 @@ export default function Home() {
     useEffect(() => {
         addPlayerList()
     }, [searchResults])
+
+    useEffect(() => {
+        AddTableARIA()
+    }, [playerOutline])
     
 
 
@@ -354,10 +434,12 @@ export default function Home() {
             <h1 className="page-header"><span>Player Stats</span></h1>
             <div className="search-container" ref={refOne}>
                 <div className="search-bar" id="search-bar">
-                    <input autocomplete="off" type="text" className="search-bar-input" placeholder="Search for a Player" aria-label="Player Search" id="search-bar-input" onChange={e => setSearchQuery(e.target.value)}/>
+                    <input autoComplete="off" type="text" className="search-bar-input" placeholder="Search for a Player" aria-label="Player Search" id="search-bar-input" onChange={e => setSearchQuery(e.target.value)}/>
                     <button className="search-bar-submit"><FontAwesomeIcon aria-label="Submit Player Search" icon={faMagnifyingGlass} style={{color: "#ffffff"}} /></button>
                 </div>
                 {playerList}
+            </div>
+            <div>
                 {playerOutline}
             </div>
         </section>

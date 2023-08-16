@@ -23,6 +23,7 @@ better to have several variable colors than it is to hard code them in.
   --loser-legend: #670000;
   --primary-legend: #670000;
   --secondary-legend: #383838;
+  --table: #252525;
 }
 
 *{
@@ -349,38 +350,119 @@ h6 {
   }
 }
 
+.player {
+  &-container {
+  margin-top: 1rem;
+  min-height: 5rem;
+  width: 100%;
+  box-shadow: 0 0 1rem 1rem #00000050;
+
+  }
+  &-overview {
+    min-height: 5rem;
+    width: 100%;
+    position: relative;
+    background-color: var(--bg);
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+
+    & > h3 {
+      padding: 8px;
+      background-color: #000000;
+      border-radius: 0 5px 5px 0;
+    }
+  }
+}
+
 .team-logo {
-  border-radius: 50px;
-  background-color: white;
-  height: 75px;
-  width: 75px;
-}
-
-.pro-logo {
-  border: none;
   border-radius: 5px;
-  background-color: white;
-  max-height: 75px;
+  background-color: #ffffff79;  
+  
+  width: 60px;
+  position: absolute;
+  right: 4%;
+  top: 8px;
 }
 
-// TODO:: Update this to #BeBetter
-// table {
-//   border-collapse: collapse;
-//   width: 100%;
-// }
 
-td, th {
-  border: 1px solid #fafafa;
-  text-align: left;
+
+table-wrapper {
+  width: min(900px, 100% - 3rem);
+  margin-inline: auto;
+  margin: auto;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: var(--table);
+  width: 100%;
+}
+
+thead {
+  position: relative;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+td, th, caption {
   padding: 8px;
 }
 
-tr {
-  background-color: black;
+td, th {
+  text-align: left;
+}
+
+caption {
+background-color: black;
+font-size: 1.25rem;
+font-weight: 700;
 }
 
 tr:nth-child(even) {
-  background-color: #303030;
+  background-color: hsl(0 0% 0% / 0.25);
+}
+
+th {
+  background-color: hsl(0 0% 0% / 0.5);
+}
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+tr, caption {
+  border-bottom: 1px solid black;
+}
+
+@media (max-width: 550px) {
+  th {
+    display: none;
+  }
+  td {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.5rem 1rem;
+  
+    &::before {
+      content: attr(data-cell) ": ";
+      font-weight: 700;
+    }
+  }
+
+  [data-cell="hide"] {
+    display: none;
+  }
 }
 
 .chart-container {
