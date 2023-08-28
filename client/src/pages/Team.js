@@ -34,21 +34,13 @@ export default function Home() {
 
     const { 
         primaryColor,
-        setPrimaryColor,
         primarySolid,
-        setPrimarySolid,
         winColor, 
-        setWinColor,
         winSolid, 
-        setWinSolid,
         secondaryColor, 
-        setSecondaryColor,
         secondarySolid, 
-        setSecondarySolid,
         loseColor,
-        setLoseColor,
         loseSolid, 
-        setLoseSolid
     } = useStateContext()
     
     useEffect(() => {

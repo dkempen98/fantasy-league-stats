@@ -1,0 +1,1282 @@
+[
+    {
+        "pick": "1",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Indianapolis Colts"
+    },
+    {
+        "pick": "2",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Los Angeles Rams"
+    },
+    {
+        "pick": "3",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Los Angeles Chargers"
+    },
+    {
+        "pick": "4",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Minnesota Vikings"
+    },
+    {
+        "pick": "5",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Carolina Panthers"
+    },
+    {
+        "pick": "6",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Tennessee Titans"
+    },
+    {
+        "pick": "7",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Cincinnati Bengals"
+    },
+    {
+        "pick": "8",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Pittsburgh Steelers"
+    },
+    {
+        "pick": "9",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Cincinnati Bengals"
+    },
+    {
+        "pick": "10",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Minnesota Vikings"
+    },
+    {
+        "pick": "11",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "New Orleans Saints"
+    },
+    {
+        "pick": "12",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "13",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Detroit Lions"
+    },
+    {
+        "pick": "14",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Baltimore Ravens"
+    },
+    {
+        "pick": "15",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "16",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "San Francisco 49ers"
+    },
+    {
+        "pick": "17",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "18",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "19",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Cleveland Browns"
+    },
+    {
+        "pick": "20",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Los Angeles Chargers"
+    },
+    {
+        "pick": "21",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "22",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Arizona Cardinals"
+    },
+    {
+        "pick": "23",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "24",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "New York Giants"
+    },
+    {
+        "pick": "25",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Los Angeles Rams"
+    },
+    {
+        "pick": "26",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Denver Broncos"
+    },
+    {
+        "pick": "27",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "28",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Cincinnati Bengals"
+    },
+    {
+        "pick": "29",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Green Bay Packers"
+    },
+    {
+        "pick": "30",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Carolina Panthers"
+    },
+    {
+        "pick": "31",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Indianapolis Colts"
+    },
+    {
+        "pick": "32",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "33",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "34",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Chicago Bears"
+    },
+    {
+        "pick": "35",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Philadelphia Eagles"
+    },
+    {
+        "pick": "36",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Washington Commanders"
+    },
+    {
+        "pick": "37",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Jacksonville Jaguars"
+    },
+    {
+        "pick": "38",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Atlanta Falcons"
+    },
+    {
+        "pick": "39",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Los Angeles Chargers"
+    },
+    {
+        "pick": "40",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "41",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Seattle Seahawks"
+    },
+    {
+        "pick": "42",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "43",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "44",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Denver Broncos"
+    },
+    {
+        "pick": "45",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Denver Broncos"
+    },
+    {
+        "pick": "46",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "New York Jets"
+    },
+    {
+        "pick": "47",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Houston Texans"
+    },
+    {
+        "pick": "48",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Pittsburgh Steelers"
+    },
+    {
+        "pick": "49",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Arizona Cardinals"
+    },
+    {
+        "pick": "50",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Baltimore Ravens"
+    },
+    {
+        "pick": "51",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "52",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "San Francisco 49ers"
+    },
+    {
+        "pick": "53",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "54",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "55",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Los Angeles Rams"
+    },
+    {
+        "pick": "56",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "San Francisco 49ers"
+    },
+    {
+        "pick": "57",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "58",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Cleveland Browns"
+    },
+    {
+        "pick": "59",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Los Angeles Chargers"
+    },
+    {
+        "pick": "60",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "61",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "62",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Philadelphia Eagles"
+    },
+    {
+        "pick": "63",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Detroit Lions"
+    },
+    {
+        "pick": "64",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Baltimore Ravens"
+    },
+    {
+        "pick": "65",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Minnesota Vikings"
+    },
+    {
+        "pick": "66",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Philadelphia Eagles"
+    },
+    {
+        "pick": "67",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "68",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Philadelphia Eagles"
+    },
+    {
+        "pick": "69",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New Orleans Saints"
+    },
+    {
+        "pick": "70",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Arizona Cardinals"
+    },
+    {
+        "pick": "71",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Chicago Bears"
+    },
+    {
+        "pick": "72",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Jacksonville Jaguars"
+    },
+    {
+        "pick": "73",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "74",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Detroit Lions"
+    },
+    {
+        "pick": "75",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Houston Texans"
+    },
+    {
+        "pick": "76",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Cleveland Browns"
+    },
+    {
+        "pick": "77",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "New England Patriots"
+    },
+    {
+        "pick": "78",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "San Francisco 49ers"
+    },
+    {
+        "pick": "79",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Cincinnati Bengals"
+    },
+    {
+        "pick": "80",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Green Bay Packers"
+    },
+    {
+        "pick": "81",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Washington Commanders"
+    },
+    {
+        "pick": "82",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Philadelphia Eagles"
+    },
+    {
+        "pick": "83",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Arizona Cardinals"
+    },
+    {
+        "pick": "84",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "85",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Arizona Cardinals"
+    },
+    {
+        "pick": "86",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Baltimore Ravens"
+    },
+    {
+        "pick": "87",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "New England Patriots"
+    },
+    {
+        "pick": "88",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Atlanta Falcons"
+    },
+    {
+        "pick": "89",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Green Bay Packers"
+    },
+    {
+        "pick": "90",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New York Jets"
+    },
+    {
+        "pick": "91",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Seattle Seahawks"
+    },
+    {
+        "pick": "92",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Atlanta Falcons"
+    },
+    {
+        "pick": "93",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "94",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New Orleans Saints"
+    },
+    {
+        "pick": "95",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Green Bay Packers"
+    },
+    {
+        "pick": "96",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Tennessee Titans"
+    },
+    {
+        "pick": "97",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New York Giants"
+    },
+    {
+        "pick": "98",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "New York Jets"
+    },
+    {
+        "pick": "99",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Seattle Seahawks"
+    },
+    {
+        "pick": "100",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "101",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Baltimore Ravens"
+    },
+    {
+        "pick": "102",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Pittsburgh Steelers"
+    },
+    {
+        "pick": "103",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Pittsburgh Steelers"
+    },
+    {
+        "pick": "104",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "105",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Denver Broncos"
+    },
+    {
+        "pick": "106",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Chicago Bears"
+    },
+    {
+        "pick": "107",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Denver Broncos"
+    },
+    {
+        "pick": "108",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Pittsburgh Steelers"
+    },
+    {
+        "pick": "109",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "110",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "111",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "112",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Jacksonville Jaguars"
+    },
+    {
+        "pick": "113",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Cincinnati Bengals"
+    },
+    {
+        "pick": "114",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Detroit Lions"
+    },
+    {
+        "pick": "115",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Seattle Seahawks"
+    },
+    {
+        "pick": "116",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "117",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New York Jets"
+    },
+    {
+        "pick": "118",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Cincinnati Bengals"
+    },
+    {
+        "pick": "119",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Indianapolis Colts"
+    },
+    {
+        "pick": "120",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "121",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "122",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Dallas Cowboys"
+    },
+    {
+        "pick": "123",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Green Bay Packers"
+    },
+    {
+        "pick": "124",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "125",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New England Patriots"
+    },
+    {
+        "pick": "126",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "San Francisco 49ers"
+    },
+    {
+        "pick": "127",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Los Angeles Rams"
+    },
+    {
+        "pick": "128",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "129",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "130",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "131",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Tampa Bay Buccaneers"
+    },
+    {
+        "pick": "132",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "New Orleans Saints"
+    },
+    {
+        "pick": "133",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "134",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "135",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Minnesota Vikings"
+    },
+    {
+        "pick": "136",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Jacksonville Jaguars"
+    },
+    {
+        "pick": "137",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Atlanta Falcons"
+    },
+    {
+        "pick": "138",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Minnesota Vikings"
+    },
+    {
+        "pick": "139",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Los Angeles Rams"
+    },
+    {
+        "pick": "140",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "New England Patriots"
+    },
+    {
+        "pick": "141",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Tennessee Titans"
+    },
+    {
+        "pick": "142",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Chicago Bears"
+    },
+    {
+        "pick": "143",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "WR",
+        "nfl_team": "Washington Commanders"
+    },
+    {
+        "pick": "144",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "New Orleans Saints"
+    },
+    {
+        "pick": "145",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Pittsburgh Steelers"
+    },
+    {
+        "pick": "146",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "San Francisco 49ers"
+    },
+    {
+        "pick": "147",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Miami Dolphins"
+    },
+    {
+        "pick": "148",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Kansas City Chiefs"
+    },
+    {
+        "pick": "149",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Denver Broncos"
+    },
+    {
+        "pick": "150",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Baltimore Ravens"
+    },
+    {
+        "pick": "151",
+        "team": "Wet Turd Burglars",
+        "owner": "Trap",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "152",
+        "team": "Columbus Nate L",
+        "owner": "Nate",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "Tennessee Titans"
+    },
+    {
+        "pick": "153",
+        "team": "Smashmouth All Stars",
+        "owner": "Joey",
+        "player": "Jonathan Taylor",
+        "position": "D/ST",
+        "nfl_team": "Indianapolis Colts"
+    },
+    {
+        "pick": "154",
+        "team": "Miami Doll Fins",
+        "owner": "Tony",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Buffalo Bills"
+    },
+    {
+        "pick": "155",
+        "team": "Downtown Furry Bois",
+        "owner": "Drew",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Philadelphia Eagles"
+    },
+    {
+        "pick": "156",
+        "team": "Flavortown Hot BBQ BBC",
+        "owner": "Ben",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "Cleveland Browns"
+    },
+    {
+        "pick": "157",
+        "team": "Your Butt",
+        "owner": "Alex",
+        "player": "Jonathan Taylor",
+        "position": "K",
+        "nfl_team": "New England Patriots"
+    },
+    {
+        "pick": "158",
+        "team": "Team Dumb Dick",
+        "owner": "Henry",
+        "player": "Jonathan Taylor",
+        "position": "RB",
+        "nfl_team": "Las Vegas Raiders"
+    },
+    {
+        "pick": "159",
+        "team": "Not Cleveland's Quarterback",
+        "owner": "Eric",
+        "player": "Jonathan Taylor",
+        "position": "TE",
+        "nfl_team": "Cleveland Browns"
+    },
+    {
+        "pick": "160",
+        "team": "Columbus Ivan",
+        "owner": "Ivan",
+        "player": "Jonathan Taylor",
+        "position": "QB",
+        "nfl_team": "New York Giants"
+    }
+]

@@ -103,12 +103,24 @@ function getInfo(week, matchupId) {
                     teamName = 'Money Manziels'
                     break
                 case 10:
-                    playerName = 'Joey'
-                    teamName = 'Smashmouth All Stars'
+                    playerName = 'Kayla'
+                    teamName = "Kayla's Team"
+                    if(season === 2022) {
+                        playerName = 'Joey'
+                        teamName = 'Smashmouth All Stars'
+                    }
                     if(season === 2021) {
                         playerName = 'Josh'
                         teamName = 'Howard Beltz'
                     }
+                    break
+                case 11:
+                    playerName = 'Randy'
+                    teamName = "Randy's Team"
+                    break
+                case 12:
+                    playerName = 'Matt'
+                    teamName = 'Clouds?'
                     break
             }
               projScore = 0

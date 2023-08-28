@@ -23,15 +23,19 @@ export default function Home() {
 
     const [activePlayer, setActivePlayer] = useState("Player")
     const [playerOutline, setPlayerOutline] = useState(<h3>Select a Player</h3>)
+    const [selectedSeason, setSelectedSeason] = useState(null)
+    const [currentPlayerDetails, setCurrentPlayerDetails] = useState()
 
     const [gridData, setGridData] = useState([])
     const [gridColumns, setGridColumns] = useState([])
 
+    const [tableView, setTableView] = useState(false)
+
     const { 
         winColor, 
-        setWinColor,
         loseColor,
-        setLoseColor 
+        currentWeek,
+        currentSeason 
     } = useStateContext()
         
 
@@ -75,6 +79,7 @@ export default function Home() {
     }
 
     function playerSelected(person) {
+        setCurrentPlayerDetails(person)
         setSearchQuery('')
         document.getElementById('search-bar-input').value = '';
         
@@ -101,10 +106,31 @@ export default function Home() {
 
 
         let tableRows = []
+        let activeSeasons = []
+        let currentSelectedSeason = selectedSeason
+        if(!selectedSeason) {
+            currentSelectedSeason = playerLogs[playerLogs.length - 1].seasonId
+            setSelectedSeason(currentSelectedSeason)
+            return
+        }
+
+        playerLogs.forEach(gameLog => {
+            if(!activeSeasons.includes(gameLog.seasonId)) {
+                activeSeasons.push(gameLog.seasonId)
+            }
+        })
+
+        if(!activeSeasons.includes(currentSelectedSeason)) {
+            currentSelectedSeason = activeSeasons[activeSeasons.length - 1]
+            setSelectedSeason(currentSelectedSeason)
+            return
+        }
 
         playerLogs.forEach(gameLog => {
             let statLog = [gameLog.seasonId, gameLog.week, gameLog.owner]
             let rowData = ["Year", "Week", "Team"]
+
+            if(gameLog.seasonId !== currentSelectedSeason) return
 
             if(headerKeys.includes('passingYards')){
                 if(gameLog.rawStats.hasOwnProperty("passingYards")) {
@@ -217,7 +243,7 @@ export default function Home() {
             } 
             
             let rowInfo = statLog.map((stat, index) =>
-                <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()} data-cell={rowData[index]}>{stat}</td>
+                <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()} data-cell={rowData[index]} className={tableView ? '' : 'mobile-on'}>{stat}</td>
             );
 
             // tableRows.push(statLog)
@@ -245,9 +271,11 @@ export default function Home() {
 
         let playerOwner = {}
         let season = playerLogs[playerLogs.length - 1].seasonId
+        let weekLastPlayed = playerLogs[playerLogs.length - 1].week
         let ownerId = playerLogs[playerLogs.length - 1].teamId
         let proTeam = playerLogs[playerLogs.length - 1].proTeam
         let proLogo = ""
+        let ownerLogo = ""
 
         if(proTeam) {
             proLogo = "/images/proLogos/" + proTeam + ".png"
@@ -255,30 +283,50 @@ export default function Home() {
             proLogo = "/images/proLogos/nfl.png"
         }
 
-        if (season == '2021') {
+        if (season === 2021) {
             playerOwner = league2021[ownerId-1]
-        } else if (season == '2022') {
+            if(!activeSeasons.includes(2021)) {
+                activeSeasons.push(2021)
+            }
+        } else if (season === 2022) {
             playerOwner = league2022[ownerId-1]
         }
 
 
+
+        if (season == currentSeason && currentWeek == weekLastPlayed) {
+            ownerLogo = playerOwner.logoURL
+        } else {
+            ownerLogo = "/images/proLogos/nfl.png"
+        }
+
         let mappedHeaders = activeHeaders.map((header, index) =>
-                <th key={index} className="table-header-item">{header}</th>
+                <th key={index} className={tableView ? '' : 'mobile-on'}>{header}</th>
             );
             
+        let yearOptions = activeSeasons.map(year => 
+            <option key={year} value={year}>{year}</option>
+        )
 
         setActivePlayer(person.player)
-        console.log(playerOwner)
-
+    
 
         setPlayerOutline(
             <div className='player-container'>
                 <div style={{backgroundImage: `url(${proLogo}`}} className='player-overview'>
-                    <h3>{person.player}</h3>
+                    <div className='flex-column'>
+                        <h3 className='player-name'>{person.player}</h3>
+                        <div className="global-dropdown player-dropdown">
+                            <select value={selectedSeason} onChange={(e) => seasonChange(e.target.value)}>
+                                {yearOptions}
+                            </select>
+                            <span className="global-arrow player-arrow"></span>
+                        </div>
+                    </div>
                     {/* <ul>
                         <li>Current Owner: {playerOwner.owner}</li>
                     </ul> */}
-                    <img src={playerOwner.logoURL} className="team-logo"/>
+                    <img src={ownerLogo} className="team-logo"/>
                 </div>
                 <div className="table-wrapper">
                     <div className="table-container">
@@ -348,6 +396,10 @@ export default function Home() {
         })
 
         return 
+    }
+
+    function seasonChange(e) {
+        setSelectedSeason(parseInt(e))
     }
 
     function addPlayerList() {
@@ -426,6 +478,13 @@ export default function Home() {
     useEffect(() => {
         AddTableARIA()
     }, [playerOutline])
+
+    useEffect(() => {
+        console.log("Firing")
+        if(currentPlayerDetails) {
+            playerSelected(currentPlayerDetails)
+        }
+    }, [selectedSeason])
     
 
 

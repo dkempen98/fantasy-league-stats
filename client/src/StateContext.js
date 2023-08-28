@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import currentYear from "./components/data/teams2022.json" // Updated annually to match the active season
 
 const StateContext = createContext();
 
@@ -15,24 +16,28 @@ export function StateProvider({ children }) {
   const [loseColor, setLoseColor] = useState("#670000c0")
   const [loseSolid, setLoseSolid] = useState("#670000")
 
+  const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023])
+
+  const [currentWeek, setCurrentWeek] = useState(0)
+  const [currentSeason, setCurrentSeason] = useState(2022) //Manually set annually
+
+  useEffect(() => {
+    setCurrentWeek(currentYear.length - 1)
+  }, [])
+
   return (
     <StateContext.Provider value={{ 
       primaryColor,
-      setPrimaryColor,
       primarySolid,
-      setPrimarySolid,
       winColor, 
-      setWinColor,
       winSolid, 
-      setWinSolid,
       secondaryColor, 
-      setSecondaryColor,
       secondarySolid, 
-      setSecondarySolid,
       loseColor,
-      setLoseColor,
       loseSolid, 
-      setLoseSolid
+      currentWeek,
+      currentSeason,
+      availableSeasons
       
       }}>
       {children}

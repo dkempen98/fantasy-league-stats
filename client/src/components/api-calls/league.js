@@ -23,12 +23,12 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
 
-const season = 2021
+const season = 2023
 let league = []
 
 leagueData(season)
 
-function leagueData(season, week = 18) {
+function leagueData(season, week = 1) {
     myClient.getTeamsAtWeek( {
         seasonId: season,
         scoringPeriodId: week
@@ -78,10 +78,19 @@ function leagueData(season, week = 18) {
                     team.owner = 'Drew'
                     break
                 case 10:
-                    team.owner = 'Joey'
+                    team.owner = 'Kayla'
+                    if(season === 2022) {
+                        team.owner = 'Joey'
+                    }
                     if(season === 2021) {
                         team.owner = 'Josh'
                     }
+                    break
+                case 11:
+                    team.owner = 'Randy'
+                    break
+                case 12:
+                    team.owner = 'Matt'
                     break
             }
 
