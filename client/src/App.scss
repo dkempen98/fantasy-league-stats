@@ -62,6 +62,10 @@ h6 {
   flex-direction: column;
 }
 
+.pr {
+  padding-right: 3%;
+}
+
 .global-base {
   margin: 2%;
 }
@@ -375,6 +379,8 @@ h6 {
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
   }
   &-name {
     padding: 8px;
@@ -404,8 +410,8 @@ h6 {
   
   width: 60px;
   position: absolute;
-  right: 4%;
-  top: 8px;
+  right: 7px;
+  top: 7px;
 }
 
 
@@ -462,27 +468,6 @@ th {
 
 tr, caption {
   border-bottom: 1px solid black;
-}
-
-@media (max-width: 550px) {
-  th.mobile-on {
-    display: none;
-  }
-  td.mobile-on {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: 15ch auto;
-    padding: 0.5rem 1rem;
-  
-    &::before {
-      content: attr(data-cell) ": ";
-      font-weight: 700;
-    }
-  }
-
-  .mobile-on [data-cell="hide"] {
-    display: none;
-  }
 }
 
 .chart-container {
@@ -579,6 +564,18 @@ tr, caption {
 .checkbox {
   accent-color: var(--bright);
   margin-right: 5px;
+
+  &-bg {
+    background-color: #000000;
+  }
+
+  &-player {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin: 0;
+    padding: 4px;
+  }
 }
 
 .legend {
@@ -618,6 +615,10 @@ tr, caption {
     content: "\25A1"; 
     color: white;
   }
+}
+
+.hide-large {
+  display: none;
 }
 
 @media (max-width: 820px) {
@@ -688,14 +689,37 @@ tr, caption {
   }
 }
 
+@media (max-width: 550px) {
+  th.mobile-on {
+    display: none;
+  }
+  td.mobile-on {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 15ch auto;
+    padding: 0.5rem 1rem;
+  
+    &::before {
+      content: attr(data-cell) " : ";
+      font-weight: 700;
+    }
+  }
+
+  [data-cell="hide"] {
+    display: none !important;
+    color: red;
+  }
+  .hide-large {
+    display: inline-block;
+  }
+}
+
 @media (max-width: 300px) {
   .stat-card {
     max-width: 90%;
     min-width: 50%;
   }
 }
-
-
 
 
 
