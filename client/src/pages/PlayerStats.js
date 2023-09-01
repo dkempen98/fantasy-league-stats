@@ -8,8 +8,8 @@ import players2022 from "../components/data/players2022.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { Grid } from 'gridjs-react';
-import "gridjs/dist/theme/mermaid.css";
+// import { Grid } from 'gridjs-react';
+// import "gridjs/dist/theme/mermaid.css";
 
 export default function Home() {
     const refOne = useRef(null)
