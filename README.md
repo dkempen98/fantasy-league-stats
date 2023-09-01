@@ -2,7 +2,7 @@
 
 Advanced stats for my fantasy football league including matchup stats, weekly reviews, season reviews and position comparisons
 
-Here is a link to the application: https://fantasy-league-stats-jlyaj8lgk-dkempen98.vercel.app/
+Here is a link to the application: [Link to Site](https://fantasy-league-stats-git-main-dkempen98.vercel.app/)
 
 ## Usage
 
