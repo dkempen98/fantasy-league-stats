@@ -9,8 +9,17 @@ console.log(process.env.LEAGUE_ID)
 
 const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 
+// Get the necessary cookie information from your browser while logged into
+// the ESPN site and add them to your env file. More info on how to do this
+// can be found in the API Documentation here: 
+// http://espn-fantasy-football-api.s3-website.us-east-2.amazonaws.com/
+
 myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // console.log(myClient)
+
+// For these you can adjust them to your league or you can just add the team ID to each player
+// and use the league.js file and store the teams on their own json file then cross reference
+// them with their ID's when necessary
 
 // Team ID correlation is as follows by person:
 // 1: Alex Kempen
@@ -23,8 +32,15 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 8: Trap
 // 9: Drew Kempen
 // 10: Joey Simmons (2021: Josh Beltz)
+// 11: Randy
+// 12: Matt
 
+// Select the season you are pulling matchup data for
 const season = 2022
+
+// adjust maxWeek to be the number of weeks that have been played in the season
+const maxWeek = 18
+
 let weeklyPlayerData = []
 let playerInfo = []
 let score
@@ -39,9 +55,7 @@ let won
 let playerName
 let teamName
 
-// adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 18
-
+// Triggers function and runs until it runs through every matchup each week
 getInfo(1, 1)
 
 function getInfo(week, matchupId) {
@@ -319,10 +333,12 @@ function getInfo(week, matchupId) {
             }
             getInfo((week + 1), (matchupId + 1))
         } else {
-            // console.log('-------------------ARRAY------------------')
-            // console.log(weeklyTeamData)
-            // console.log(weeklyPlayerData)
-            
+
+            // Once all of the matchups have been iterated through, json files are created
+            // They are stored in the /data folder
+
+            // Each season gets its own file. These files act as a database of sorts
+                        
             let info = JSON.stringify(weeklyPlayerData);
             fs.writeFileSync(`./client/src/components/data/players${season}.json`, info)
 

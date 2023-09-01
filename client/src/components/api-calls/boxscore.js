@@ -1,5 +1,7 @@
 import Client from './league.js'
 
+// Deprecated
+
 const myClient = Client()
 const season = 2021
 

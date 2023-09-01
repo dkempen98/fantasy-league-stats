@@ -12,17 +12,19 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // console.log(myClient)
 
 // Team ID correlation is as follows by person:
-// 1: Alex Kempen
-// 2: Ben Fischer
-// 3: Tony Gault
-// 4: Nate Labine (2021: Kayla Gault)
-// 5: Henry Morris
-// 6: Eric Leprotti
-// 7: Ivan Goya (2021: Kieffer)
+// 1: Alex
+// 2: Ben
+// 3: Tony
+// 4: Nate (2021: Kayla)
+// 5: Henry
+// 6: Eric
+// 7: Ivan (2021: Kieffer)
 // 8: Trap
-// 9: Drew Kempen
-// 10: Joey Simmons (2021: Josh Beltz)
+// 9: Drew 
+// 10: Joey (2021: Josh)
 
+
+// Adjust the season below to determine the year you are pulling data for
 const season = 2023
 let league = []
 

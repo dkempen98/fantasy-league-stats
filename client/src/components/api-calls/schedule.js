@@ -2,6 +2,8 @@ import league from './league.js'
 
 // console.log(league)
 
+//  Deprecated
+
 import React, { Component } from "react";
 import Chart from "react-apexcharts"
 
