@@ -54,24 +54,29 @@ export default function Navbar() {
                 <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
                         <Link to="/" onClick={() => changePage("home")}>
-                            <span className={window.location.pathname === "/" || page === "home"  ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchup Stats
+                            <span className={window.location.pathname === "/" || page === "home"  ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchups
                         </Link>
                     </li>
                     <li>
                         <Link to="/team" onClick={() => changePage("team")}>  
-                            <span className={window.location.pathname === "/team" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Team Stats
+                            <span className={window.location.pathname === "/team" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Teams
                         </Link>
                     </li>
                     <li>
                         <Link to="/season" onClick={() => changePage()}>  
-                            <span className={window.location.pathname === "/season" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Season Stats
+                            <span className={window.location.pathname === "/season" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Seasons
                         </Link>
                     </li>
-                    {/* <li>
+                    <li>
                         <Link to="/players" onClick={() => changePage('players')}>  
-                            <span className={activePage === 'players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Player Stats
+                            <span className={window.location.pathname === '/players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Players
                         </Link>
-                    </li> */}
+                    </li>
+                    <li>
+                        <Link to="/draft" onClick={() => changePage('draft')}>  
+                            <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Drafts
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </header>

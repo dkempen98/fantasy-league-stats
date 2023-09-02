@@ -35,7 +35,7 @@ export default function Home() {
         winColor, 
         loseColor,
         currentWeek,
-        currentSeason 
+        currentSeason,
     } = useStateContext()
         
 
@@ -132,17 +132,14 @@ export default function Home() {
 
             if(gameLog.seasonId !== currentSelectedSeason) return
 
-
             if(headerKeys.includes('passingYards')){
                 if(gameLog.rawStats.hasOwnProperty("passingYards")) {
                     statLog.push(gameLog.rawStats.passingYards)
                     rowData.push('Passing Yards')
                     seasonStats.passingYards += gameLog.rawStats.passingYards
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('passingTouchdowns')){
@@ -150,11 +147,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.passingTouchdowns)
                     rowData.push('Passing TDs')
                     seasonStats.passingTouchdowns += gameLog.rawStats.passingTouchdowns
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('rushingYards')){
@@ -162,11 +157,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.rushingYards)
                     rowData.push('Rushing Yards')
                     seasonStats.rushingYards += gameLog.rawStats.rushingYards
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('rushingTouchdowns')){
@@ -174,11 +167,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.rushingTouchdowns)
                     rowData.push('Rushing TDs')
                     seasonStats.rushingTouchdowns += gameLog.rawStats.rushingTouchdowns
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receivingReceptions')){
@@ -186,11 +177,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.receivingReceptions)
                     rowData.push('Receptions')
                     seasonStats.receivingReceptions += gameLog.rawStats.receivingReceptions
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receivingYards')){
@@ -198,11 +187,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.receivingYards)
                     rowData.push('Receiving Yards')
                     seasonStats.receivingYards += gameLog.rawStats.receivingYards
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receivingTouchdowns')){
@@ -210,11 +197,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.receivingTouchdowns)
                     rowData.push('Receiving TDs')
                     seasonStats.receivingTouchdowns += gameLog.rawStats.receivingTouchdowns
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
                 
             } 
@@ -223,11 +208,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.passingInterceptions)
                     rowData.push('Interceptions')
                     seasonStats.passingInterceptions += gameLog.rawStats.passingInterceptions
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('lostFumbles')){
@@ -235,11 +218,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.lostFumbles)
                     rowData.push('Lost Fumbles')
                     seasonStats.lostFumbles += gameLog.rawStats.lostFumbles
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('rushing2PtConversions')){
@@ -247,11 +228,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.rushing2PtConversions)
                     rowData.push('Rushing 2PTs')
                     seasonStats.rushing2PtConversions += gameLog.rawStats.rushing2PtConversions
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('receiving2PtConversions')){
@@ -259,11 +238,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.receiving2PtConversions)
                     rowData.push('Receiving 2PTs')
                     seasonStats.receiving2PtConversions += gameLog.rawStats.receiving2PtConversions
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             if(headerKeys.includes('passing2PtConversions')){
@@ -271,11 +248,9 @@ export default function Home() {
                     statLog.push(gameLog.rawStats.passing2PtConversions)
                     rowData.push('Passing 2PTs')
                     seasonStats.passing2PtConversions += gameLog.rawStats.passing2PtConversions
-                } else if (!tableView) {
-                    statLog.push('-')
-                    rowData.push('hide')
                 } else {
                     statLog.push('-')
+                    rowData.push('hide')
                 }
             } 
             
@@ -341,7 +316,6 @@ export default function Home() {
             activeHeaders.push("Passing 2PTs")
             seasonStatArray.push(seasonStats.passing2PtConversions)
         }
-
 
 
         let totalRowInfo = seasonStatArray.map((stat, index) =>
@@ -426,7 +400,7 @@ export default function Home() {
                 <div className="table-wrapper">
                     <div className="table-container">
                         <table>
-                            <caption>PLAYER STATS</caption>
+                            <caption className={tableView ? '' : 'mobile-on'}>PLAYER STATS</caption>
                             <thead id="table-head">
                                 <tr>
                                     {mappedHeaders}
@@ -588,7 +562,7 @@ export default function Home() {
 
     return(
         <section className="global-base">
-            <h1 className="page-header"><span>Player Stats</span></h1>
+            <h1 className="page-header"><span>Players</span></h1>
             <div className="search-container" ref={refOne}>
                 <div className="search-bar" id="search-bar">
                     <input autoComplete="off" type="text" className="search-bar-input" placeholder="Search for a Player" aria-label="Player Search" id="search-bar-input" onChange={e => setSearchQuery(e.target.value)}/>

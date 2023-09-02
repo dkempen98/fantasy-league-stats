@@ -21,8 +21,23 @@ export function StateProvider({ children }) {
   const [currentWeek, setCurrentWeek] = useState(0)
   const [currentSeason, setCurrentSeason] = useState(2022) //Manually set annually
 
-  useEffect(() => {
+  // Commonly used react components
+
+  const [yearDropdownOptions, setYearDropdownOptions] = useState()
+
+
+  function init() {
     setCurrentWeek(currentYear.length - 1)
+
+    const years = availableSeasons.map((year, index) => 
+      <option key={index} value={year}>{year}</option>
+    )
+
+    setYearDropdownOptions(years)
+  }
+
+  useEffect(() => {
+    init()
   }, [])
 
   return (
@@ -37,7 +52,8 @@ export function StateProvider({ children }) {
       loseSolid, 
       currentWeek,
       currentSeason,
-      availableSeasons
+      availableSeasons,
+      yearDropdownOptions,
       
       }}>
       {children}

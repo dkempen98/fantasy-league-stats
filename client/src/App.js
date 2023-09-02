@@ -5,6 +5,7 @@ import Home from './pages/Home.js'
 import Players from './pages/PlayerStats.js'
 import Team from './pages/Team.js'
 import LeagueStats from './pages/LeagueStats.js'
+import Draft from './pages/Draft.js'
 
 import 'normalize.css';
 import './App.scss';
@@ -34,6 +35,11 @@ function App() {
                 <Route
                   path="/players"
                   element={<Players />}
+                />
+
+                <Route
+                  path="/draft"
+                  element={<Draft />}
                 />
                 
               </Routes>

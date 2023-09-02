@@ -39,7 +39,8 @@ export default function Home() {
         secondaryColor, 
         secondarySolid, 
         loseColor,
-        loseSolid, 
+        loseSolid,
+        yearDropdownOptions
     } = useStateContext()
 
 
@@ -231,8 +232,7 @@ export default function Home() {
             <section className="global-week-header">
                 <div className="global-dropdown">
                     <select value={season} onChange={(e) => seasonChange(e.target.value)}>
-                        <option key={2021} value={2021}>2021</option>
-                        <option key={2022} value={2022}>2022</option>
+                        {yearDropdownOptions}
                     </select>
                     <span className="global-arrow"></span>
                 </div>
