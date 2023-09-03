@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useStateContext } from "../StateContext.js"
-import draftResults2022 from "../components/data/draftresults2022.json"
+import draftResults2021 from "../components/data/draftResults2021.json"
+import draftResults2022 from "../components/data/draftResults2022.json"
+import draftResults2023 from "../components/data/draftResults2023.json"
 import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
@@ -29,10 +31,8 @@ export default function Draft() {
     const [draftBoard, setDraftBoard] = useState()
     const [navButtons, setNavButtons] = useState()
 
-
-    function init() {
-        setLeagueSize(league.length)
-    }
+    const [sortDirection, setSortDirection] = useState('asc')
+    const [currentSort, setCurrentSort] = useState()
 
     function createFilterOptions() {
         if(filterType === 'Round') {
@@ -130,13 +130,13 @@ export default function Draft() {
         if(lowestPick > 0) {
             thisNavButtons.push(<button className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
         } else {
-            thisNavButtons.push(<button disabled='true' className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
+            thisNavButtons.push(<button disabled={true} className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
         }
 
         if(highestPick < draft.length) {
             thisNavButtons.push(<button className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
         } else {
-            thisNavButtons.push(<button disabled='true' className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
+            thisNavButtons.push(<button disabled={true} className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
         }
 
         setDraftBoard(thisBoard)
@@ -167,6 +167,27 @@ export default function Draft() {
         setNavButtons()
     }
 
+    function sortBoard(sortBy) {
+        console.log(sortBy)
+    }
+
+    function yearChange() {
+        if(season === 2021) {
+            setLeague(league2021)
+            setDraft(draftResults2021)
+            return
+        }   
+        if(season === 2022) {
+            setLeague(league2022)
+            setDraft(draftResults2022)
+            return
+        }
+        if(season === 2023) {
+            setLeague(league2023)
+            setDraft(draftResults2023)
+            return
+        }
+    }
     useEffect(() => {
         setLeagueSize(league.length)
     }, [league])
@@ -177,7 +198,11 @@ export default function Draft() {
 
     useEffect(() => {
         initDraftBoard()
-    }, [filterOptionSelection, tableView])
+    }, [filterOptionSelection, tableView, leagueSize, league, draft])
+
+    useEffect(() => {
+        yearChange()
+    }, [season])
 
     return(
         <section className="global-base">
@@ -186,7 +211,7 @@ export default function Draft() {
                 <div>
                     Year :
                     <div className="global-dropdown dropdown-size-match-mobile">
-                        <select value={season} onChange={(e) => setSeason(e.target.value)}>
+                        <select value={season} onChange={(e) => setSeason(parseInt(e.target.value))}>
                             {yearDropdownOptions}
                         </select>
                         <span className="global-arrow"></span>
@@ -227,13 +252,13 @@ export default function Draft() {
                     <caption className={tableView ? '' : 'mobile-on'}>Draft Recap</caption>
                     <thead id="table-head">
                         <tr>
-                            <th className={tableView ? '' : 'mobile-on'}>Team</th>
-                            <th className={tableView ? '' : 'mobile-on'}>Rd.</th>
-                            <th className={tableView ? '' : 'mobile-on'}>Pick</th>
-                            <th className={tableView ? '' : 'mobile-on'}>Name</th>
-                            <th className={tableView ? '' : 'mobile-on'}>Position (Rank)</th>
-                            <th className={tableView ? '' : 'mobile-on'}>Overall Rank</th>
-                            <th className={tableView ? '' : 'mobile-on'}>NFL Team</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('team')}>Team</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('round')}>Rd.</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('pick')}>Pick</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('name')}>Name</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('position')}>Position (Rank)</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('rank')}>Overall Rank</th>
+                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('nflTeam')}>NFL Team</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
