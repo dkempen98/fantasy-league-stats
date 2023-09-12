@@ -5,15 +5,32 @@ import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
+import twentyThreePlayers from "../components/data/players2023.json"
+import twentyThreeTeams from "../components/data/teams2023.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import LineChart from "../components/reusable-stuff/lineChart.js";
 
 export default function Home() {
-    const [season, setSeason] = useState(2022)
-    const [week, setWeek] = useState(0)
-    const [players, setPlayers] = useState(twentyTwoPlayers)
-    const [teams, setTeams] = useState(twentyTwoTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+
+    const { 
+        primaryColor,
+        primarySolid,
+        winColor, 
+        winSolid, 
+        secondaryColor, 
+        secondarySolid, 
+        loseColor,
+        loseSolid, 
+        yearDropdownOptions,
+        currentSeason,
+        currentWeek
+    } = useStateContext()
+
+    const [season, setSeason] = useState(currentSeason)
+    const [week, setWeek] = useState(currentWeek)
+    const [players, setPlayers] = useState(twentyThreePlayers)
+    const [teams, setTeams] = useState(twentyThreeTeams)
+    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
     const [activeTeamId, setActiveTeamId] = useState(1)
     const [numberOfWeeks, setNumberOfWeeks] = useState(0)
 
@@ -31,18 +48,6 @@ export default function Home() {
     const [activePosition, setActivePosition] = useState('QB')
     const [teamPositionAverage, setPositionAverage] = useState([])
     const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
-
-    const { 
-        primaryColor,
-        primarySolid,
-        winColor, 
-        winSolid, 
-        secondaryColor, 
-        secondarySolid, 
-        loseColor,
-        loseSolid, 
-        yearDropdownOptions
-    } = useStateContext()
     
     useEffect(() => {
         if(teams.length == 18) {
@@ -296,6 +301,12 @@ export default function Home() {
             setTeams(twentyTwoTeams)
             setPlayers(twentyTwoPlayers)
         }
+        if(newYear == 2023){
+            setWeek(currentWeek) // Update this next season to be 0
+            setSeason(2023)
+            setTeams(twentyThreeTeams)
+            setPlayers(twentyThreePlayers)
+        }
     }
 
     return(
@@ -335,13 +346,15 @@ export default function Home() {
                         <option key={1} value={1}>Alex</option>
                         <option key={2} value={2}>Ben</option>
                         <option key={3} value={3}>Tony</option>
-                        <option key={4} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
+                        <option key={4} disabled={season === 2023} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
                         <option key={5} value={5}>Henry</option>
                         <option key={6} value={6}>Eric</option>
-                        <option key={7} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
+                        <option key={7} disabled={season === 2023} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
                         <option key={8} value={8}>Trap</option>
                         <option key={9} value={9}>Drew</option>
-                        <option key={10} value={10}>{season === 2021 ? 'Josh' : 'Joey'}</option>
+                        <option key={10} value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>
+                        <option key={11} disabled={season !== 2023} value={11}>Randy</option>
+                        <option key={12} disabled={season !== 2023} value={12}>Matt</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>

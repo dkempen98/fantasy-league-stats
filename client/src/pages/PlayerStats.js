@@ -3,8 +3,10 @@ import { useState, useEffect, useRef, React } from "react";
 import { useStateContext } from "../StateContext.js";
 import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
+import league2023 from "../components/data/league2023.json"
 import players2021 from "../components/data/players2021.json"
 import players2022 from "../components/data/players2022.json"
+import players2023 from "../components/data/players2023.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -74,6 +76,16 @@ export default function Home() {
                     }
                 })
             });
+            players2023.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
             return playerList
         })
     }
@@ -84,7 +96,7 @@ export default function Home() {
         document.getElementById('search-bar-input').value = '';
         
         let playerLogs = []
-        let allStats = [...players2021, ...players2022]
+        let allStats = [...players2021, ...players2022, ...players2023]
 
         let headerKeys = ['year', 'week', 'team']
         let activeHeaders = ['Year', 'Week', 'Team']
@@ -346,6 +358,8 @@ export default function Home() {
             }
         } else if (season === 2022) {
             playerOwner = league2022[ownerId-1]
+        } else if (season === 2023) {
+            playerOwner = league2023[ownerId-1]
         }
 
 

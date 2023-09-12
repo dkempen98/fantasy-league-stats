@@ -5,14 +5,31 @@ import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
+import twentyThreePlayers from "../components/data/players2023.json"
+import twentyThreeTeams from "../components/data/teams2023.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
-    const [season, setSeason] = useState(2022)
-    const [week, setWeek] = useState(0)
-    const [players, setPlayers] = useState(twentyTwoPlayers)
-    const [teams, setTeams] = useState(twentyTwoTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+    
+    const { 
+        primaryColor,
+        primarySolid,
+        winColor, 
+        winSolid, 
+        secondaryColor, 
+        secondarySolid, 
+        loseColor,
+        loseSolid,
+        yearDropdownOptions,
+        currentSeason,
+        currentWeek
+    } = useStateContext()
+    
+    const [season, setSeason] = useState(currentSeason)
+    const [week, setWeek] = useState(currentWeek)
+    const [players, setPlayers] = useState(twentyThreePlayers)
+    const [teams, setTeams] = useState(twentyThreeTeams)
+    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
     const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
@@ -30,24 +47,9 @@ export default function Home() {
     const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
     const [winLossColors, setWinLossColors] = useState([])
-    
-    const { 
-        primaryColor,
-        primarySolid,
-        winColor, 
-        winSolid, 
-        secondaryColor, 
-        secondarySolid, 
-        loseColor,
-        loseSolid,
-        yearDropdownOptions
-    } = useStateContext()
 
 
     function getTeamData() {
-
-        console.log('getTeamData firing')
-
         setTeamNames([])
         setOwners([])
         setMargin([])
@@ -82,8 +84,6 @@ export default function Home() {
     }
 
     function getWeeklyStats() {
-
-        console.log('getWeeklyStats firing')
 
         // calculate the average points scored by team
         setAverage(0)
@@ -163,13 +163,20 @@ export default function Home() {
         // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
         // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
 
-        let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let benchTotals = {}
         players[week].forEach((player) => {
             if(player.position === "Bench") {
-                benchTotals[player.teamId - 1] += player.points
+                if(player.teamId in benchTotals) {
+                    benchTotals[player.teamId] += player.points
+                } else {
+                    benchTotals[player.teamId] = player.points
+                }
             }
         })
-        setBenchScores(benchTotals)
+
+        let benchArray = Object.values(benchTotals)
+
+        setBenchScores(benchArray)
 
         // Set colors for winning and losing teams
         let winLoss = []
@@ -209,7 +216,6 @@ export default function Home() {
     }
 
     function seasonChange(newYear){
-        console.log(newYear)
         if(newYear == 2021){
             setWeek(0)
             setSeason(2021)
@@ -223,6 +229,13 @@ export default function Home() {
             setTeams(twentyTwoTeams)
             setPlayers(twentyTwoPlayers)
             setDefaultNames(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+        }
+        if(newYear == 2023){
+            setWeek(0)
+            setSeason(2023)
+            setTeams(twentyThreeTeams)
+            setPlayers(twentyThreePlayers)
+            setDefaultNames(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
         }
     }
 

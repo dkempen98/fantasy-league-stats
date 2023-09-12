@@ -4,9 +4,21 @@ import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
+import twentyThreePlayers from "../components/data/players2023.json"
+import twentyThreeTeams from "../components/data/teams2023.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
+
+    const { 
+        primaryColor,
+        winColor, 
+        secondaryColor, 
+        loseColor,
+        yearDropdownOptions,
+        currentYear
+    } = useStateContext()
+
     const [season, setSeason] = useState(2022)
     const [week, setWeek] = useState(0)
     const [players, setPlayers] = useState(twentyTwoPlayers)
@@ -47,14 +59,6 @@ export default function Home() {
     const [useFlex, setUseFlex] = useState(true)
     const [useAverage, setUseAverage] = useState(false)
     const [chartScores, setChartScores] = useState([])
-
-    const { 
-        primaryColor,
-        winColor, 
-        secondaryColor, 
-        loseColor,
-        yearDropdownOptions
-    } = useStateContext()
 
 
     function getTeamData() {
@@ -271,6 +275,13 @@ export default function Home() {
             setPlayers(twentyTwoPlayers)
             setDefaultNames(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
         }
+        if(newYear == 2023){
+            setWeek(0)
+            setSeason(2023)
+            setTeams(twentyThreeTeams)
+            setPlayers(twentyThreePlayers)
+            setDefaultNames(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+        }
     }
 
     function positionChange(position){
@@ -312,7 +323,9 @@ export default function Home() {
             <section className="global-week-header">
                 <div className="global-dropdown">
                     <select value={season} onChange={(e) => seasonChange(e.target.value)}>
-                        {yearDropdownOptions}
+                        {/* {yearDropdownOptions} */}
+                        <option key={1} value={2021}>2021</option>
+                        <option key={2} value={2022}>2022</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
