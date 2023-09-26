@@ -12,18 +12,23 @@ export default function Home() {
 
     const { 
         primaryColor,
+        primarySolid,
         winColor, 
+        winSolid, 
         secondaryColor, 
+        secondarySolid, 
         loseColor,
+        loseSolid,
         yearDropdownOptions,
-        currentYear
+        currentSeason,
+        currentWeek
     } = useStateContext()
 
-    const [season, setSeason] = useState(2022)
-    const [week, setWeek] = useState(0)
-    const [players, setPlayers] = useState(twentyTwoPlayers)
-    const [teams, setTeams] = useState(twentyTwoTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+    const [season, setSeason] = useState(currentSeason)
+    const [week, setWeek] = useState(currentWeek)
+    const [players, setPlayers] = useState(twentyThreePlayers)
+    const [teams, setTeams] = useState(twentyThreeTeams)
+    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
     const [id, setId] = useState([])
     const [ownerNames, setOwners] = useState([])
     const [margin, setMargin] = useState([])
@@ -56,6 +61,7 @@ export default function Home() {
     const [positionCount, setPositionCount] = useState([]) // Set count of position for averages
     const [flexScores, setFlexScores] = useState([]) // Score of people in active position that were in the flex
     const [flexCount, setFlexCount] = useState([]) // Set count of position for averages
+    const [positionLabels, setPositionLabels] = useState([]) // Labels for the position chart
     const [useFlex, setUseFlex] = useState(true)
     const [useAverage, setUseAverage] = useState(false)
     const [chartScores, setChartScores] = useState([])
@@ -66,7 +72,7 @@ export default function Home() {
         setMargin([])
         setTeamScores([])
         
-        let scorePlaceholder = [0,0,0,0,0,0,0,0,0,0]
+        let scorePlaceholder = {}
 
         let closestGame = 1000
         let closestWinnerPlaceholder = ''
@@ -94,8 +100,22 @@ export default function Home() {
             if(i != 14 && i != 16){
                 for(let j = 0; teams[i].length > j; j++) {
                     let matchup = teams[i][j]
-                    scorePlaceholder[matchup[0].id - 1] += matchup[0].score
-                    scorePlaceholder[matchup[1].id - 1] += matchup[1].score
+                    let teamOneOwner = matchup[0].owner
+                    let teamTwoOwner = matchup[1].owner
+
+                    if(scorePlaceholder.hasOwnProperty(teamOneOwner)) {
+                        scorePlaceholder[teamOneOwner] += matchup[0].score
+                    } else {
+                        scorePlaceholder[teamOneOwner] = matchup[0].score
+                    }
+
+                    if(scorePlaceholder.hasOwnProperty(teamTwoOwner)) {
+                        scorePlaceholder[teamTwoOwner] += matchup[1].score
+                    } else {
+                        scorePlaceholder[teamTwoOwner] = matchup[1].score
+                    }
+
+                    console.log(scorePlaceholder)
 
                     // Get closest game of the season
 
@@ -154,9 +174,12 @@ export default function Home() {
         percentBeatByHighPh = (beatByHigh * 100) / (totalCount - 1)
         percentBeatLowPh = (beatLow * 100) / (totalCount - 1)
 
-        setTeamNames(defaultNames)
-        setOwners(defaultNames)
-        setTeamScores(scorePlaceholder)
+        let owners = Object.keys(scorePlaceholder)
+        let totalScores = Object.values(scorePlaceholder)
+
+        setTeamNames(owners)
+        setOwners(owners)
+        setTeamScores(totalScores)
 
         setClosest(closestGame.toFixed(2))
         setClosestWinner(closestWinnerPlaceholder)
@@ -182,9 +205,10 @@ export default function Home() {
 
         let total = 0
         let avg = 0
-        teamScores.forEach(score => {
-            total += score
-        })
+        
+        for(const teamId in teamScores) {
+            total += teamScores[teamId]
+        }
         
         avg = total / 10
         setAverage(avg)
@@ -192,13 +216,26 @@ export default function Home() {
         // let seasonOneIds = ["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"]
         // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
 
-        let benchTotals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        players[week].forEach((player) => {
-            if(player.position === "Bench") {
-                benchTotals[player.teamId - 1] += player.points
-            }
-        })
-        setBenchScores(benchTotals)
+
+        // This works but it isn't used anywhere currently
+
+        // let benchTotals = {}
+        // players.forEach((matchup) => {
+        //     matchup.forEach((player) => {
+        //         if(player.position === "Bench") {
+        //             let owner = player.owner
+
+        //             if(benchTotals.hasOwnProperty(owner)) {
+        //                 benchTotals[owner] += player.points
+        //             } else {
+        //                 benchTotals[owner] = player.points
+        //             }
+
+        //         }
+        //     })
+        // })
+
+        // setBenchScores(benchTotals)
     }
 
     function positionChartTotals() {
@@ -210,25 +247,80 @@ export default function Home() {
             return incoming
         }
 
-        let positionScoresPH = setZero(Array(ownerNames.length))
-        let flexScoresPH = setZero(Array(ownerNames.length))
+        let positionData = {} // team->values: positionScore, positionCount, flexScore, flexCount
 
-        let positionCountPH = setZero(Array(ownerNames.length))
-        let flexCountPH = setZero(Array(ownerNames.length))
+        // let positionScoresPH = setZero(Array(ownerNames.length))
+        // let flexScoresPH = setZero(Array(ownerNames.length))
+
+        // let positionCountPH = setZero(Array(ownerNames.length))
+        // let flexCountPH = setZero(Array(ownerNames.length))
 
         players.forEach(week => {
             week.forEach(person => {
                 if(person.eligiblePosition.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
+
+                    let owner = person.owner
+
                     if(person.position.includes("/") && person.position != "D/ST") {
-                        flexScoresPH[person.teamId - 1] += person.points
-                        flexCountPH[person.teamId - 1]++
+                        // flexScoresPH[person.teamId - 1] += person.points
+                        // flexCountPH[person.teamId - 1]++
+
+                        if(positionData.hasOwnProperty(owner)) {
+                            positionData[owner].flexScore += person.points
+                            positionData[owner].flexCount++
+                        } else {
+
+                            let newPlayer = {
+                                'positionScore': 0,
+                                'positionCount': 0,
+                                'flexScore': person.points,
+                                'flexCount': 1
+                            }
+
+                            positionData[owner] = newPlayer
+                        }
+
                     } else {
-                        positionScoresPH[person.teamId - 1] += person.points
-                        positionCountPH[person.teamId - 1]++ 
+                        // positionScoresPH[person.teamId - 1] += person.points
+                        // positionCountPH[person.teamId - 1]++ 
+
+                        if(positionData.hasOwnProperty(owner)) {
+                            positionData[owner].positionScore += person.points
+                            positionData[owner].flexCount++
+                        } else {
+
+                            let newPlayer = {
+                                'positionScore': person.points,
+                                'positionCount': 1,
+                                'flexScore': 0,
+                                'flexCount': 0
+                            }
+
+                            positionData[owner] = newPlayer
+                        }
                     }
                 }
             })
         })
+
+        console.log(positionData)
+
+        let positionScoresPH = []
+        let flexScoresPH = []
+
+        let positionCountPH = []
+        let flexCountPH = []
+
+        for (const key in positionData) {
+            console.log(positionData[key].positionScore)
+            positionScoresPH.push(positionData[key].positionScore)
+            flexScoresPH.push(positionData[key].flexScore)
+            positionCountPH.push(positionData[key].positionCount)
+            flexCountPH.push(positionData[key].flexCount)
+        }
+
+
+        setPositionLabels(Object.keys(positionData))
         setPositionScores(positionScoresPH)
         setPositionCount(positionCountPH)
         setFlexScores(flexScoresPH)
@@ -250,7 +342,7 @@ export default function Home() {
                 averageCounts[i] = positionCount[i]
             }
         }
-        console.log(averageCounts)
+
         if(useAverage) {
             for(let i = 0; i < scoreTotals.length; i++) {
                 scoreTotals[i] = scoreTotals[i] / averageCounts[i]
@@ -323,9 +415,7 @@ export default function Home() {
             <section className="global-week-header">
                 <div className="global-dropdown">
                     <select value={season} onChange={(e) => seasonChange(e.target.value)}>
-                        {/* {yearDropdownOptions} */}
-                        <option key={1} value={2021}>2021</option>
-                        <option key={2} value={2022}>2022</option>
+                        {yearDropdownOptions}
                     </select>
                     <span className="global-arrow"></span>
                 </div>
@@ -335,25 +425,25 @@ export default function Home() {
                     <div className="card-title">
                         <h3>Season Total</h3>
                     </div>
-                    <p>The average total season score for {season} was {averageScore.toFixed(2)} points <br/><br/> The average weekly score for the year was {matchupAvg.toFixed(2)}</p>
+                    <p>The average total season score for {season} {currentSeason === season ? 'is' : 'was'} {averageScore.toFixed(2)} points <br/><br/> The average weekly score for the year {currentSeason === season ? 'is' : 'was'} {matchupAvg.toFixed(2)}</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Closest Game</h3> 
                     </div>
-                    <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year was {marginAvg} points</p>
+                    <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year {currentSeason === season ? 'is' : 'was'} {marginAvg} points</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Highest Scoring Loser</h3> 
                     </div>
-                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost in week {maxWeek} <br/><br/> This was {(Math.abs(maxLoser[1] - matchupAvg)).toFixed(2)} points {parseInt(maxLoser[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have won against {percentBeatByHigh}% of matchups on the year</p>
+                    <p>{maxLoser[0]} scored {maxLoser[1]} points and lost in week {maxWeek} <br/><br/> This {currentSeason === season ? 'is' : 'was'} {(Math.abs(maxLoser[1] - matchupAvg)).toFixed(2)} points {parseInt(maxLoser[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have won against {percentBeatByHigh}% of matchups on the year</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
                         <h3>Lowest Scoring Winner</h3>
                     </div>
-                    <p>{minWinner[0]} scored {minWinner[1]} points and won in week {minWeek} <br/><br/> This was {(Math.abs(minWinner[1] - matchupAvg)).toFixed(2)} points {parseInt(minWinner[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have lost against {percentBeatLow}% of matchups on the year</p>
+                    <p>{minWinner[0]} scored {minWinner[1]} points and won in week {minWeek} <br/><br/> This {currentSeason === season ? 'is' : 'was'} {(Math.abs(minWinner[1] - matchupAvg)).toFixed(2)} points {parseInt(minWinner[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have lost against {percentBeatLow}% of matchups on the year</p>
                 </div>
             </section>
             <section className="chart-container">

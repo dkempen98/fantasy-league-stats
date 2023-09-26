@@ -100,9 +100,6 @@ export default function Home() {
         // find the closest game
         // Based on the way the teams and the scores are set up, matchups are always
         // next to each other in arrays which is why the for loop below works
-        setClosest('')
-        setClosestWinner('')
-        setClosestLoser('')
         
         let closestGame = 1000
         let closestWinnerPlaceholder = ''

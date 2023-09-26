@@ -11,7 +11,7 @@ const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // console.log(myClient)
 
-const season = 2021
+const season = 2023
 let players = []
 
 freeAgents(season)
