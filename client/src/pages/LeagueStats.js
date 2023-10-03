@@ -56,6 +56,8 @@ export default function Home() {
     const [beatMin, setBeatMin] = useState(0)
     const [loseMax, setLoseMax] = useState(0)
     const [benchScores, setBenchScores] = useState([]) // Goes in order of team ID's
+    const [highestScore, setHighestScore] = useState({}) // score, team, week
+    const [lowestScore, setLowestScore] = useState({}) // score, team, week
 
     const [positionScores, setPositionScores] = useState([]) // Set active position scores in order of team ID
     const [positionCount, setPositionCount] = useState([]) // Set count of position for averages
@@ -89,6 +91,13 @@ export default function Home() {
         let lowName
         let beatLow = 0
         let lowWeek = 0
+
+        let highScore = 0;
+        let highScoreName
+        let highScoreWeek = 0;
+        let lowScore = 128;
+        let lowScoreName
+        let lowScoreWeek = 0;
         
         let totalSeasonScore = 0
         let totalCount = 0
@@ -147,6 +156,16 @@ export default function Home() {
                                 highName = team.owner;
                                 highWeek = team.week;
                             }
+                            if(team.score > highScore) {
+                                highScore = team.score;
+                                highScoreName = team.owner;
+                                highScoreWeek = team.week;
+                            }
+                            if(team.score < lowScore) {
+                                lowScore = team.score;
+                                lowScoreName = team.owner;
+                                lowScoreWeek = team.week;
+                            }
                             totalSeasonScore += team.score
                             totalCount++
                         });
@@ -177,6 +196,18 @@ export default function Home() {
         let owners = Object.keys(scorePlaceholder)
         let totalScores = Object.values(scorePlaceholder)
 
+        let highInfo = {
+            'score': highScore,
+            'team': highScoreName,
+            'week': highScoreWeek
+        }
+
+        let lowInfo = {
+            'score': lowScore,
+            'team': lowScoreName,
+            'week': lowScoreWeek
+        }
+
         setTeamNames(owners)
         setOwners(owners)
         setTeamScores(totalScores)
@@ -197,6 +228,9 @@ export default function Home() {
         setMaxWeek(highWeek)
         setBeatMin(beatLow)
         setMinWeek(lowWeek)
+
+        setHighestScore(highInfo)
+        setLowestScore(lowInfo)
     }
 
     function getWeeklyStats() {
@@ -432,6 +466,18 @@ export default function Home() {
                         <h3>Closest Game</h3> 
                     </div>
                     <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year {currentSeason === season ? 'is' : 'was'} {marginAvg} points</p>
+                </div>
+                <div className="stat-card">
+                    <div className="card-title">
+                        <h3>Highest Score</h3>
+                    </div>
+                    <p>{highestScore.team} scored {highestScore.score} points in week {highestScore.week} <br/><br/> This {currentSeason === season ? 'is' : 'was'} {(Math.abs(highestScore.score - matchupAvg)).toFixed(2)} points above the average weekly score</p>
+                </div>
+                <div className="stat-card">
+                    <div className="card-title">
+                        <h3>Lowest Score</h3>
+                    </div>
+                    <p>{lowestScore.team} scored {lowestScore.score} points in week {lowestScore.week} <br/><br/> This {currentSeason === season ? 'is' : 'was'} {(Math.abs(lowestScore.score - matchupAvg)).toFixed(2)} points below the average weekly score</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">

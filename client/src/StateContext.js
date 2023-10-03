@@ -18,7 +18,7 @@ export function StateProvider({ children }) {
 
   const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023])
 
-  const [currentWeek, setCurrentWeek] = useState(0)
+  const [currentWeek, setCurrentWeek] = useState(3)
   const [currentSeason, setCurrentSeason] = useState(2023) //Manually set annually
 
   // Commonly used react components
