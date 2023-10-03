@@ -311,6 +311,8 @@ export default function Home() {
                                 'flexCount': 1
                             }
 
+                            console.log(newPlayer)
+
                             positionData[owner] = newPlayer
                         }
 
@@ -320,7 +322,7 @@ export default function Home() {
 
                         if(positionData.hasOwnProperty(owner)) {
                             positionData[owner].positionScore += person.points
-                            positionData[owner].flexCount++
+                            positionData[owner].positionCount++
                         } else {
 
                             let newPlayer = {
@@ -329,6 +331,8 @@ export default function Home() {
                                 'flexScore': 0,
                                 'flexCount': 0
                             }
+
+                            console.log(newPlayer)
 
                             positionData[owner] = newPlayer
                         }
@@ -345,14 +349,19 @@ export default function Home() {
         let positionCountPH = []
         let flexCountPH = []
 
+        let teamOrder = []
+
         for (const key in positionData) {
-            console.log(positionData[key].positionScore)
+            console.log(positionData[key])
+            teamOrder.push(key)
             positionScoresPH.push(positionData[key].positionScore)
             flexScoresPH.push(positionData[key].flexScore)
             positionCountPH.push(positionData[key].positionCount)
             flexCountPH.push(positionData[key].flexCount)
         }
 
+        console.log(teamOrder)
+        console.log(Object.keys(positionData))
 
         setPositionLabels(Object.keys(positionData))
         setPositionScores(positionScoresPH)
@@ -550,7 +559,7 @@ export default function Home() {
                     <div className="chart medium-chart">
                         <BarChart chartData={
                             {
-                                labels: defaultNames,
+                                labels: positionLabels,
                                 datasets: [{
                                     label: '',
                                     data: chartScores,
