@@ -36,10 +36,10 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 12: Matt
 
 // Select the season you are pulling matchup data for
-const season = 2021
+const season = 2023
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 17
+const maxWeek = 5
 
 let weeklyPlayerData = []
 let playerInfo = []
