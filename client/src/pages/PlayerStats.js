@@ -367,9 +367,8 @@ export default function Home() {
                 playerOwner = league[i];
             }
           }
-          console.log(currentWeek)
 
-        if (season == currentSeason && currentWeek == weekLastPlayed) {
+        if (season == currentSeason && currentWeek == weekLastPlayed - 1) {
             ownerLogo = playerOwner.logoURL
         } else {
             ownerLogo = "/images/proLogos/nfl.png"

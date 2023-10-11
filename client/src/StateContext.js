@@ -18,7 +18,7 @@ export function StateProvider({ children }) {
 
   const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023])
 
-  const [currentWeek, setCurrentWeek] = useState(5)
+  const [currentWeek, setCurrentWeek] = useState(0) // Count starts at 0 like an array
   const [currentSeason, setCurrentSeason] = useState(2023) //Manually set annually
 
   // Commonly used react components
@@ -27,7 +27,7 @@ export function StateProvider({ children }) {
 
 
   function init() {
-    setCurrentWeek(currentYear.length)
+    setCurrentWeek(currentYear.length - 1)
 
     const years = availableSeasons.map((year, index) => 
       <option key={index} value={year}>{year}</option>
