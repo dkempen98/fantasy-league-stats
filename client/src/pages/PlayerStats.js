@@ -336,7 +336,7 @@ export default function Home() {
 
         tableRows.push(<tr key={'season-totals'}>{totalRowInfo}</tr>)
 
-
+        let league = {}
         let playerOwner = {}
         let season = playerLogs[playerLogs.length - 1].seasonId
         let weekLastPlayed = playerLogs[playerLogs.length - 1].week
@@ -348,21 +348,26 @@ export default function Home() {
         if(proTeam) {
             proLogo = "/images/proLogos/" + proTeam + ".png"
         } else {
-            proLogo = "/images/proLogos/nfl.png"
+            proLogo = "/images/proLogos/NFL.png"
         }
 
         if (season === 2021) {
-            playerOwner = league2021[ownerId-1]
+            league = league2021
             if(!activeSeasons.includes(2021)) {
                 activeSeasons.push(2021)
             }
         } else if (season === 2022) {
-            playerOwner = league2022[ownerId-1]
+            league = league2022
         } else if (season === 2023) {
-            playerOwner = league2023[ownerId-1]
+            league = league2023
         }
 
-
+        for (let i = 0; i < league.length; i++) {
+            if (league[i].id === ownerId) {
+                playerOwner = league[i];
+            }
+          }
+          console.log(currentWeek)
 
         if (season == currentSeason && currentWeek == weekLastPlayed) {
             ownerLogo = playerOwner.logoURL
