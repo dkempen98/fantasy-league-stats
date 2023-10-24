@@ -54,7 +54,7 @@ export default function Navbar() {
                 <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
                         <Link to="/" onClick={() => changePage("home")}>
-                            <span className={window.location.pathname === "/" || page === "home"  ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Matchups
+                            <span className={window.location.pathname === "/" || page === "home"  ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">01</span>Week in Review
                         </Link>
                     </li>
                     <li>
