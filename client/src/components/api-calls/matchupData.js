@@ -39,7 +39,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 const season = 2023
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 13
+const maxWeek = 14
 
 let weeklyPlayerData = []
 let playerInfo = []
@@ -150,72 +150,6 @@ function getInfo(week, matchupId) {
             teamData = setTeam(matchup.homeTeamId)
             playerName = teamData.owner
             teamName = teamData.teamName
-            // switch(matchup.homeTeamId) {
-            //     case 1:
-            //         playerName = 'Alex'
-            //         teamName = 'Your Butt'
-            //         break
-            //     case 2:
-            //         playerName = 'Ben'
-            //         teamName = 'Flavortown Hot BBQ BBC'
-            //         break
-            //     case 3:
-            //         playerName = 'Tony'
-            //         teamName = 'Miami Doll Fins'
-            //         break
-            //     case 4:
-            //         playerName = 'Nate'
-            //         teamName = 'Team Nate'
-            //         if(season === 2021) {
-            //             playerName = 'Kayla'
-            //             teamName = 'Cleveland River Fires'
-            //         }
-            //         break
-            //     case 5:
-            //         playerName = 'Henry'
-            //         teamName = 'Team Dumb Dick'
-            //         break
-            //     case 6:
-            //         playerName = 'Eric'
-            //         teamName = 'Chubbhub.com Chubbies'
-            //         break
-            //     case 7:
-            //         playerName = 'Ivan'
-            //         teamName = 'Team Ivan'
-            //         if(season === 2021) {
-            //             playerName = 'Kief'
-            //             teamName = 'Team Kieffer'
-            //         }
-            //         break
-            //     case 8:
-            //         playerName = 'Trap'
-            //         teamName = 'Wet Turd Burglars'
-            //         break
-            //     case 9:
-            //         playerName = 'Drew'
-            //         teamName = 'Money Manziels'
-            //         break
-            //     case 10:
-            //         playerName = 'Kayla'
-            //         teamName = "Cleveland River Fires"
-            //         if(season === 2022) {
-            //             playerName = 'Joey'
-            //             teamName = 'Smashmouth All Stars'
-            //         }
-            //         if(season === 2021) {
-            //             playerName = 'Josh'
-            //             teamName = 'Howard Beltz'
-            //         }
-            //         break
-            //     case 11:
-            //         playerName = 'Randy'
-            //         teamName = "Randy's Team"
-            //         break
-            //     case 12:
-            //         playerName = 'Matt'
-            //         teamName = 'Clouds?'
-            //         break
-            // }
               projScore = 0
               score = homePlayers.totalPoints
             //   console.log('NAME: ' + homePlayers.player.fullName)
@@ -283,72 +217,6 @@ function getInfo(week, matchupId) {
                 teamData = setTeam(matchup.awayTeamId)
                 playerName = teamData.owner
                 teamName = teamData.teamName
-                // switch(matchup.awayTeamId) {
-                //     case 1:
-                //         playerName = 'Alex'
-                //         teamName = 'Your Butt'
-                //         break
-                //     case 2:
-                //         playerName = 'Ben'
-                //         teamName = 'Flavortown Hot BBQ BBC'
-                //         break
-                //     case 3:
-                //         playerName = 'Tony'
-                //         teamName = 'Miami Doll Fins'
-                //         break
-                //     case 4:
-                //         playerName = 'Nate'
-                //         teamName = 'Team Nate'
-                //         if(season === 2021) {
-                //             playerName = 'Kayla'
-                //             teamName = 'Cleveland River Fires'
-                //         }
-                //         break
-                //     case 5:
-                //         playerName = 'Henry'
-                //         teamName = 'Team Dumb Dick'
-                //         break
-                //     case 6:
-                //         playerName = 'Eric'
-                //         teamName = 'Chubbhub.com Chubbies'
-                //         break
-                //     case 7:
-                //         playerName = 'Ivan'
-                //         teamName = 'Team Ivan'
-                //         if(season === 2021) {
-                //             playerName = 'Kief'
-                //             teamName = 'Team Kieffer'
-                //         }
-                //         break
-                //     case 8:
-                //         playerName = 'Trap'
-                //         teamName = 'Wet Turd Burglars'
-                //         break
-                //     case 9:
-                //         playerName = 'Drew'
-                //         teamName = 'Money Manziels'
-                //         break
-                //     case 10:
-                //         playerName = 'Kayla'
-                //         teamName = "Cleveland River Fires"
-                //         if(season === 2022) {
-                //             playerName = 'Joey'
-                //             teamName = 'Smashmouth All Stars'
-                //         }
-                //         if(season === 2021) {
-                //             playerName = 'Josh'
-                //             teamName = 'Howard Beltz'
-                //         }
-                //         break
-                //     case 11:
-                //         playerName = 'Randy'
-                //         teamName = "Randy's Team"
-                //         break
-                //     case 12:
-                //         playerName = 'Matt'
-                //         teamName = 'Clouds?'
-                //         break
-                // }
                 matchup.awayRoster.forEach(awayPlayers => {
                     projScore = 0
                     score = awayPlayers.totalPoints
