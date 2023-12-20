@@ -272,6 +272,14 @@ export default function Home() {
         setLeaguePositionAverage(leaguePositionScoreAvg)
     }
 
+    function weeklyStats() {
+
+    }
+
+    function seasonStats() {
+        
+    }
+
     
     
     
@@ -288,7 +296,6 @@ export default function Home() {
     }
     
     function seasonChange(newYear){
-        console.log(newYear)
         if(newYear == 2021){
             setWeek(0)
             setSeason(2021)
@@ -321,7 +328,8 @@ export default function Home() {
                 </div>
                 <div className="global-dropdown">
                     <select value={week} onChange={(e) => weekChange(e.target.value)}>
-                    <option key={1} value={0} disabled={teams.length < 1 ? true : false}>Week 1</option>
+                        <option key={1000} value={100} disabled={teams.length < 1 ? true : false}>Season Summary</option>
+                        <option key={1} value={0} disabled={teams.length < 1 ? true : false}>Week 1</option>
                         <option key={2} value={1} disabled={teams.length < 2 ? true : false}>Week 2</option>
                         <option key={3} value={2} disabled={teams.length < 3 ? true : false}>Week 3</option>
                         <option key={4} value={3} disabled={teams.length < 4 ? true : false}>Week 4</option>
@@ -346,26 +354,21 @@ export default function Home() {
                         <option key={1} value={1}>Alex</option>
                         <option key={2} value={2}>Ben</option>
                         <option key={3} value={3}>Tony</option>
-                        <option key={4} disabled={season === 2023} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
+                        <option key={4} disabled={season >= 2023} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
                         <option key={5} value={5}>Henry</option>
                         <option key={6} value={6}>Eric</option>
-                        <option key={7} disabled={season === 2023} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
+                        <option key={7} disabled={season >= 2023} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
                         <option key={8} value={8}>Trap</option>
                         <option key={9} value={9}>Drew</option>
                         <option key={10} value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>
-                        <option key={11} disabled={season !== 2023} value={11}>Randy</option>
-                        <option key={12} disabled={season !== 2023} value={12}>Matt</option>
+                        <option key={11} disabled={season < 2023} value={11}>Randy</option>
+                        <option key={12} disabled={season < 2023} value={12}>Matt</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
             </section>
             <section className="stat-card-container">
             <h2 className="section-header"><span>Weekly Stats</span></h2>
-
-                {/* <div className="stat-card">
-                    <h3>Average Score</h3>
-                    <p>The average total score for the week was points</p>
-                </div> */}
                 
                 <div className="chart-border">
                     <div className="chart-title">
