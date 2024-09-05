@@ -282,7 +282,7 @@ function getInfo(week, matchupId) {
     .then(res => {
         weeklyPlayerData.push(playerInfo)
         weeklyTeamData.push(teamInfo)
-        console.log(teamInfo)
+        // console.log(teamInfo)
     })
 
     .then(res => {
