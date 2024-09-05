@@ -301,10 +301,10 @@ function getInfo(week, matchupId) {
             // Each season gets its own file. These files act as a database of sorts
                         
             let info = JSON.stringify(weeklyPlayerData);
-            // fs.writeFileSync(`./client/src/components/data/players${season}.json`, info)
+            fs.writeFileSync(`./client/src/components/data/players${season}.json`, info)
 
             info = JSON.stringify(weeklyTeamData);
-            // fs.writeFileSync(`./client/src/components/data/teams${season}.json`, info)
+            fs.writeFileSync(`./client/src/components/data/teams${season}.json`, info)
 
             console.log('Files Created!')
         }
