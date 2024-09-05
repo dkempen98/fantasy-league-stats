@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 console.log("----------------API-----------------")
+console.log(process.env.LEAGUE_ID)
 
 const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 
@@ -99,7 +100,7 @@ function leagueData(season, week = 1) {
             league.push(team)
         })
         let leagueInfo = JSON.stringify(league);
-        fs.writeFileSync(`./client/src/components/data/league${season}.json`, leagueInfo)
+        // fs.writeFileSync(`./client/src/components/data/league${season}.json`, leagueInfo)
 
         console.log('Files Created!')
     })
