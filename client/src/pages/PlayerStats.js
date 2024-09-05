@@ -371,7 +371,7 @@ export default function Home() {
         if (season == currentSeason && currentWeek == weekLastPlayed - 1) {
             ownerLogo = playerOwner.logoURL
         } else {
-            ownerLogo = "/images/proLogos/nfl.png"
+            ownerLogo = "/images/proLogos/NFL.png"
         }
 
         let mappedHeaders = activeHeaders.map((header, index) =>
