@@ -18,7 +18,7 @@ export default function Draft() {
         yearDropdownOptions
     } = useStateContext()
 
-    const [season, setSeason] = useState(2022)
+    const [season, setSeason] = useState(2023)
     const [draft, setDraft] = useState(draftResults2022)
     const [league, setLeague] = useState(league2022)
     const [leagueSize, setLeagueSize] = useState(10)
@@ -215,6 +215,7 @@ export default function Draft() {
                             {/* {yearDropdownOptions} */}
                             <option key={1} value={2021}>2021</option>
                             <option key={2} value={2022}>2022</option>
+                            <option key={2} value={2023}>2023</option>
                         </select>
                         <span className="global-arrow"></span>
                     </div>
