@@ -7,6 +7,8 @@ import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
 import twentyThreePlayers from "../components/data/players2023.json"
 import twentyThreeTeams from "../components/data/teams2023.json"
+import twentyFourPlayers from "../components/data/players2024.json"
+import twentyFourTeams from "../components/data/teams2024.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import LineChart from "../components/reusable-stuff/lineChart.js";
 
@@ -28,9 +30,8 @@ export default function Home() {
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyThreePlayers)
-    const [teams, setTeams] = useState(twentyThreeTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+    const [players, setPlayers] = useState(twentyFourPlayers)
+    const [teams, setTeams] = useState(twentyFourTeams)
     const [activeTeamId, setActiveTeamId] = useState(1)
     const [numberOfWeeks, setNumberOfWeeks] = useState(0)
 
@@ -307,6 +308,12 @@ export default function Home() {
             setTeams(twentyThreeTeams)
             setPlayers(twentyThreePlayers)
         }
+        if(newYear == 2024){
+            setWeek(currentWeek) // Update this next season to be 0
+            setSeason(2024)
+            setTeams(twentyFourTeams)
+            setPlayers(twentyFourPlayers)
+        }
     }
 
     return(
@@ -346,15 +353,15 @@ export default function Home() {
                         <option key={1} value={1}>Alex</option>
                         <option key={2} value={2}>Ben</option>
                         <option key={3} value={3}>Tony</option>
-                        <option key={4} disabled={season === 2023} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
+                        <option key={4} disabled={season > 2022} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
                         <option key={5} value={5}>Henry</option>
                         <option key={6} value={6}>Eric</option>
-                        <option key={7} disabled={season === 2023} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
+                        <option key={7} disabled={season > 2022} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
                         <option key={8} value={8}>Trap</option>
                         <option key={9} value={9}>Drew</option>
                         <option key={10} value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>
-                        <option key={11} disabled={season !== 2023} value={11}>Randy</option>
-                        <option key={12} disabled={season !== 2023} value={12}>Matt</option>
+                        <option key={11} disabled={season < 2023} value={11}>Randy</option>
+                        <option key={12} disabled={season < 2023} value={12}>{season === 2023 ? 'Matt' : 'Megan'}</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>

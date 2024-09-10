@@ -4,9 +4,11 @@ import { useStateContext } from "../StateContext.js";
 import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
+import league2024 from "../components/data/league2024.json"
 import players2021 from "../components/data/players2021.json"
 import players2022 from "../components/data/players2022.json"
 import players2023 from "../components/data/players2023.json"
+import players2024 from "../components/data/players2024.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -53,6 +55,10 @@ export default function Home() {
         setWeek(newWeek)
     }
 
+    function getRoundedNum(num) {
+        return Math.round((num + Number.EPSILON) * 100) / 100
+    }
+
     function createPlayerList() {
         setPlayerSearch(() => {
             let playerList = []
@@ -86,6 +92,16 @@ export default function Home() {
                     }
                 })
             });
+            players2024.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
             return playerList
         })
     }
@@ -96,12 +112,15 @@ export default function Home() {
         document.getElementById('search-bar-input').value = '';
         
         let playerLogs = []
-        let allStats = [...players2021, ...players2022, ...players2023]
+        let allStats = [...players2021, ...players2022, ...players2023, ...players2024]
 
-        let headerKeys = ['year', 'week', 'team']
-        let activeHeaders = ['Year', 'Week', 'Team']
+        let headerKeys = ['year', 'week', 'team', 'Points', 'Proj. Points']
+        let activeHeaders = ['Year', 'Week', 'Team', 'Points', 'Proj. Points']
         let activeSeasons = []
-        let seasonStats = {}
+        let seasonStats = {
+            points: 0,
+            projPoints: 0
+        }
 
         allStats.forEach(week => {
             week.forEach(record => {
@@ -139,8 +158,18 @@ export default function Home() {
         }
 
         playerLogs.forEach(gameLog => {
-            let statLog = [gameLog.seasonId, gameLog.week, gameLog.owner]
-            let rowData = ["Year", "Week", "Team"]
+            if(gameLog.seasonId === selectedSeason) {
+                seasonStats.points += gameLog.points
+                seasonStats.projPoints += gameLog.projectedPoints
+            }
+            let statLog = [
+                gameLog.seasonId,
+                gameLog.week,
+                gameLog.owner,
+                getRoundedNum(gameLog.points),
+                getRoundedNum(gameLog.projectedPoints)
+            ]
+            let rowData = ["Year", "Week", "Team", "Points", "Proj. Points"]
 
             if(gameLog.seasonId !== currentSelectedSeason) return
 
@@ -277,7 +306,13 @@ export default function Home() {
         })
 
 
-        let seasonStatArray = [currentSelectedSeason,'Totals','-']
+        let seasonStatArray = [
+            currentSelectedSeason,
+            'Totals',
+            '-',
+            getRoundedNum(seasonStats.points),
+            getRoundedNum(seasonStats.projPoints)
+        ]
 
 
         if(headerKeys.includes('passingYards')) {
@@ -360,6 +395,8 @@ export default function Home() {
             league = league2022
         } else if (season === 2023) {
             league = league2023
+        } else if (season === 2024) {
+            league = league2024
         }
 
         for (let i = 0; i < league.length; i++) {
