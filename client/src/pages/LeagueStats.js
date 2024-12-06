@@ -2,10 +2,16 @@ import { useState, useEffect, React } from "react";
 import { useStateContext } from "../StateContext.js";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
+import twentyOneLeague from "../components/data/league2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
+import twentyTwoLeague from "../components/data/league2022.json"
 import twentyThreePlayers from "../components/data/players2023.json"
 import twentyThreeTeams from "../components/data/teams2023.json"
+import twentyThreeLeague from "../components/data/league2023.json"
+import twentyFourPlayers from "../components/data/players2024.json"
+import twentyFourTeams from "../components/data/teams2024.json"
+import twentyFourLeague from "../components/data/league2024.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
@@ -26,9 +32,10 @@ export default function Home() {
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyThreePlayers)
-    const [teams, setTeams] = useState(twentyThreeTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+    const [players, setPlayers] = useState(twentyFourPlayers)
+    const [teams, setTeams] = useState(twentyFourTeams)
+    const [league, setLeague] = useState(twentyFourLeague)
+    const [defaultNames, setDefaultNames] = useState([])
     const [id, setId] = useState([])
     const [ownerNames, setOwners] = useState([])
     const [margin, setMargin] = useState([])
@@ -124,7 +131,6 @@ export default function Home() {
                         scorePlaceholder[teamTwoOwner] = matchup[1].score
                     }
 
-                    console.log(scorePlaceholder)
 
                     // Get closest game of the season
 
@@ -291,11 +297,11 @@ export default function Home() {
 
         players.forEach(week => {
             week.forEach(person => {
-                if(person.eligiblePosition.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
+                if(person.eligiblePosition?.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
 
                     let owner = person.owner
 
-                    if(person.position.includes("/") && person.position != "D/ST") {
+                    if(person.position?.includes("/") && person.position != "D/ST") {
                         // flexScoresPH[person.teamId - 1] += person.points
                         // flexCountPH[person.teamId - 1]++
 
@@ -310,8 +316,6 @@ export default function Home() {
                                 'flexScore': person.points,
                                 'flexCount': 1
                             }
-
-                            console.log(newPlayer)
 
                             positionData[owner] = newPlayer
                         }
@@ -332,16 +336,12 @@ export default function Home() {
                                 'flexCount': 0
                             }
 
-                            console.log(newPlayer)
-
                             positionData[owner] = newPlayer
                         }
                     }
                 }
             })
         })
-
-        console.log(positionData)
 
         let positionScoresPH = []
         let flexScoresPH = []
@@ -352,7 +352,6 @@ export default function Home() {
         let teamOrder = []
 
         for (const key in positionData) {
-            console.log(positionData[key])
             teamOrder.push(key)
             positionScoresPH.push(positionData[key].positionScore)
             flexScoresPH.push(positionData[key].flexScore)
@@ -360,8 +359,6 @@ export default function Home() {
             flexCountPH.push(positionData[key].flexCount)
         }
 
-        console.log(teamOrder)
-        console.log(Object.keys(positionData))
 
         setPositionLabels(Object.keys(positionData))
         setPositionScores(positionScoresPH)
@@ -394,28 +391,42 @@ export default function Home() {
         setChartScores(scoreTotals)
     }
 
+    function applyTeamNames() {
+        let teamNames = []
+        league.forEach((team) => {
+            teamNames.push(team.owner)
+        })
+        setDefaultNames(teamNames);
+    }
+
     function seasonChange(newYear){
-        console.log(newYear)
         if(newYear == 2021){
             setWeek(0)
             setSeason(2021)
             setTeams(twentyOneTeams)
             setPlayers(twentyOnePlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"])
+            setLeague(twentyOneLeague)
         }
         if(newYear == 2022){
             setWeek(0)
             setSeason(2022)
             setTeams(twentyTwoTeams)
             setPlayers(twentyTwoPlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+            setLeague(twentyTwoLeague)
         }
         if(newYear == 2023){
             setWeek(0)
             setSeason(2023)
             setTeams(twentyThreeTeams)
             setPlayers(twentyThreePlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+            setLeague(twentyThreeLeague)
+        }
+        if(newYear == 2024){
+            setWeek(0)
+            setSeason(2024)
+            setTeams(twentyFourTeams)
+            setPlayers(twentyFourTeams)
+            setLeague(twentyFourLeague)
         }
     }
 
@@ -433,7 +444,12 @@ export default function Home() {
     
     useEffect(() => {
         setWeek(teams.length - 1)
+        applyTeamNames();
     },[])
+
+    useEffect(() => {
+        applyTeamNames();
+    }, [season])
 
     useEffect(() => {
         getTeamData()

@@ -3,10 +3,16 @@ import { useState, useEffect, React } from "react";
 import { useStateContext } from "../StateContext.js";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
+import twentyOneLeague from "../components/data/league2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
+import twentyTwoLeague from "../components/data/league2022.json"
 import twentyThreePlayers from "../components/data/players2023.json"
 import twentyThreeTeams from "../components/data/teams2023.json"
+import twentyThreeLeague from "../components/data/league2023.json"
+import twentyFourPlayers from "../components/data/players2024.json"
+import twentyFourTeams from "../components/data/teams2024.json"
+import twentyFourLeague from "../components/data/league2024.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
@@ -27,9 +33,10 @@ export default function Home() {
     
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyThreePlayers)
-    const [teams, setTeams] = useState(twentyThreeTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+    const [players, setPlayers] = useState(twentyFourPlayers)
+    const [teams, setTeams] = useState(twentyFourTeams)
+    const [league, setLeague] = useState(twentyFourLeague)
+    const [defaultNames, setDefaultNames] = useState([])
     const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
@@ -195,6 +202,7 @@ export default function Home() {
         } else {
         setWeek(teams.length - 1)
         }
+        applyTeamNames();
     },[])
 
     useEffect(() => {
@@ -205,11 +213,26 @@ export default function Home() {
         getWeeklyStats()
     }, [teamScores, season])
 
+    useEffect(() => {
+        applyTeamNames();
+    }, [season])
+
+
+
+
         
 
 
     function weekChange(newWeek){
         setWeek(newWeek)
+    }
+
+    function applyTeamNames() {
+        let teamNames = []
+        league.forEach((team) => {
+            teamNames.push(team.owner)
+        })
+        setDefaultNames(teamNames);
     }
 
     function seasonChange(newYear){
@@ -218,21 +241,28 @@ export default function Home() {
             setSeason(2021)
             setTeams(twentyOneTeams)
             setPlayers(twentyOnePlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"])
+            setLeague(twentyOneLeague)
         }
         if(newYear == 2022){
             setWeek(0)
             setSeason(2022)
             setTeams(twentyTwoTeams)
             setPlayers(twentyTwoPlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+            setLeague(twentyTwoLeague)
         }
         if(newYear == 2023){
             setWeek(0)
             setSeason(2023)
             setTeams(twentyThreeTeams)
             setPlayers(twentyThreePlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+            setLeague(twentyThreeLeague)
+        }
+        if(newYear == 2024){
+            setWeek(0)
+            setSeason(2024)
+            setTeams(twentyFourTeams)
+            setPlayers(twentyFourTeams)
+            setLeague(twentyFourLeague)
         }
     }
 
