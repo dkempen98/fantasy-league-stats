@@ -382,7 +382,7 @@ export default function Home() {
     return (
         <section className="global-base">
             <h1 className="page-header"><span>Team Stats</span></h1>
-            <section className="global-week-header flex-mobile-column align-start">
+            <section className="global-week-header flex-mobile-column align-end">
                 <div className="global-dropdown">
                     <select value={season} onChange={(e) => seasonChange(e.target.value)}>
                         {yearDropdownOptions}
