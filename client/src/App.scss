@@ -71,6 +71,10 @@ h6 {
   &-mobile-column {
     flex-direction: row;
   }
+
+  &-large-gap {
+    gap: 5rem;
+  }
 }
 
 .pr {
@@ -239,6 +243,14 @@ h6 {
   
   box-shadow: .5rem .5rem .5rem #00000090;
   border-radius: 5px;
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
+  & li{
+    margin: 2px 0 2px 0;
+  }
 }
 
 .section-header {
@@ -856,6 +868,10 @@ tr, caption {
     max-width: 90%;
     min-width: 50%;
   }
+}
+
+.align-start {
+  align-items: flex-start;
 }
 
 
