@@ -157,7 +157,7 @@ export default function Home() {
             let weeklyTies = 0
             week.forEach(matchup => {
                 matchup.forEach(team => {
-                    if (team.id == activeTeamId && team.week < 14) {
+                    if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                         myScore = team.score
                     }
