@@ -6,6 +6,7 @@ import Players from './pages/PlayerStats.js'
 import Team from './pages/Team.js'
 import LeagueStats from './pages/LeagueStats.js'
 import Draft from './pages/Draft.js'
+import TeamComps from './pages/TeamComps.js'
 
 import 'normalize.css';
 import './App.scss';
@@ -23,6 +24,12 @@ function App() {
                   path="/"
                   element={<Home />}
                 />
+
+                <Route
+                    path="/comparisons"
+                    element={<TeamComps />}
+                />
+
                 <Route 
                   path="/season"
                   element={<LeagueStats />}

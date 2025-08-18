@@ -63,18 +63,23 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li>
+                        <Link to="/comparisons" onClick={() => changePage('draft')}>
+                            <span className={window.location.pathname === '/comparisons' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Head to Head
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="/season" onClick={() => changePage()}>  
-                            <span className={window.location.pathname === "/season" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Seasons
+                            <span className={window.location.pathname === "/season" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Seasons
                         </Link>
                     </li>
                     <li>
                         <Link to="/players" onClick={() => changePage('players')}>  
-                            <span className={window.location.pathname === '/players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Players
+                            <span className={window.location.pathname === '/players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Players
                         </Link>
                     </li>
                     <li>
                         <Link to="/draft" onClick={() => changePage('draft')}>  
-                            <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Drafts
+                            <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">06</span>Drafts
                         </Link>
                     </li>
                 </ul>
