@@ -43,6 +43,9 @@ export default function Home() {
     const [margin, setMargin] = useState([])
     const [win, setWin] = useState([])
 
+    const [ownerNamesMatchupLabels, setOwnerNamesMatchupLabels] = useState([])
+    const [chartDisplayScores, setChartDisplayScores] = useState([])
+
     const [closestWinner, setClosestWinner] = useState('')
     const [closestLoser, setClosestLoser] = useState('')
     const [teamScores, setTeamScores] = useState([])
@@ -82,12 +85,32 @@ export default function Home() {
             })
         });
 
+        let teamLabels = []
+        ownerPlaceholder.forEach((team, i) => {
+            if(i % 2 === 0 && i !== 0) {
+                // teamLabels.push(team + ' v. ' + ownerNames[i + 1])
+                teamLabels.push('')
+            }
+            teamLabels.push(team)
+        })
+        setOwnerNamesMatchupLabels(teamLabels)
+
+        let chartScores = []
+        scorePlaceholder.forEach((score, i) => {
+            if(i % 2 === 0 && i !== 0) {
+                chartScores.push(null)
+            }
+            chartScores.push(score)
+        })
+        setChartDisplayScores(chartScores);
+
         setId(teamIdPlaceholder)
         setTeamNames(teamPlaceholder)
         setOwners(ownerPlaceholder)
         setMargin(marginPlaceholder)
         setWin(winPlaceholder)
         setTeamScores(scorePlaceholder)
+
     }
 
     function getWeeklyStats() {
@@ -185,7 +208,10 @@ export default function Home() {
         // Set colors for winning and losing teams
         let winLoss = []
 
-        win.forEach(game => {
+        win.forEach((game, i) => {
+            if(i % 2 === 0 && i !== 0) {
+                winLoss.push(null)
+            }
             if(game){
                 winLoss.push(winColor)
             } else {
@@ -330,13 +356,13 @@ export default function Home() {
                     <div className="chart-title">
                         <h3>Total Points Scored</h3>
                     </div>
-                    <div className="chart medium-chart">
+                    <div className="chart large-chart">
                         <BarChart chartData={
                             {
-                                labels: ownerNames,
+                                labels: ownerNamesMatchupLabels,
                                 datasets: [{
                                     label: '',
-                                    data: teamScores,
+                                    data: chartDisplayScores,
                                     backgroundColor: winLossColors,
                                 }]
                             }
@@ -351,7 +377,7 @@ export default function Home() {
                     <div className="chart-title">
                         <h3>Total Bench Points</h3>
                     </div>
-                    <div className="chart medium-chart">
+                    <div className="chart large-chart">
                         <BarChart chartData={
                             {
                                 labels: defaultNames,

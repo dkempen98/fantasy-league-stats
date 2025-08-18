@@ -522,7 +522,7 @@ export default function Home() {
                     <div className="chart-title">
                         <h3>Total {season} Points</h3>
                     </div>
-                    <div className="chart medium-chart">
+                    <div className="chart large-chart">
                         <BarChart chartData={
                             {
                                 labels: ownerNames,
@@ -572,7 +572,7 @@ export default function Home() {
                         </label>
                     </div>
                 </div>
-                    <div className="chart medium-chart">
+                    <div className="chart large-chart">
                         <BarChart chartData={
                             {
                                 labels: positionLabels,
