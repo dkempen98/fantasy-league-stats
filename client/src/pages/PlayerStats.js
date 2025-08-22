@@ -44,7 +44,7 @@ export default function Home() {
         
 
     function handleClickOutside(e) {
-        if(!refOne.current.contains(e.target)) {
+        if(e === 'manualReset' || !refOne.current.contains(e.target)) {
             setSearchQuery('')
             document.getElementById('search-bar').style.borderRadius = '30px';
             document.getElementById('search-bar-input').value = '';
@@ -143,6 +143,8 @@ export default function Home() {
         })
 
 
+        let proTeam = null;
+        let ownerId = null;
         let tableRows = []
         let currentSelectedSeason = selectedSeason
         if(!selectedSeason) {
@@ -159,6 +161,12 @@ export default function Home() {
 
         playerLogs.forEach(gameLog => {
             if(gameLog.seasonId === selectedSeason) {
+                if(!proTeam) {
+                    proTeam = gameLog.proTeam;
+                }
+                if(!ownerId) {
+                    ownerId = gameLog.teamId;
+                }
                 seasonStats.points += gameLog.points
                 seasonStats.projPoints += gameLog.projectedPoints
             }
@@ -375,8 +383,6 @@ export default function Home() {
         let playerOwner = {}
         let season = playerLogs[playerLogs.length - 1].seasonId
         let weekLastPlayed = playerLogs[playerLogs.length - 1].week
-        let ownerId = playerLogs[playerLogs.length - 1].teamId
-        let proTeam = playerLogs[playerLogs.length - 1].proTeam
         let proLogo = ""
         let ownerLogo = ""
 
@@ -405,7 +411,7 @@ export default function Home() {
             }
           }
 
-        if (season == currentSeason && currentWeek == weekLastPlayed - 1) {
+        if (playerOwner.logoURL) {
             ownerLogo = playerOwner.logoURL
         } else {
             ownerLogo = "/images/proLogos/NFL.png"
@@ -534,6 +540,9 @@ export default function Home() {
 
         setSearchResults(() => {
             let results = playerSearch.filter(person => person.player.toLowerCase().includes(searchQuery.toLowerCase()))
+            if(results.length === 0) {
+                return <li className="search-results-items-no-result" onClick={(event) => handleClickOutside('manualReset')}>No Results Found</li> ;
+            }
             return results.map((p) =>
                 <li key={p.id} className="search-results-items" onClick={() => playerSelected(p)}>{p.player}</li>
             );

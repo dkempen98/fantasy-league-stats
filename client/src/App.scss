@@ -395,17 +395,25 @@ h6 {
 .search-results {
   background-color: #000000;
   width: calc(20rem + 6px);
-  max-width: 80vw;
+  max-width: calc(82vw - 1px);
   margin: 0;
   padding: 0;
   border: solid 2px var(--bright);
   border-top: none;
+  position: absolute;
+  z-index: 1000;
+  cursor: pointer;
 
   &-items {
     border-bottom: 2px solid var(--bright);
     line-height: 2rem;
     padding-left: 5px;
     list-style: none;
+    &-no-result {
+      list-style: none;
+      padding-left: 5px;
+      line-height: 2rem;
+    }
   }
 }
 
