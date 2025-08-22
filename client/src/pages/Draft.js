@@ -8,7 +8,6 @@ import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
 import league2024 from "../components/data/league2024.json"
-import { faKipSign } from "@fortawesome/free-solid-svg-icons"
 
 
 export default function Draft() {
@@ -101,6 +100,7 @@ export default function Draft() {
     }
 
     function createTableRow(pick) {
+        console.log(pick)
         let round = Math.ceil((pick + 1) / leagueSize)
 
         return (
@@ -130,15 +130,21 @@ export default function Draft() {
         let thisNavButtons = []
 
         if(lowestPick > 0) {
-            thisNavButtons.push(<button className='global-button prev-button' key={`${lowestPick}-prevButton`} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
+            thisNavButtons.push(<button className='global-button prev-button' key={`${lowestPick}-prevButton`} onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) - 1)}><span></span>Last Page<span></span></button>)
         } else {
-            thisNavButtons.push(<button disabled={true} className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
+            thisNavButtons.push(<button disabled={true} className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) - 1)}><span></span>Last Page<span></span></button>)
         }
 
         if(highestPick < draft.length) {
-            thisNavButtons.push(<button className='global-button next-button' key={`${highestPick}-nextButton`} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
+            thisNavButtons.push(
+                <button
+                    className='global-button next-button' key={`${highestPick}-nextButton`}
+                    onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) + 1)}>
+                    <span></span>Next Page<span></span>
+                </button>
+            )
         } else {
-            thisNavButtons.push(<button disabled={true} className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
+            thisNavButtons.push(<button disabled={true} className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) + 1)}><span></span>Next Page<span></span></button>)
         }
 
         setDraftBoard(thisBoard)
