@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import currentYear from "./components/data/teams2024.json" // Updated annually to match the active season
+import draftResults2021 from "./components/data/draftResults2021.json"
+import draftResults2022 from "./components/data/draftResults2022.json"
+import draftResults2023 from "./components/data/draftResults2023.json"
+import draftResults2024 from "./components/data/draftResults2024.json"
 
 const StateContext = createContext();
 
@@ -40,6 +44,13 @@ export function StateProvider({ children }) {
     init()
   }, [])
 
+    const draftResults = {
+      2021: draftResults2021,
+      2022: draftResults2022,
+      2023: draftResults2023,
+      2024: draftResults2024,
+    }
+
   return (
     <StateContext.Provider value={{ 
       primaryColor,
@@ -54,7 +65,7 @@ export function StateProvider({ children }) {
       currentSeason,
       availableSeasons,
       yearDropdownOptions,
-      
+      draftResults,
       }}>
       {children}
     </StateContext.Provider>

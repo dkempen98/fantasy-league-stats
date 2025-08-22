@@ -9,7 +9,6 @@ import players2021 from "../components/data/players2021.json"
 import players2022 from "../components/data/players2022.json"
 import players2023 from "../components/data/players2023.json"
 import players2024 from "../components/data/players2024.json"
-import BarChart from "../components/reusable-stuff/barChart.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 // import { Grid } from 'gridjs-react';
@@ -40,6 +39,7 @@ export default function Home() {
         loseColor,
         currentWeek,
         currentSeason,
+        draftResults,
     } = useStateContext()
         
 
@@ -420,6 +420,8 @@ export default function Home() {
         )
 
         setActivePlayer(person.player)
+
+        let pick = draftResults[selectedSeason].find(drafted => drafted.player_id == person.id)
     
 
         setPlayerOutline(
@@ -441,21 +443,39 @@ export default function Home() {
                         <div>
                             <img src={ownerLogo} className="team-logo"/>
                         </div>
-                        <label style={{marginTop: '5px'}} className='hide-large checkbox-label checkbox-bg checkbox-player'>
-                            <input
-                                type={"checkbox"}
-                                checked={tableView}
-                                onChange={() => tableViewToggle()}
-                                className={'hide-large checkbox'}
-                            />
-                            Table View
-                        </label>
                     </div>
                 </div>
+                { pick?.owner &&
+                    <div className="ps-player-info-container">
+                        <div>
+                            Drafted By: { pick.owner }
+                        </div>
+                        <div>
+                            Draft Position: { pick.pick }
+                        </div>
+                        <div>
+                            Season Result: { pick.position } { pick.position_rank } (#{ pick.overall_rank } Overall)
+                        </div>
+                    </div>
+                }
+                { !pick?.owner &&
+                    <div className="ps-player-info-container">
+                        Undrafted
+                    </div>
+                }
                 <div className="table-wrapper">
+                    <label className='hide-large checkbox-label checkbox-bg checkbox-player'>
+                        <input
+                            type={"checkbox"}
+                            checked={tableView}
+                            onChange={() => tableViewToggle()}
+                            className={'hide-large checkbox'}
+                        />
+                        Table View
+                    </label>
                     <div className="table-container">
                         <table>
-                            <caption className={tableView ? '' : 'mobile-on'}>PLAYER STATS</caption>
+                            <caption>PLAYER STATS</caption>
                             <thead id="table-head">
                                 <tr>
                                     {mappedHeaders}
