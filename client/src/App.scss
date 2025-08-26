@@ -15,14 +15,14 @@ better to have several variable colors than it is to hard code them in.
 
 :root {
   --bg: #505050;
-  --bright: hsl(0, 100%, 20%);
-  --bright-secondary: hsl(0, 100%, 39%);
+  --bright: #00243b;
+  --bright-secondary: #064831;
   --dark: #000000;
   --text: white;
   --alt-text: black;
-  --winner-legend: #105825;
-  --loser-legend: #670000;
-  --primary-legend: #670000;
+  --winner-legend: #064831;
+  --loser-legend: #774F0F;
+  --primary-legend: #126faf;
   --secondary-legend: #383838;
   --table: #252525;
 }
@@ -134,7 +134,7 @@ h6 {
 .global-arrow::before {
   border-left: var(--triangle-size) solid transparent;
   border-right: var(--triangle-size) solid transparent;
-  border-bottom: var(--triangle-size) solid var(--bright);
+  border-bottom: var(--triangle-size) solid var(--bright-secondary);
 
   top: 33%;
 }
@@ -142,7 +142,7 @@ h6 {
 .global-arrow::after {
   border-left: var(--triangle-size) solid transparent;
   border-right: var(--triangle-size) solid transparent;
-  border-top: var(--triangle-size) solid var(--bright);
+  border-top: var(--triangle-size) solid var(--bright-secondary);
 
   top: 67%;
 }
@@ -226,7 +226,15 @@ h6 {
 
 .next-button {
   margin-left: auto;
-  
+  background-color: var(--bright);
+  border-right: solid 1px var(--dark);
+  border-top: solid 1px var(--dark);
+}
+
+.prev-button {
+  background-color: var(--bright);
+  border-right: solid 1px var(--dark);
+  border-top: solid 1px var(--dark);
 }
 
 .page-header {

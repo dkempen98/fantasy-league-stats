@@ -475,6 +475,8 @@ export default function Home() {
                                     datasets: [
                                         {
                                             label: '',
+                                            pointRadius: 4,
+                                            pointHitRadius: 4,
                                             data: weeklyScore,
                                             borderColor: "#00000075",
                                             pointBorderColor: recordColors,
@@ -482,6 +484,7 @@ export default function Home() {
                                         },
                                         {
                                             label: '',
+                                            pointHitRadius: 4,
                                             data: leagueAverage,
                                             borderColor: "#000000",
                                             borderDash: [6, 2],
@@ -519,12 +522,15 @@ export default function Home() {
                                     datasets: [
                                         {
                                             label: '',
+                                            pointRadius: 4,
+                                            pointHitRadius: 4,
                                             data: teamPositionAverage,
                                             borderColor: primarySolid,
                                             backgroundColor: primarySolid,
                                         },
                                         {
                                             label: '',
+                                            pointHitRadius: 4,
                                             data: leaguePositionAverage,
                                             borderColor: "#000000",
                                             backgroundColor: "#000000",

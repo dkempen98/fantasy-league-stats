@@ -161,12 +161,8 @@ export default function Home() {
 
         playerLogs.forEach(gameLog => {
             if(gameLog.seasonId === selectedSeason) {
-                if(!proTeam) {
-                    proTeam = gameLog.proTeam;
-                }
-                if(!ownerId) {
-                    ownerId = gameLog.teamId;
-                }
+                proTeam = gameLog.proTeam;
+                ownerId = gameLog.teamId;
                 seasonStats.points += gameLog.points
                 seasonStats.projPoints += gameLog.projectedPoints
             }

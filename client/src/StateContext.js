@@ -8,17 +8,17 @@ import draftResults2024 from "./components/data/draftResults2024.json"
 const StateContext = createContext();
 
 export function StateProvider({ children }) {
-  const [primaryColor, setPrimaryColor] = useState("#670000c0")
-  const [primarySolid, setPrimarySolid] = useState("#670000")
+  const [primaryColor, setPrimaryColor] = useState("rgba(0,36,59,0.82)")
+  const [primarySolid, setPrimarySolid] = useState("#064831")
 
-  const [secondaryColor, setSecondaryColor] = useState("#1A1A1Ac0")
-  const [secondarySolid, setSecondarySolid] = useState("#1A1A1A")
+  const [secondaryColor, setSecondaryColor] = useState("#000000c0")
+  const [secondarySolid, setSecondarySolid] = useState("#000000")
 
-  const [winColor, setWinColor] = useState("#105825c0")
-  const [winSolid, setWinSolid] = useState("#105825")
+  const [winColor, setWinColor] = useState("#064831c0")
+  const [winSolid, setWinSolid] = useState("#064831")
   
-  const [loseColor, setLoseColor] = useState("#670000c0")
-  const [loseSolid, setLoseSolid] = useState("#670000")
+  const [loseColor, setLoseColor] = useState("#774F0Fc0")
+  const [loseSolid, setLoseSolid] = useState("#774F0F")
 
   const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023, 2024])
 
