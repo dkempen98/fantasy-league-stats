@@ -574,13 +574,13 @@ h6 {
     z-index: 100;
     left: 0;
     right: 0;
-    top: 3px;
+    top: 0;
     margin-inline: auto;
     width: fit-content;
     //height: 15rem;
   }
   &-bolt > img {
-    height: calc(10rem - 3px);
+    height: calc(10rem + 3px);
   }
 
   &-team-image {
