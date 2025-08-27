@@ -565,17 +565,15 @@ export default function Home() {
         })
 
         rightPlayers.forEach(player => {
-            for (const [key, value] of Object.entries(player.rawStats)) {
-                if(!stats.right[key]) {
-                    stats.right[key] = 0;
+            if(!(player.position === "Bench" || player.position === "IR")) {
+                for (const [key, value] of Object.entries(player.rawStats)) {
+                    if(!stats.right[key]) {
+                        stats.right[key] = 0;
+                    }
+                    stats.right[key] += value;
                 }
-                stats.right[key] += value;
             }
         })
-
-        console.log(leftPlayers)
-        console.log(stats)
-
 
 
 
@@ -616,27 +614,15 @@ export default function Home() {
                 </div>
 
                 <div className="matchup-row">
-                    <div className="matchup-stat left">{stats.left.rushingYards}</div>
-                    <div className="matchup-stat center">Rushing Yards</div>
-                    <div className="matchup-stat right">{stats.right.rushingYards}</div>
-                </div>
-
-                <div className="matchup-row">
-                    <div className="matchup-stat left">{stats.left.receivingYards}</div>
-                    <div className="matchup-stat center">Receiving Yards</div>
-                    <div className="matchup-stat right">{stats.right.receivingYards}</div>
-                </div>
-
-                <div className="matchup-row">
-                    <div className="matchup-stat left">{stats.left.receivingReceptions}</div>
-                    <div className="matchup-stat center">Receptions</div>
-                    <div className="matchup-stat right">{stats.right.receivingReceptions}</div>
-                </div>
-
-                <div className="matchup-row">
                     <div className="matchup-stat left">{stats.left.passingTouchdowns}</div>
                     <div className="matchup-stat center">Passing Touchdowns</div>
                     <div className="matchup-stat right">{stats.right.passingTouchdowns}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.rushingYards}</div>
+                    <div className="matchup-stat center">Rushing Yards</div>
+                    <div className="matchup-stat right">{stats.right.rushingYards}</div>
                 </div>
 
                 <div className="matchup-row">
@@ -646,9 +632,21 @@ export default function Home() {
                 </div>
 
                 <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.receivingYards}</div>
+                    <div className="matchup-stat center">Receiving Yards</div>
+                    <div className="matchup-stat right">{stats.right.receivingYards}</div>
+                </div>
+
+                <div className="matchup-row">
                     <div className="matchup-stat left">{stats.left.receivingTouchdowns}</div>
                     <div className="matchup-stat center">Receiving Touchdowns</div>
                     <div className="matchup-stat right">{stats.right.receivingTouchdowns}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.receivingReceptions}</div>
+                    <div className="matchup-stat center">Receptions</div>
+                    <div className="matchup-stat right">{stats.right.receivingReceptions}</div>
                 </div>
 
                 <div className="matchup-row">
