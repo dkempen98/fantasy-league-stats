@@ -556,11 +556,13 @@ export default function Home() {
         let rightPlayers = players[week].filter((player) => player.teamId == otherTeamWeek.id);
 
         leftPlayers.forEach(player => {
-            for (const [key, value] of Object.entries(player.rawStats)) {
-                if(!stats.left[key]) {
-                    stats.left[key] = 0;
+            if(!(player.position === "Bench" || player.position === "IR")) {
+                for (const [key, value] of Object.entries(player.rawStats)) {
+                    if(!stats.left[key]) {
+                        stats.left[key] = 0;
+                    }
+                    stats.left[key] += value;
                 }
-                stats.left[key] += value;
             }
         })
 
