@@ -4,12 +4,27 @@ import draftResults2021 from "./components/data/draftResults2021.json"
 import draftResults2022 from "./components/data/draftResults2022.json"
 import draftResults2023 from "./components/data/draftResults2023.json"
 import draftResults2024 from "./components/data/draftResults2024.json"
+import teams2021 from "./components/data/teams2021.json"
+import teams2022 from "./components/data/teams2022.json"
+import teams2023 from "./components/data/teams2023.json"
+import teams2024 from "./components/data/teams2024.json"
+import players2021 from "./components/data/players2021.json"
+import players2022 from "./components/data/players2022.json"
+import players2023 from "./components/data/players2023.json"
+import players2024 from "./components/data/players2024.json"
+import league2021 from "./components/data/league2021.json"
+import league2022 from "./components/data/league2022.json"
+import league2023 from "./components/data/league2023.json"
+import league2024 from "./components/data/league2024.json"
 
 const StateContext = createContext();
 
 export function StateProvider({ children }) {
-  const [primaryColor, setPrimaryColor] = useState("rgba(0,36,59,0.82)")
-  const [primarySolid, setPrimarySolid] = useState("#064831")
+  const [primaryColor, setPrimaryColor] = useState("#00243bc0")
+  const [primarySolid, setPrimarySolid] = useState("#00243b")
+
+  const [brightSecondary, setBrightSecondary] = useState("#064831c0")
+  const [brightSecondarySolid, setBrightSecondarySolid] = useState("#064831")
 
   const [secondaryColor, setSecondaryColor] = useState("#000000c0")
   const [secondarySolid, setSecondarySolid] = useState("#000000")
@@ -51,10 +66,33 @@ export function StateProvider({ children }) {
       2024: draftResults2024,
     }
 
+    const matchups = {
+        2021: teams2021,
+        2022: teams2022,
+        2023: teams2023,
+        2024: teams2024,
+    }
+
+    const players = {
+        2021: players2021,
+        2022: players2022,
+        2023: players2023,
+        2024: players2024,
+    }
+
+    const league = {
+        2021: league2021,
+        2022: league2022,
+        2023: league2023,
+        2024: league2024,
+    }
+
   return (
     <StateContext.Provider value={{ 
       primaryColor,
       primarySolid,
+      brightSecondary,
+      brightSecondarySolid,
       winColor, 
       winSolid, 
       secondaryColor, 
@@ -66,6 +104,9 @@ export function StateProvider({ children }) {
       availableSeasons,
       yearDropdownOptions,
       draftResults,
+      matchups,
+      players,
+      league,
       }}>
       {children}
     </StateContext.Provider>

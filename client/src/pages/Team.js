@@ -11,21 +11,26 @@ import twentyFourPlayers from "../components/data/players2024.json"
 import twentyFourTeams from "../components/data/teams2024.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import LineChart from "../components/reusable-stuff/lineChart.js";
+import StackedBarChart from "../components/reusable-stuff/stackedBarChart.js";
 
 export default function Home() {
 
-    const { 
+    const {
         primaryColor,
         primarySolid,
-        winColor, 
-        winSolid, 
-        secondaryColor, 
-        secondarySolid, 
+        brightSecondary,
+        brightSecondarySolid,
+        winColor,
+        winSolid,
+        secondaryColor,
+        secondarySolid,
         loseColor,
-        loseSolid, 
+        loseSolid,
         yearDropdownOptions,
         currentSeason,
-        currentWeek
+        currentWeek,
+        matchups,
+        league,
     } = useStateContext()
 
     const [season, setSeason] = useState(currentSeason)
@@ -39,13 +44,15 @@ export default function Home() {
     const [activePlayers, setActivePlayers] = useState([])
     const [weeklyPlayers, setWeeklyPlayers] = useState([])
     const [playerPerformances, setPlayerPerformances] = useState([])
-    
+
     const [teamStats, setTeamStats] = useState([])
     const [weeklyScore, setWeeklyScore] = useState([])
     const [leagueAverage, setLeagueAverage] = useState([])
 
     const [benchColors, setBenchColors] = useState([])
     const [recordColors, setRecordColors] = useState([])
+    const [playerProjections, setPlayerProjections] = useState([])
+    const [projectionChartLabels, setProjectionChartLabels] = useState([])
 
     const [activePosition, setActivePosition] = useState('QB')
     const [teamPositionAverage, setPositionAverage] = useState([])
@@ -55,7 +62,7 @@ export default function Home() {
     const [weeklyRecords, setWeeklyRecords] = useState([])
 
     const [pageView, setPageView] = useState()
-    
+
     useEffect(() => {
         // if(teams.length == 18) {
         //     setWeek(teams.length - 2)
@@ -93,12 +100,12 @@ export default function Home() {
         positionChart()
     }, [activePosition, season])
 
-    
+
     function getWeeklyData() {
         if(! players || week == 100) {
             return
         }
-        
+
 
         // Create an array of player names for the selected week for reference on items for the rest of this function
 
@@ -120,7 +127,7 @@ export default function Home() {
 
         setWeeklyPlayers(weeklyNames)
     }
-    
+
     function getSeasonData() {
         let seasonPlaceholder = []
         let weekPlaceholder = []
@@ -148,7 +155,7 @@ export default function Home() {
         let againstTiesPH = {}
         let weeklyScores = []
         let weekNum = 1
-        
+
         teams.forEach(week => {
             let myScore = null
             let againstScores = {}
@@ -226,24 +233,119 @@ export default function Home() {
         // Change color of chart color based on if someone played or not
 
         let performances = []
+        let qbPoints = []
+        let rbPoints = []
+        let wrPoints = []
+        let tePoints = []
+        let flexPoints = []
+        let defPoints = []
+        let kPoints = []
+        let benchPoints = []
+        let irPoints = []
+
+        let qbProjections = []
+        let rbProjections = []
+        let wrProjections = []
+        let teProjections = []
+        let flexProjections = []
+        let defProjections = []
+        let kProjections = []
+        let benchProjections = []
+        let irProjections = []
+
+        let qbNames = []
+        let rbNames = []
+        let wrNames = []
+        let teNames = []
+        let flexNames = []
+        let defNames = []
+        let kNames = []
+        let benchNames = []
+        let irNames = []
+
         let colors = []
         let teamOrder = []
-         
+
         activePlayers[week].forEach(person => {
-            if(person.position === "D/ST") {
-                return
-            }
             if(person.position === "Bench" || person.position === "IR") {
-                colors.push(secondaryColor)
-                performances.push(person.performance)
-                teamOrder.push(person.performance)
+                colors.push(loseColor)
+                if(person.position === "Bench") {
+                    benchPoints.push(person.points)
+                    benchProjections.push(Number(person.projectedPoints).toFixed(2))
+                    benchNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else {
+                    irPoints.push(person.points)
+                    irProjections.push(Number(person.projectedPoints).toFixed(2))
+                    irNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                }
             } else {
-                colors.unshift(loseColor)
-                performances.unshift(person.performance)
+                colors.unshift(brightSecondary)
+                let pos = person.position
+                if(pos === "QB") {
+                    qbPoints.push(person.points)
+                    qbProjections.push(Number(person.projectedPoints).toFixed(2))
+                    qbNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "RB") {
+                    rbPoints.push(person.points)
+                    rbProjections.push(Number(person.projectedPoints).toFixed(2))
+                    rbNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "WR") {
+                    wrPoints.push(person.points)
+                    wrProjections.push(Number(person.projectedPoints).toFixed(2))
+                    wrNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "TE") {
+                    tePoints.push(person.points)
+                    teProjections.push(Number(person.projectedPoints).toFixed(2))
+                    teNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "RB/WR/TE") {
+                    flexPoints.push(person.points)
+                    flexProjections.push(Number(person.projectedPoints).toFixed(2))
+                    flexNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "D/ST") {
+                    defPoints.push(person.points)
+                    defProjections.push(Number(person.projectedPoints).toFixed(2))
+                    defNames.push(person.player)
+                } else if (pos === "K") {
+                    kPoints.push(person.points)
+                    kProjections.push(Number(person.projectedPoints).toFixed(2))
+                    kNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                }
             }
         })
 
-        setPlayerPerformances(performances)
+        setPlayerPerformances([
+            ...qbPoints,
+            ...rbPoints,
+            ...wrPoints,
+            ...tePoints,
+            ...flexPoints,
+            ...defPoints,
+            ...kPoints,
+            ...benchPoints,
+            ...irPoints,
+        ])
+        setPlayerProjections([
+            ...qbProjections,
+            ...rbProjections,
+            ...wrProjections,
+            ...teProjections,
+            ...flexProjections,
+            ...defProjections,
+            ...kProjections,
+            ...benchProjections,
+            ...irProjections,
+        ])
+        setProjectionChartLabels([
+            ...qbNames,
+            ...rbNames,
+            ...wrNames,
+            ...teNames,
+            ...flexNames,
+            ...defNames,
+            ...kNames,
+            ...benchNames,
+            ...irNames,
+        ])
         setBenchColors(colors)
     }
 
@@ -340,6 +442,304 @@ export default function Home() {
         );
     }
 
+    function selectedUserDisplay() {
+        console.log(week)
+        return recordsAgainst.map((p, index) =>
+            <li key={index}>{p}</li>
+        );
+    }
+
+    function opponentDisplay() {
+        console.log(week)
+        return recordsAgainst.map((p, index) =>
+            <li key={index}>{p}</li>
+        );
+    }
+
+    function matchupDisplay() {
+        // console.log(week)
+        // console.log(matchups[season][week])
+        // console.log(activeTeamId)
+        const weeklyMatchups = matchups[season][week];
+        if(!weeklyMatchups) return
+        console.log(weeklyMatchups)
+        let selectedTeamWeek = null;
+        let otherTeamWeek = null;
+        for(let i = 0; i < weeklyMatchups.length; i++) {
+            if(weeklyMatchups[i][0].id == activeTeamId) {
+                selectedTeamWeek = weeklyMatchups[i][0]
+                otherTeamWeek = weeklyMatchups[i][1]
+                i = 64;
+            } else if(weeklyMatchups[i][1].id == activeTeamId) {
+                selectedTeamWeek = weeklyMatchups[i][1]
+                otherTeamWeek = weeklyMatchups[i][0]
+                i = 64;
+            }
+        }
+        if(!selectedTeamWeek || !otherTeamWeek) return
+        let selectedTeam = league[season].find(team => team.id == activeTeamId)
+        let otherTeam = league[season].find(team => team.id == otherTeamWeek.id)
+
+        selectedTeam.logoURL = selectedTeam.logoURL ?? "/images/proLogos/NFL.png";
+        otherTeam.logoURL = otherTeam.logoURL ?? "/images/proLogos/NFL.png";
+        console.log(selectedTeamWeek)
+        console.log(selectedTeam)
+
+        // passingYards
+        // passingTouchdowns
+        // rushingYards
+        // rushingTouchdowns
+        // receivingYards
+        // receivingReceptions
+        // rushTds
+        // receivingTouchdowns
+        // lostFumbles
+        // passingInterceptions
+        let stats = {
+            left: {
+                passingYards: 0,
+                rushingYards: 0,
+                receivingYards: 0,
+                receivingReceptions: 0,
+                passingTouchdowns: 0,
+                rushingTouchdowns: 0,
+                receivingTouchdowns: 0,
+                lostFumbles: 0,
+                passingInterceptions: 0,
+                defensiveInterceptions: 0,
+                defensiveFumbles: 0,
+                defensiveSacks: 0,
+                defensiveBlockedKickForTouchdowns: 0,
+                kickoffReturnTouchdown: 0,
+                puntReturnTouchdown: 0,
+                fumbleReturnTouchdown: 0,
+                interceptionReturnTouchdown: 0,
+                madeExtraPoints: 0,
+                missedExtraPoints: 0,
+                madeFieldGoalsFrom60Plus: 0,
+                madeFieldGoalsFrom50Plus: 0,
+                madeFieldGoalsFrom50To59: 0,
+                madeFieldGoalsFrom40To49: 0,
+                madeFieldGoalsFromUnder40: 0,
+                missedFieldGoals: 0,
+            },
+            right: {
+                passingYards: 0,
+                rushingYards: 0,
+                receivingYards: 0,
+                receivingReceptions: 0,
+                passingTouchdowns: 0,
+                rushingTouchdowns: 0,
+                receivingTouchdowns: 0,
+                lostFumbles: 0,
+                passingInterceptions: 0,
+                defensiveInterceptions: 0,
+                defensiveFumbles: 0,
+                defensiveSacks: 0,
+                defensiveBlockedKickForTouchdowns: 0,
+                kickoffReturnTouchdown: 0,
+                puntReturnTouchdown: 0,
+                fumbleReturnTouchdown: 0,
+                interceptionReturnTouchdown: 0,
+                madeExtraPoints: 0,
+                missedExtraPoints: 0,
+                madeFieldGoalsFrom60Plus: 0,
+                madeFieldGoalsFrom50Plus: 0,
+                madeFieldGoalsFrom50To59: 0,
+                madeFieldGoalsFrom40To49: 0,
+                madeFieldGoalsFromUnder40: 0,
+                missedFieldGoals: 0,
+            }
+        }
+
+        let leftPlayers = players[week].filter((player) => player.teamId == selectedTeamWeek.id);
+        let rightPlayers = players[week].filter((player) => player.teamId == otherTeamWeek.id);
+
+        leftPlayers.forEach(player => {
+            for (const [key, value] of Object.entries(player.rawStats)) {
+                if(!stats.left[key]) {
+                    stats.left[key] = 0;
+                }
+                stats.left[key] += value;
+            }
+        })
+
+        rightPlayers.forEach(player => {
+            for (const [key, value] of Object.entries(player.rawStats)) {
+                if(!stats.right[key]) {
+                    stats.right[key] = 0;
+                }
+                stats.right[key] += value;
+            }
+        })
+
+        console.log(leftPlayers)
+        console.log(stats)
+
+
+
+
+        return <div className="matchup-container">
+            <div className="matchup-header">
+                <div style={{
+                    backgroundImage: `url(${selectedTeam.logoURL})`,
+                }} className='matchup-team-image left'>
+                </div>
+                <div className="matchup-bolt">
+                    <img src="/images/lightning_bolt.png" />
+                </div>
+                <div className="matchup-vs">
+                    <img src="/images/VS_text.png" alt="vs" />
+                </div>
+                <div style={{
+                    backgroundImage: `url(${otherTeam.logoURL})`,
+                }} className='matchup-team-image right'>
+                </div>
+            </div>
+            <div className="matchup-body">
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{selectedTeamWeek.owner}</div>
+                    <div className="matchup-stat center">Team</div>
+                    <div className="matchup-stat right">{otherTeamWeek.owner}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{selectedTeamWeek.score}</div>
+                    <div className="matchup-stat center">Score</div>
+                    <div className="matchup-stat right">{otherTeamWeek.score}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.passingYards}</div>
+                    <div className="matchup-stat center">Passing Yards</div>
+                    <div className="matchup-stat right">{stats.right.passingYards}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.rushingYards}</div>
+                    <div className="matchup-stat center">Rushing Yards</div>
+                    <div className="matchup-stat right">{stats.right.rushingYards}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.receivingYards}</div>
+                    <div className="matchup-stat center">Receiving Yards</div>
+                    <div className="matchup-stat right">{stats.right.receivingYards}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.receivingReceptions}</div>
+                    <div className="matchup-stat center">Receptions</div>
+                    <div className="matchup-stat right">{stats.right.receivingReceptions}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.passingTouchdowns}</div>
+                    <div className="matchup-stat center">Passing Touchdowns</div>
+                    <div className="matchup-stat right">{stats.right.passingTouchdowns}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.rushingTouchdowns}</div>
+                    <div className="matchup-stat center">Rushing Touchdowns</div>
+                    <div className="matchup-stat right">{stats.right.rushingTouchdowns}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.receivingTouchdowns}</div>
+                    <div className="matchup-stat center">Receiving Touchdowns</div>
+                    <div className="matchup-stat right">{stats.right.receivingTouchdowns}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.lostFumbles}</div>
+                    <div className="matchup-stat center">Fumbles Lost</div>
+                    <div className="matchup-stat right">{stats.right.lostFumbles}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.passingInterceptions}</div>
+                    <div className="matchup-stat center">Interceptions Thrown</div>
+                    <div className="matchup-stat right">{stats.right.passingInterceptions}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.defensiveInterceptions + stats.left.defensiveFumbles}</div>
+                    <div className="matchup-stat center">Defensive Turnovers</div>
+                    <div className="matchup-stat right">{stats.right.defensiveInterceptions + stats.right.defensiveFumbles}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{stats.left.defensiveSacks}</div>
+                    <div className="matchup-stat center">Sacks</div>
+                    <div className="matchup-stat right">{stats.right.defensiveSacks}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">
+                        {stats.left.defensiveBlockedKickForTouchdowns +
+                            stats.left.kickoffReturnTouchdown +
+                            stats.left.puntReturnTouchdown +
+                            stats.left.fumbleReturnTouchdown +
+                            stats.left.interceptionReturnTouchdown}
+                    </div>
+                    <div className="matchup-stat center">D/ST Touchdowns</div>
+                    <div className="matchup-stat right">
+                        {stats.right.defensiveBlockedKickForTouchdowns +
+                            stats.right.kickoffReturnTouchdown +
+                            stats.right.puntReturnTouchdown +
+                            stats.right.fumbleReturnTouchdown +
+                            stats.right.interceptionReturnTouchdown}
+                    </div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">
+                        {stats.left.madeExtraPoints} / {stats.left.madeExtraPoints + stats.left.missedExtraPoints}
+                    </div>
+                    <div className="matchup-stat center">Extra Points</div>
+                    <div className="matchup-stat right">
+                        {stats.right.madeExtraPoints} / {stats.right.madeExtraPoints + stats.right.missedExtraPoints}
+                    </div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">
+                        {stats.left.madeFieldGoalsFrom60Plus +
+                            stats.left.madeFieldGoalsFrom50Plus +
+                            stats.left.madeFieldGoalsFrom50To59 +
+                            stats.left.madeFieldGoalsFrom40To49 +
+                            stats.left.madeFieldGoalsFromUnder40}
+                        /
+                        {stats.left.madeFieldGoalsFrom60Plus +
+                            stats.left.madeFieldGoalsFrom50Plus +
+                            stats.left.madeFieldGoalsFrom50To59 +
+                            stats.left.madeFieldGoalsFrom40To49 +
+                            stats.left.madeFieldGoalsFromUnder40 +
+                            stats.left.missedFieldGoals}
+                    </div>
+                    <div className="matchup-stat center">Field Goals</div>
+                    <div className="matchup-stat right">
+                        {stats.right.madeFieldGoalsFrom60Plus +
+                            stats.right.madeFieldGoalsFrom50Plus +
+                            stats.right.madeFieldGoalsFrom50To59 +
+                            stats.right.madeFieldGoalsFrom40To49 +
+                            stats.right.madeFieldGoalsFromUnder40}
+                        /
+                        {stats.right.madeFieldGoalsFrom60Plus +
+                            stats.right.madeFieldGoalsFrom50Plus +
+                            stats.right.madeFieldGoalsFrom50To59 +
+                            stats.right.madeFieldGoalsFrom40To49 +
+                            stats.right.madeFieldGoalsFromUnder40 +
+                            stats.right.missedFieldGoals}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        // backgroundColor: otherTeamWeek.win ? winColor : loseSolid,
+    }
+
     function weekChange(newWeek) {
         setWeek(newWeek)
     }
@@ -434,35 +834,52 @@ export default function Home() {
             </section>
             {week != 100 &&
                 <section className="stat-card-container">
-                    <h2 className="section-header"><span>Weekly Stats</span></h2>
+                    {/*<h2 className="section-header"><span>Weekly Stats</span></h2>*/}
+
+                    <div className="chart-border" style={{marginTop: '3rem'}}>
+                        {/*<div className="matchup-title">*/}
+                        {/*    <h3>Week Result</h3>*/}
+                        {/*</div>*/}
+                        {matchupDisplay()}
+                    </div>
 
                     <div className="chart-border">
                         <div className="chart-title">
-                            <h3>Points Away From Projection</h3>
+                            <h3>Points and Projections</h3>
                         </div>
-                        <div className="chart large-chart">
-                            <BarChart chartData={
+                        <div className="chart jumbo-chart">
+                            <StackedBarChart chartData={
                                 {
-                                    labels: weeklyPlayers,
+                                    labels: projectionChartLabels,
                                     datasets: [{
                                         label: '',
                                         data: playerPerformances,
                                         backgroundColor: benchColors,
-                                        barPercentage: 1
+                                        barPercentage: .9,
+                                        categoryPercentage: 1,
+                                        order: 1,
+                                    },{
+                                        label: '',
+                                        data: playerProjections,
+                                        backgroundColor: secondaryColor,
+                                        barPercentage: .9,
+                                        categoryPercentage: 0.5,
+                                        order: 0,
                                     }]
                                 }
                             }/>
                         </div>
                         <ul className="legend">
-                            <li className="legend-square legend-primary">Starters</li>
-                            <li className="legend-square legend-secondary">Bench Players</li>
+                            <li className="legend-square legend-primary">Starting Player Points</li>
+                            <li className="legend-square legend-loss">Bench Player Points</li>
+                            <li className="legend-square legend-secondary">Projected Player Points</li>
                         </ul>
                     </div>
                 </section>
             }
             {week == 100 &&
                 <section className="stat-card-container">
-                    <h2 className="section-header"><span>Season Stats</span></h2>
+                    {/*<h2 className="section-header"><span>Season Stats</span></h2>*/}
 
                     <div className="chart-border">
                         <div className="chart-title">
@@ -484,11 +901,12 @@ export default function Home() {
                                         },
                                         {
                                             label: '',
+                                            pointRadius: 4,
                                             pointHitRadius: 4,
                                             data: leagueAverage,
-                                            borderColor: "#000000",
+                                            borderColor: secondaryColor,
+                                            backgroundColor: secondaryColor,
                                             borderDash: [6, 2],
-                                            backgroundColor: "#000000",
                                         }
                                     ]
                                 }
@@ -530,10 +948,12 @@ export default function Home() {
                                         },
                                         {
                                             label: '',
+                                            pointRadius: 4,
                                             pointHitRadius: 4,
                                             data: leaguePositionAverage,
-                                            borderColor: "#000000",
-                                            backgroundColor: "#000000",
+                                            borderDash: [6, 2],
+                                            borderColor: secondaryColor,
+                                            backgroundColor: secondaryColor,
                                         }
                                     ]
                                 }
@@ -546,7 +966,7 @@ export default function Home() {
                     </div>
                     <div className="chart-border">
                         <div className="chart-title">
-                            <h3>Record Against Everyone</h3>
+                            <h3>Record Against</h3>
                         </div>
                         <div className="flex flex-large-gap">
                             <div>
