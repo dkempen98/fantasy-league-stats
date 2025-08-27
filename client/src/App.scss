@@ -587,7 +587,6 @@ h6 {
     min-height: 5rem;
     width: 50%;
     position: relative;
-    background-color: #565656;
     //background-blend-mode: multiply;
     background-size: cover;
     background-position: center center;
@@ -599,10 +598,12 @@ h6 {
     border: 3px solid black;
     border-bottom: none;
     &.left {
+      background-color: var(--bright);
       border-right: none;
       border-top-left-radius: 5px;
     }
     &.right {
+      background-color: var(--bright-secondary);
       border-left: none;
       border-top-right-radius: 5px;
     }
