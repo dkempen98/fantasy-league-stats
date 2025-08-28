@@ -709,9 +709,7 @@ export default function Home() {
                             stats.left.madeFieldGoalsFrom50Plus +
                             stats.left.madeFieldGoalsFrom50To59 +
                             stats.left.madeFieldGoalsFrom40To49 +
-                            stats.left.madeFieldGoalsFromUnder40}
-                        /
-                        {stats.left.madeFieldGoalsFrom60Plus +
+                            stats.left.madeFieldGoalsFromUnder40} / {stats.left.madeFieldGoalsFrom60Plus +
                             stats.left.madeFieldGoalsFrom50Plus +
                             stats.left.madeFieldGoalsFrom50To59 +
                             stats.left.madeFieldGoalsFrom40To49 +
@@ -724,9 +722,7 @@ export default function Home() {
                             stats.right.madeFieldGoalsFrom50Plus +
                             stats.right.madeFieldGoalsFrom50To59 +
                             stats.right.madeFieldGoalsFrom40To49 +
-                            stats.right.madeFieldGoalsFromUnder40}
-                        /
-                        {stats.right.madeFieldGoalsFrom60Plus +
+                            stats.right.madeFieldGoalsFromUnder40} / {stats.right.madeFieldGoalsFrom60Plus +
                             stats.right.madeFieldGoalsFrom50Plus +
                             stats.right.madeFieldGoalsFrom50To59 +
                             stats.right.madeFieldGoalsFrom40To49 +
