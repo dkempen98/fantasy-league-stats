@@ -482,8 +482,6 @@ export default function Home() {
 
         selectedTeam.logoURL = selectedTeam.logoURL ?? "/images/proLogos/NFL.png";
         otherTeam.logoURL = otherTeam.logoURL ?? "/images/proLogos/NFL.png";
-        console.log(selectedTeamWeek)
-        console.log(selectedTeam)
 
         // passingYards
         // passingTouchdowns
@@ -736,6 +734,49 @@ export default function Home() {
         // backgroundColor: otherTeamWeek.win ? winColor : loseSolid,
     }
 
+    function weekDropdownOptions() {
+        if(teams) {
+            return teams.map((week, index) => {
+                // let component = null;
+                for(let i = 0; week.length > i; i++) {
+                    let opponent = week[i].find(team => team.id != activeTeamId);
+                    let activeTeam = week[i].find(team => team.id == activeTeamId);
+                    if(opponent && activeTeam) {
+                        let label = `#${ index + 1 }: ${ opponent?.owner }`
+                        if(
+                            season < 2025 &&
+                            index >= 13
+                        ) {
+                            switch(index) {
+                                case 13:
+                                    label = `Round 1.1: ${ opponent?.owner }`
+                                    break;
+                                case 14:
+                                    label = `Round 1.2: ${ opponent?.owner }`
+                                    break;
+                                case 15:
+                                    label = `Round 2.1: ${ opponent?.owner }`
+                                    break;
+                                case 16:
+                                    label = `Round 2.2: ${ opponent?.owner }`
+                                    break;
+                            }
+                        } else if(
+                            season >= 2025 &&
+                            index >= 14
+                        ) {
+                            label = `Round ${ index % 14 + 1 }: ${ opponent?.owner }`
+                        }
+                        return <option key={index+1} value={index}>{ label }</option>
+                    }
+                }
+                // return component;
+            });
+        } else {
+            return <option key={0} value={0} disabled={true}>No Weeks Available</option>
+        }
+    }
+
     function weekChange(newWeek) {
         setWeek(newWeek)
     }
@@ -807,23 +848,7 @@ export default function Home() {
                 <div className="global-dropdown">
                     <select value={week} onChange={(e) => weekChange(e.target.value)}>
                         <option key={100} value={100} disabled={teams.length < 1}>Season Summary</option>
-                        <option key={1} value={0} disabled={teams.length < 1}>Week 1</option>
-                        <option key={2} value={1} disabled={teams.length < 2}>Week 2</option>
-                        <option key={3} value={2} disabled={teams.length < 3}>Week 3</option>
-                        <option key={4} value={3} disabled={teams.length < 4}>Week 4</option>
-                        <option key={5} value={4} disabled={teams.length < 5}>Week 5</option>
-                        <option key={6} value={5} disabled={teams.length < 6}>Week 6</option>
-                        <option key={7} value={6} disabled={teams.length < 7}>Week 7</option>
-                        <option key={8} value={7} disabled={teams.length < 8}>Week 8</option>
-                        <option key={9} value={8} disabled={teams.length < 9}>Week 9</option>
-                        <option key={10} value={9} disabled={teams.length < 10}>Week 10</option>
-                        <option key={11} value={10} disabled={teams.length < 11}>Week 11</option>
-                        <option key={12} value={11} disabled={teams.length < 12}>Week 12</option>
-                        <option key={13} value={12} disabled={teams.length < 13}>Week 13</option>
-                        <option key={14} value={13} disabled={teams.length < 14}>Round 1.1</option>
-                        <option key={15} value={14} disabled={teams.length < 14}>Round 1.2</option>
-                        <option key={16} value={15} disabled={teams.length < 16}>Round 2.1</option>
-                        <option key={17} value={16} disabled={teams.length < 16}>Round 2.2</option>
+                        { weekDropdownOptions() }
                     </select>
                     <span className="global-arrow"></span>
                 </div>
