@@ -6,7 +6,14 @@ dotenv.config({path: '../../../../.env'})
 
 console.log("----------------API-----------------")
 
-const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
+let bbLeague = false;
+
+let myClient;
+if(bbLeague) {
+    myClient = new Client({ leagueId: process.env.BB_LEAGUE_ID })
+} else {
+    myClient = new Client({ leagueId: process.env.LEAGUE_ID })
+}
 
 myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // console.log(myClient)
@@ -25,7 +32,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 
 
 // Adjust the season below to determine the year you are pulling data for
-const season = 2024
+const season = 2022
 let league = []
 
 leagueData(season)
@@ -45,58 +52,76 @@ function leagueData(season, week = 1) {
             delete team.homeTies
             delete team.awayTies
 
-            switch(team.id) {
-                case 1:
-                    team.owner = 'Alex'
-                    break
-                case 2:
-                    team.owner = 'Ben'
-                    break
-                case 3:
-                    team.owner = 'Tony'
-                    break
-                case 4:
-                    team.owner = 'Nate'
-                    if(season === 2021) {
+            if(bbLeague) {
+                switch(team.id) {
+                    case 1:
+                        team.owner = 'Alex'
+                        break
+                    case 2:
+                        team.owner = 'Ben'
+                        break
+                    case 3:
+                        team.owner = 'Drew'
+                        break
+                    case 4:
+                        team.owner = 'Tony'
+                        break
+                }
+            } else {
+
+                switch(team.id) {
+                    case 1:
+                        team.owner = 'Alex'
+                        break
+                    case 2:
+                        team.owner = 'Ben'
+                        break
+                    case 3:
+                        team.owner = 'Tony'
+                        break
+                    case 4:
+                        team.owner = 'Nate'
+                        if(season === 2021) {
+                            team.owner = 'Kayla'
+                        }
+                        break
+                    case 5:
+                        team.owner = 'Henry'
+                        break
+                    case 6:
+                        team.owner = 'Eric'
+                        break
+                    case 7:
+                        team.owner = 'Ivan'
+                        if(season === 2021) {
+                            team.owner = 'Kief'
+                        }
+                        break
+                    case 8:
+                        team.owner = 'Trap'
+                        break
+                    case 9:
+                        team.owner = 'Drew'
+                        break
+                    case 10:
                         team.owner = 'Kayla'
-                    }
-                    break
-                case 5:
-                    team.owner = 'Henry'
-                    break
-                case 6:
-                    team.owner = 'Eric'
-                    break
-                case 7:
-                    team.owner = 'Ivan'
-                    if(season === 2021) {
-                        team.owner = 'Kief'
-                    }
-                    break
-                case 8:
-                    team.owner = 'Trap'
-                    break
-                case 9:
-                    team.owner = 'Drew'
-                    break
-                case 10:
-                    team.owner = 'Kayla'
-                    if(season === 2022) {
-                        team.owner = 'Joey'
-                    }
-                    if(season === 2021) {
-                        team.owner = 'Josh'
-                    }
-                    break
-                case 11:
-                    team.owner = 'Randy'
-                    break
-                case 12:
-                    team.owner = 'Megan'
-                    if(season === 2023) {
-                        team.owner = 'Matt'
-                    }
-                    break
+                        if(season === 2022) {
+                            team.owner = 'Joey'
+                        }
+                        if(season === 2021) {
+                            team.owner = 'Josh'
+                        }
+                        break
+                    case 11:
+                        team.owner = 'Randy'
+                        break
+                    case 12:
+                        team.owner = 'Megan'
+                        if(season === 2023) {
+                            team.owner = 'Matt'
+                        }
+                        break
+                }
             }
 
             league.push(team)
@@ -104,7 +129,11 @@ function leagueData(season, week = 1) {
         let leagueInfo = JSON.stringify(league);
 
         // console.log(leagueInfo);
-        fs.writeFileSync(`../data/league${season}.json`, leagueInfo)
+        let fileName = `league${season}`
+        if(bbLeague) {
+            fileName += '_bb'
+        }
+        fs.writeFileSync(`../data/${fileName}.json`, leagueInfo)
 
         console.log('Files Created!')
     })

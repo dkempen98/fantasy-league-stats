@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react"
 import { useStateContext } from "../StateContext.js"
-import draftResults2021 from "../components/data/draftResults2021.json"
 import draftResults2022 from "../components/data/draftResults2022.json"
 import draftResults2023 from "../components/data/draftResults2023.json"
 import draftResults2024 from "../components/data/draftResults2024.json"
-import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
 import league2024 from "../components/data/league2024.json"
@@ -180,11 +178,6 @@ export default function Draft() {
     }
 
     function yearChange() {
-        if(season === 2021) {
-            setLeague(league2021)
-            setDraft(draftResults2021)
-            return
-        }   
         if(season === 2022) {
             setLeague(league2022)
             setDraft(draftResults2022)
@@ -226,7 +219,6 @@ export default function Draft() {
                     <div className="global-dropdown dropdown-size-match-mobile">
                         <select value={season} onChange={(e) => setSeason(parseInt(e.target.value))}>
                             {/* {yearDropdownOptions} */}
-                            <option key={'2021-season-button'} value={2021}>2021</option>
                             <option key={'2022-season-button'} value={2022}>2022</option>
                             <option key={'2023-season-button'} value={2023}>2023</option>
                             <option key={'2024-season-button'} value={2024}>2024</option>

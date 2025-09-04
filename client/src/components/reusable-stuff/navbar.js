@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../images/field-logo.png'
+import logo from '../../images/breadbowl.png'
 export default function Navbar() {
     const [menuVis, setMenuVis] = useState("false")
     const [page, setPage] = useState('')
@@ -42,8 +42,8 @@ export default function Navbar() {
         <header className="nb-container nb-flex">
             {/* <div ref={wrapperRef}>HERE</div> */}
             <div className='nb-flex nb-header'>
-                <img className='nb-logo' src={logo}></img>
-                <h1 className='nb-title'><span>FF Stats</span></h1>
+                <img className='nb-logo' src={logo} style={{maxHeight: '75px'}}></img>
+                <h1 className='nb-title'><span>BB Stats</span></h1>
             </div>
 
             <button onClick={openNav} className='nb-mobile-toggle' aria-controls='primary-navigation' aria-expanded={menuVis}>
@@ -72,11 +72,11 @@ export default function Navbar() {
                             <span className={window.location.pathname === '/players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Players
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/draft" onClick={() => changePage('draft')}>  
-                            <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Drafts
-                        </Link>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <Link to="/draft" onClick={() => changePage('draft')}>  */}
+                    {/*        <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Drafts*/}
+                    {/*    </Link>*/}
+                    {/*</li>*/}
                 </ul>
             </nav>
         </header>

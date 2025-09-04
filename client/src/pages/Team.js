@@ -1,8 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, React, useDebugValue } from "react";
 import { useStateContext } from "../StateContext.js";
-import twentyOnePlayers from "../components/data/players2021.json"
-import twentyOneTeams from "../components/data/teams2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
 import twentyThreePlayers from "../components/data/players2023.json"
@@ -202,7 +200,7 @@ export default function Home() {
             if(weekNum < 14) {
                 weeklyScores.push(`Week ${weekNum}: ${weeklyWins}-${weeklyLosses}${weeklyTies ? '-' + weeklyTies : ''}`)
             }
-            averageScoresPH.push(leagueScores / 10)
+            averageScoresPH.push(leagueScores / 4)
             leagueScores = 0
             weekNum++
         })
@@ -240,6 +238,8 @@ export default function Home() {
         let flexPoints = []
         let defPoints = []
         let kPoints = []
+        let pPoints = []
+        let hcPoints = []
         let benchPoints = []
         let irPoints = []
 
@@ -250,6 +250,8 @@ export default function Home() {
         let flexProjections = []
         let defProjections = []
         let kProjections = []
+        let pProjections = []
+        let hcProjections = []
         let benchProjections = []
         let irProjections = []
 
@@ -260,6 +262,8 @@ export default function Home() {
         let flexNames = []
         let defNames = []
         let kNames = []
+        let pNames = []
+        let hcNames = []
         let benchNames = []
         let irNames = []
 
@@ -279,7 +283,7 @@ export default function Home() {
                     irNames.push(person.player.charAt(0) + '. ' + person.lastName)
                 }
             } else {
-                colors.unshift(brightSecondary)
+                colors.unshift(primaryColor)
                 let pos = person.position
                 if(pos === "QB") {
                     qbPoints.push(person.points)
@@ -309,6 +313,14 @@ export default function Home() {
                     kPoints.push(person.points)
                     kProjections.push(Number(person.projectedPoints).toFixed(2))
                     kNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "P") {
+                    pPoints.push(person.points)
+                    pProjections.push(Number(person.projectedPoints).toFixed(2))
+                    pNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                } else if (pos === "HC") {
+                    hcPoints.push(person.points)
+                    hcProjections.push(Number(person.projectedPoints).toFixed(2))
+                    hcNames.push(person.player.charAt(0) + '. ' + person.lastName)
                 }
             }
         })
@@ -321,6 +333,8 @@ export default function Home() {
             ...flexPoints,
             ...defPoints,
             ...kPoints,
+            ...pPoints,
+            ...hcPoints,
             ...benchPoints,
             ...irPoints,
         ])
@@ -332,6 +346,8 @@ export default function Home() {
             ...flexProjections,
             ...defProjections,
             ...kProjections,
+            ...pProjections,
+            ...hcProjections,
             ...benchProjections,
             ...irProjections,
         ])
@@ -343,9 +359,12 @@ export default function Home() {
             ...flexNames,
             ...defNames,
             ...kNames,
+            ...pNames,
+            ...hcNames,
             ...benchNames,
             ...irNames,
         ])
+        console.log(colors)
         setBenchColors(colors)
     }
 
@@ -790,12 +809,6 @@ export default function Home() {
     }
 
     function seasonChange(newYear) {
-        if (newYear == 2021) {
-            setWeek(100)
-            setSeason(2021)
-            setTeams(twentyOneTeams)
-            setPlayers(twentyOnePlayers)
-        }
         if (newYear == 2022) {
             setWeek(100)
             setSeason(2022)
@@ -830,18 +843,8 @@ export default function Home() {
                     <select onChange={(e) => teamChange(e.target.value)}>
                         <option key={1} value={1}>Alex</option>
                         <option key={2} value={2}>Ben</option>
-                        <option key={3} value={3}>Tony</option>
-                        <option key={4} disabled={season > 2022} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
-                        <option key={5} value={5}>Henry</option>
-                        <option key={6} value={6}>Eric</option>
-                        <option key={7} disabled={season > 2022} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
-                        <option key={8} value={8}>Trap</option>
-                        <option key={9} value={9}>Drew</option>
-                        <option key={10}
-                                value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>
-                        <option key={11} disabled={season < 2023} value={11}>Randy</option>
-                        <option key={12} disabled={season < 2023}
-                                value={12}>{season === 2023 ? 'Matt' : 'Megan'}</option>
+                        <option key={3} value={3}>Drew</option>
+                        <option key={4} value={4}>Tony</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>

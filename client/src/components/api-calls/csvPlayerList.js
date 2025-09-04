@@ -1,13 +1,13 @@
 import fs from 'fs';
 import Papa from 'papaparse';
-import players2021 from "../data/players2021.json" with { type: "json" }
+import players2022 from "../data/players2022.json" with { type: "json" }
 
 // This can be used to help with draft data in a spreadsheet if you pull
 // the info from the email ESPN sends you after your draft
 
 // Mocked data array, replace this with your actual data retrieval logic
 
-let players = players2021
+let players = players2022
 
 let formattedData = []
 

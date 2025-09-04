@@ -15,14 +15,14 @@ better to have several variable colors than it is to hard code them in.
 
 :root {
   --bg: #505050;
-  --bright: #00243b;
-  --bright-secondary: #064831;
+  --bright: #006391;
+  --bright-secondary: #e31033;
   --dark: #000000;
   --text: white;
   --alt-text: black;
-  --winner-legend: #064831;
-  --loser-legend: #774F0F;
-  --primary-legend: #064831;
+  --winner-legend: #006391;
+  --loser-legend: #e31033;
+  --primary-legend: #006391;
   --secondary-legend: #383838;
   --table: #252525;
 }
@@ -34,12 +34,14 @@ better to have several variable colors than it is to hard code them in.
 
 
 body {
-  background-image: url('./images/football-bg.jpg');
-  background-color: var(--bg);
-  background-blend-mode: multiply;
-  background-size: cover;
+  //border-image: fill 1 linear-gradient(#00000040, #00000040);
+
+  background-image: url('./images/pasta.png');
+  background-color: #5d0000;
+  //background-blend-mode: multiply;
+  background-size: 60px;
   background-position: center center;
-  background-repeat: no-repeat;
+  //background-repeat: no-repeat;
   background-attachment: fixed;
 
   overflow-x: hidden;

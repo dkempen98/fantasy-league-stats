@@ -6,7 +6,14 @@ dotenv.config({path: '../../../../.env'})
 
 console.log("----------------API-----------------")
 
-const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
+let bbLeague = false;
+
+let myClient;
+if(bbLeague) {
+    myClient = new Client({ leagueId: process.env.BB_LEAGUE_ID })
+} else {
+    myClient = new Client({ leagueId: process.env.LEAGUE_ID })
+}
 
 // Get the necessary cookie information from your browser while logged into
 // the ESPN site and add them to your env file. More info on how to do this
@@ -35,7 +42,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 12: Matt
 
 // Select the season you are pulling matchup data for
-const season = 2024
+const season = 2022
 
 // adjust maxWeek to be the number of weeks that have been played in the season
 const maxWeek = 17
@@ -64,75 +71,96 @@ function setTeam(playerId) {
         teamName: ''
     }
     console.log(playerId)
-    switch(playerId) {
-        case 1:
-            ownerInfo.owner = 'Alex'
-            ownerInfo.teamName = 'Hollywoo Stars And Celebrities'
-            break
-        case 2:
-            ownerInfo.owner = 'Ben'
-            ownerInfo.teamName = 'Broncos Country Lets Cry'
-            break
-        case 3:
-            ownerInfo.owner = 'Tony'
-            ownerInfo.teamName = 'Doll Fins'
-            break
-        case 4:
-            ownerInfo.owner = 'Nate'
-            ownerInfo.teamName = 'Team Nate'
-            if(season === 2021) {
+    if(bbLeague) {
+        switch(playerId) {
+            case 1:
+                ownerInfo.owner = 'Alex'
+                ownerInfo.teamName = "Won't Stop Runnin'"
+                break
+            case 2:
+                ownerInfo.owner = 'Ben'
+                ownerInfo.teamName = 'Garlic Parmesan'
+                break
+            case 3:
+                ownerInfo.owner = 'Drew'
+                ownerInfo.teamName = 'Nakensaki Bombers'
+                break
+            case 4:
+                ownerInfo.owner = 'Tony'
+                ownerInfo.teamName = 'Inner City Gut Pumpers'
+                break
+        }
+    } else {
+        switch(playerId) {
+            case 1:
+                ownerInfo.owner = 'Alex'
+                ownerInfo.teamName = 'Hollywoo Stars And Celebrities'
+                break
+            case 2:
+                ownerInfo.owner = 'Ben'
+                ownerInfo.teamName = 'Broncos Country Lets Cry'
+                break
+            case 3:
+                ownerInfo.owner = 'Tony'
+                ownerInfo.teamName = 'Doll Fins'
+                break
+            case 4:
+                ownerInfo.owner = 'Nate'
+                ownerInfo.teamName = 'Team Nate'
+                if(season === 2021) {
+                    ownerInfo.owner = 'Kayla'
+                    ownerInfo.teamName = 'Cleveland River Fires'
+                }
+                break
+            case 5:
+                ownerInfo.owner = 'Henry'
+                ownerInfo.teamName = 'Team Dumb Dick'
+                break
+            case 6:
+                ownerInfo.owner = 'Eric'
+                ownerInfo.teamName = 'Message Therapists'
+                break
+            case 7:
+                ownerInfo.owner = 'Ivan'
+                ownerInfo.teamName = 'Team Ivan'
+                if(season === 2021) {
+                    ownerInfo.owner = 'Kief'
+                    ownerInfo.teamName = 'Team Kieffer'
+                }
+                break
+            case 8:
+                ownerInfo.owner = 'Trap'
+                ownerInfo.teamName = 'Wet Turd Burglars'
+                break
+            case 9:
+                ownerInfo.owner = 'Drew'
+                ownerInfo.teamName = 'Death at a Margaritaville'
+                break
+            case 10:
                 ownerInfo.owner = 'Kayla'
                 ownerInfo.teamName = 'Cleveland River Fires'
-            }
-            break
-        case 5:
-            ownerInfo.owner = 'Henry'
-            ownerInfo.teamName = 'Team Dumb Dick'
-            break
-        case 6:
-            ownerInfo.owner = 'Eric'
-            ownerInfo.teamName = 'Message Therapists'
-            break
-        case 7:
-            ownerInfo.owner = 'Ivan'
-            ownerInfo.teamName = 'Team Ivan'
-            if(season === 2021) {
-                ownerInfo.owner = 'Kief'
-                ownerInfo.teamName = 'Team Kieffer'
-            }
-            break
-        case 8:
-            ownerInfo.owner = 'Trap'
-            ownerInfo.teamName = 'Wet Turd Burglars'
-            break
-        case 9:
-            ownerInfo.owner = 'Drew'
-            ownerInfo.teamName = 'Death at a Margaritaville'
-            break
-        case 10:
-            ownerInfo.owner = 'Kayla'
-            ownerInfo.teamName = 'Cleveland River Fires'
-            if(season === 2022) {
-                ownerInfo.owner = 'Joey'
-                ownerInfo.teamName = 'Smashmouth All Stars'
-            }
-            if(season === 2021) {
-                ownerInfo.owner = 'Josh'
-                ownerInfo.teamName = 'Howard Beltz'
-            }
-            break
-        case 11:
-            ownerInfo.owner = 'Randy'
-            ownerInfo.teamName = 'Team Swoope'
-            break
-        case 12:
-            ownerInfo.owner = 'Megan'
-            ownerInfo.teamName = 'Tis the Lamb Season'
-            if(season === 2021) {
-                ownerInfo.owner = 'Matt'
-                ownerInfo.teamName = 'Clouds?'
-            }
-            break
+                if(season === 2022) {
+                    ownerInfo.owner = 'Joey'
+                    ownerInfo.teamName = 'Smashmouth All Stars'
+                }
+                if(season === 2021) {
+                    ownerInfo.owner = 'Josh'
+                    ownerInfo.teamName = 'Howard Beltz'
+                }
+                break
+            case 11:
+                ownerInfo.owner = 'Randy'
+                ownerInfo.teamName = 'Team Swoope'
+                break
+            case 12:
+                ownerInfo.owner = 'Megan'
+                ownerInfo.teamName = 'Tis the Lamb Season'
+                if(season === 2021) {
+                    ownerInfo.owner = 'Matt'
+                    ownerInfo.teamName = 'Clouds?'
+                }
+                break
+        }
     }
     return ownerInfo
 }
@@ -303,12 +331,17 @@ function getInfo(week, matchupId) {
             // They are stored in the /data folder
 
             // Each season gets its own file. These files act as a database of sorts
-                        
+            let playerFileName = `players${season}`
+            let teamFileName = `teams${season}`
+            if(bbLeague) {
+                playerFileName += '_bb'
+                teamFileName += '_bb'
+            }
             let info = JSON.stringify(weeklyPlayerData);
-            fs.writeFileSync(`../data/players${season}.json`, info)
+            fs.writeFileSync(`../data/${playerFileName}.json`, info)
 
             info = JSON.stringify(weeklyTeamData);
-            fs.writeFileSync(`../data/teams${season}.json`, info)
+            fs.writeFileSync(`../data/${teamFileName}.json`, info)
 
             console.log('Files Created!')
         }

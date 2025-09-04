@@ -1,8 +1,5 @@
 import { useState, useEffect, React } from "react";
 import { useStateContext } from "../StateContext.js";
-import twentyOnePlayers from "../components/data/players2021.json"
-import twentyOneTeams from "../components/data/teams2021.json"
-import twentyOneLeague from "../components/data/league2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
 import twentyTwoLeague from "../components/data/league2022.json"
@@ -400,13 +397,6 @@ export default function Home() {
     }
 
     function seasonChange(newYear){
-        if(newYear == 2021){
-            setWeek(0)
-            setSeason(2021)
-            setTeams(twentyOneTeams)
-            setPlayers(twentyOnePlayers)
-            setLeague(twentyOneLeague)
-        }
         if(newYear == 2022){
             setWeek(0)
             setSeason(2022)

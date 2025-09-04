@@ -1,11 +1,9 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, React } from "react";
 import { useStateContext } from "../StateContext.js";
-import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
 import league2024 from "../components/data/league2024.json"
-import players2021 from "../components/data/players2021.json"
 import players2022 from "../components/data/players2022.json"
 import players2023 from "../components/data/players2023.json"
 import players2024 from "../components/data/players2024.json"
@@ -62,16 +60,6 @@ export default function Home() {
     function createPlayerList() {
         setPlayerSearch(() => {
             let playerList = []
-            players2021.forEach(week => {
-                week.forEach(thisPlayer => {
-                    if(!playerList.some(e => e.id === thisPlayer.id)) {
-                        playerList.push({
-                            id: thisPlayer.id,
-                            player: thisPlayer.player
-                        })
-                    }
-                })
-            });
             players2022.forEach(week => {
                 week.forEach(thisPlayer => {
                     if(!playerList.some(e => e.id === thisPlayer.id)) {
@@ -112,7 +100,7 @@ export default function Home() {
         document.getElementById('search-bar-input').value = '';
         
         let playerLogs = []
-        let allStats = [...players2021, ...players2022, ...players2023, ...players2024]
+        let allStats = [...players2022, ...players2023, ...players2024]
 
         let headerKeys = ['year', 'week', 'team', 'Points', 'Proj. Points']
         let activeHeaders = ['Year', 'Week', 'Team', 'Points', 'Proj. Points']
@@ -388,12 +376,7 @@ export default function Home() {
             proLogo = "/images/proLogos/NFL.png"
         }
 
-        if (season === 2021) {
-            league = league2021
-            if(!activeSeasons.includes(2021)) {
-                activeSeasons.push(2021)
-            }
-        } else if (season === 2022) {
+        if (season === 2022) {
             league = league2022
         } else if (season === 2023) {
             league = league2023
@@ -447,24 +430,24 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                { pick?.owner &&
-                    <div className="ps-player-info-container">
-                        <div>
-                            Drafted By: { pick.owner }
-                        </div>
-                        <div>
-                            Draft Position: { pick.pick }
-                        </div>
-                        <div>
-                            Season Result: { pick.position } { pick.position_rank } (#{ pick.overall_rank } Overall)
-                        </div>
-                    </div>
-                }
-                { !pick?.owner &&
-                    <div className="ps-player-info-container">
-                        Undrafted
-                    </div>
-                }
+                {/*{ pick?.owner &&*/}
+                {/*    <div className="ps-player-info-container">*/}
+                {/*        <div>*/}
+                {/*            Drafted By: { pick.owner }*/}
+                {/*        </div>*/}
+                {/*        <div>*/}
+                {/*            Draft Position: { pick.pick }*/}
+                {/*        </div>*/}
+                {/*        <div>*/}
+                {/*            Season Result: { pick.position } { pick.position_rank } (#{ pick.overall_rank } Overall)*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*}*/}
+                {/*{ !pick?.owner &&*/}
+                {/*    <div className="ps-player-info-container">*/}
+                {/*        Undrafted*/}
+                {/*    </div>*/}
+                {/*}*/}
                 <div className="table-wrapper">
                     <label className='hide-large checkbox-label checkbox-bg checkbox-player'>
                         <input
