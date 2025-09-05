@@ -132,7 +132,7 @@ export default function Home() {
         let closestWinnerPlaceholder = ''
         let closestLoserPlaceholder = ''
 
-        for(let i = 0; i < 10; i += 2) {
+        for(let i = 0; i < 4; i += 2) {
             if(Math.abs(margin[i]) < closestGame) {
                 closestGame = Math.abs(margin[i])
                 if (margin[i] > 0) {
@@ -154,11 +154,12 @@ export default function Home() {
         let highLoser = 0
         let highName
         let beatByHigh = 0
-        let lowWinner = 1000
+        let lowWinner = 2000
         let lowName
         let beatLow = 0
 
-        for(let i = 0; i < 10; i++) {
+        console.log(teamScores, win)
+        for(let i = 0; i < 4; i++) {
             if(win[i] && teamScores[i] < lowWinner) {
                 lowWinner = teamScores[i];
                 lowName = ownerNames[i];
@@ -169,7 +170,7 @@ export default function Home() {
             }
         }
 
-        for(let i = 0; i < 10; i++) {
+        for(let i = 0; i < 4; i++) {
             if(teamScores[i] < highLoser) {
                 beatByHigh++
             }

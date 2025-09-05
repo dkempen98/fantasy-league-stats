@@ -31,7 +31,7 @@ export function StateProvider({ children }) {
   const [loseColor, setLoseColor] = useState("#e31033c0")
   const [loseSolid, setLoseSolid] = useState("#e31033")
 
-  const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023, 2024])
+  const [availableSeasons, setAvailableSeasons] = useState([2022, 2023, 2024])
 
   const [currentWeek, setCurrentWeek] = useState(0) // Count starts at 0 like an array
   const [currentSeason, setCurrentSeason] = useState(2024) //Manually set annually

@@ -91,7 +91,7 @@ export default function Home() {
         let highName
         let beatByHigh = 0
         let highWeek = 0
-        let lowWinner = 1000
+        let lowWinner = 1280
         let lowName
         let beatLow = 0
         let lowWeek = 0
@@ -99,7 +99,7 @@ export default function Home() {
         let highScore = 0;
         let highScoreName
         let highScoreWeek = 0;
-        let lowScore = 128;
+        let lowScore = 1280;
         let lowScoreName
         let lowScoreWeek = 0;
         
