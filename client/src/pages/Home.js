@@ -158,7 +158,6 @@ export default function Home() {
         let lowName
         let beatLow = 0
 
-        console.log(teamScores, win)
         for(let i = 0; i < 4; i++) {
             if(win[i] && teamScores[i] < lowWinner) {
                 lowWinner = teamScores[i];

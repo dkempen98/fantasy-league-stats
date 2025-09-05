@@ -320,7 +320,7 @@ export default function Home() {
                 } else if (pos === "HC") {
                     hcPoints.push(person.points)
                     hcProjections.push(Number(person.projectedPoints).toFixed(2))
-                    hcNames.push(person.player.charAt(0) + '. ' + person.lastName)
+                    hcNames.push(person.player)
                 }
             }
         })
@@ -364,7 +364,6 @@ export default function Home() {
             ...benchNames,
             ...irNames,
         ])
-        console.log(colors)
         setBenchColors(colors)
     }
 
@@ -574,6 +573,9 @@ export default function Home() {
 
         leftPlayers.forEach(player => {
             if(!(player.position === "Bench" || player.position === "IR")) {
+                if(player.position === "HC") {
+                    console.log(player)
+                }
                 for (const [key, value] of Object.entries(player.rawStats)) {
                     if(!stats.left[key]) {
                         stats.left[key] = 0;
@@ -954,6 +956,7 @@ export default function Home() {
                                 <option key={4} value={'TE'}>TE</option>
                                 <option key={5} value={'D/ST'}>D/ST</option>
                                 <option key={6} value={'K'}>K</option>
+                                <option key={6} value={'P'}>P</option>
                             </select>
                             <span className="global-arrow"></span>
                         </div>

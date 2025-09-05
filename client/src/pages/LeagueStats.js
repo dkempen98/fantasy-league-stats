@@ -538,6 +538,7 @@ export default function Home() {
                             <option key={4} value={'TE'}>TE</option>
                             <option key={5} value={'D/ST'}>D/ST</option>
                             <option key={6} value={'K'}>K</option>
+                            <option key={7} value={'P'}>P</option>
                         </select>
                         <span className="global-arrow"></span>
                     </div>
