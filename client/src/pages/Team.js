@@ -304,8 +304,9 @@ export default function Home() {
                     flexProjections.push(Number(person.projectedPoints).toFixed(2))
                     flexNames.push(person.player.charAt(0) + '. ' + person.lastName)
                 } else if (pos === "D/ST") {
+                    console.log(person)
                     defPoints.push(person.points)
-                    defProjections.push(Number(person.projectedPoints).toFixed(2))
+                    defProjections.push(null)
                     defNames.push(person.player)
                 } else if (pos === "K") {
                     kPoints.push(person.points)
