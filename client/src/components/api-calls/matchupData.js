@@ -35,10 +35,10 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 12: Matt
 
 // Select the season you are pulling matchup data for
-const season = 2024
+const season = 2025
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 17
+const maxWeek = 1
 
 let weeklyPlayerData = []
 let playerInfo = []
@@ -90,8 +90,12 @@ function setTeam(playerId) {
             ownerInfo.teamName = 'Team Dumb Dick'
             break
         case 6:
-            ownerInfo.owner = 'Eric'
-            ownerInfo.teamName = 'Message Therapists'
+            ownerInfo.owner = 'Bryce'
+            ownerInfo.teamName = 'Waiver Wire Warriors'
+            if(season < 2025) {
+                ownerInfo.owner = 'Eric'
+                ownerInfo.teamName = 'Message Therapists'
+            }
             break
         case 7:
             ownerInfo.owner = 'Ivan'
@@ -126,9 +130,12 @@ function setTeam(playerId) {
             ownerInfo.teamName = 'Team Swoope'
             break
         case 12:
-            ownerInfo.owner = 'Megan'
-            ownerInfo.teamName = 'Tis the Lamb Season'
-            if(season === 2021) {
+            ownerInfo.owner = 'Alec'
+            ownerInfo.teamName = 'Money Manziel'
+            if(season === 2024) {
+                ownerInfo.owner = 'Megan'
+                ownerInfo.teamName = 'Tis the Lamb Season'
+            } else if(season === 2021) {
                 ownerInfo.owner = 'Matt'
                 ownerInfo.teamName = 'Clouds?'
             }

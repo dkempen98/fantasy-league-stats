@@ -9,6 +9,8 @@ import twentyThreePlayers from "../components/data/players2023.json"
 import twentyThreeTeams from "../components/data/teams2023.json"
 import twentyFourPlayers from "../components/data/players2024.json"
 import twentyFourTeams from "../components/data/teams2024.json"
+import twentyFivePlayers from "../components/data/players2025.json"
+import twentyFiveTeams from "../components/data/teams2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import LineChart from "../components/reusable-stuff/lineChart.js";
 import StackedBarChart from "../components/reusable-stuff/stackedBarChart.js";
@@ -35,8 +37,8 @@ export default function Home() {
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(100)
-    const [players, setPlayers] = useState(twentyFourPlayers)
-    const [teams, setTeams] = useState(twentyFourTeams)
+    const [players, setPlayers] = useState(twentyFivePlayers)
+    const [teams, setTeams] = useState(twentyFiveTeams)
     const [activeTeamId, setActiveTeamId] = useState(1)
     const [activeTeamName, setActiveTeamName] = useState('Alex')
     const [numberOfWeeks, setNumberOfWeeks] = useState(0)
@@ -443,14 +445,12 @@ export default function Home() {
     }
 
     function selectedUserDisplay() {
-        console.log(week)
         return recordsAgainst.map((p, index) =>
             <li key={index}>{p}</li>
         );
     }
 
     function opponentDisplay() {
-        console.log(week)
         return recordsAgainst.map((p, index) =>
             <li key={index}>{p}</li>
         );
@@ -462,7 +462,6 @@ export default function Home() {
         // console.log(activeTeamId)
         const weeklyMatchups = matchups[season][week];
         if(!weeklyMatchups) return
-        console.log(weeklyMatchups)
         let selectedTeamWeek = null;
         let otherTeamWeek = null;
         for(let i = 0; i < weeklyMatchups.length; i++) {
@@ -575,22 +574,26 @@ export default function Home() {
             }
         })
 
+        function getImage(team)
+        {
+            if(!team.logoURL?.includes('mystique-api')) {
+                return team.logoURL;
+            }
+            return `/images/teamLogos/${team.owner.toLowerCase()}_logo_${season}.png`;
+        }
 
 
         return <div className="matchup-container">
             <div className="matchup-header">
                 <div style={{
-                    backgroundImage: `url(${selectedTeam.logoURL})`,
+                    backgroundImage: `url(${getImage(selectedTeam)})`,
                 }} className='matchup-team-image left'>
                 </div>
                 <div className="matchup-bolt">
                     <img src="/images/lightning_bolt.png" />
                 </div>
-                <div className="matchup-vs">
-                    <img src="/images/VS_text.png" alt="vs" />
-                </div>
                 <div style={{
-                    backgroundImage: `url(${otherTeam.logoURL})`,
+                    backgroundImage: `url(${getImage(otherTeam)})`,
                 }} className='matchup-team-image right'>
                 </div>
             </div>
@@ -814,6 +817,12 @@ export default function Home() {
             setTeams(twentyFourTeams)
             setPlayers(twentyFourPlayers)
         }
+        if (newYear == 2025) {
+            setWeek(100) // Update this next season to be 0
+            setSeason(2025)
+            setTeams(twentyFiveTeams)
+            setPlayers(twentyFivePlayers)
+        }
     }
 
     return (
@@ -833,7 +842,7 @@ export default function Home() {
                         <option key={3} value={3}>Tony</option>
                         <option key={4} disabled={season > 2022} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
                         <option key={5} value={5}>Henry</option>
-                        <option key={6} value={6}>Eric</option>
+                        <option key={6} value={6}>{season < 2025 ? 'Eric' : 'Bryce'}</option>
                         <option key={7} disabled={season > 2022} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
                         <option key={8} value={8}>Trap</option>
                         <option key={9} value={9}>Drew</option>
@@ -841,7 +850,7 @@ export default function Home() {
                                 value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>
                         <option key={11} disabled={season < 2023} value={11}>Randy</option>
                         <option key={12} disabled={season < 2023}
-                                value={12}>{season === 2023 ? 'Matt' : 'Megan'}</option>
+                                value={12}>{season === 2023 ? 'Matt' : season === 2024 ? 'Megan' : 'Alec'}</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>

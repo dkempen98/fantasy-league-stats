@@ -5,10 +5,12 @@ import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
 import league2024 from "../components/data/league2024.json"
+import league2025 from "../components/data/league2025.json"
 import players2021 from "../components/data/players2021.json"
 import players2022 from "../components/data/players2022.json"
 import players2023 from "../components/data/players2023.json"
 import players2024 from "../components/data/players2024.json"
+import players2025 from "../components/data/players2025.json"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 // import { Grid } from 'gridjs-react';
@@ -102,6 +104,16 @@ export default function Home() {
                     }
                 })
             });
+            players2025.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
             return playerList
         })
     }
@@ -112,7 +124,7 @@ export default function Home() {
         document.getElementById('search-bar-input').value = '';
         
         let playerLogs = []
-        let allStats = [...players2021, ...players2022, ...players2023, ...players2024]
+        let allStats = [...players2021, ...players2022, ...players2023, ...players2024, ...players2025]
 
         let headerKeys = ['year', 'week', 'team', 'Points', 'Proj. Points']
         let activeHeaders = ['Year', 'Week', 'Team', 'Points', 'Proj. Points']
@@ -382,23 +394,26 @@ export default function Home() {
         let proLogo = ""
         let ownerLogo = ""
 
+        console.log(proTeam)
         if(proTeam) {
             proLogo = "/images/proLogos/" + proTeam + ".png"
         } else {
             proLogo = "/images/proLogos/NFL.png"
         }
 
-        if (season === 2021) {
+        if (selectedSeason === 2021) {
             league = league2021
             if(!activeSeasons.includes(2021)) {
                 activeSeasons.push(2021)
             }
-        } else if (season === 2022) {
+        } else if (selectedSeason === 2022) {
             league = league2022
-        } else if (season === 2023) {
+        } else if (selectedSeason === 2023) {
             league = league2023
-        } else if (season === 2024) {
+        } else if (selectedSeason === 2024) {
             league = league2024
+        } else if (selectedSeason === 2025) {
+            league = league2025
         }
 
         for (let i = 0; i < league.length; i++) {
@@ -409,6 +424,11 @@ export default function Home() {
 
         if (playerOwner.logoURL) {
             ownerLogo = playerOwner.logoURL
+            if(!playerOwner.logoURL?.includes('mystique-api')) {
+                ownerLogo = playerOwner.logoURL;
+            } else {
+                ownerLogo =  `/images/teamLogos/${playerOwner.owner.toLowerCase()}_logo_${selectedSeason}.png`;
+            }
         } else {
             ownerLogo = "/images/proLogos/NFL.png"
         }
@@ -423,8 +443,11 @@ export default function Home() {
 
         setActivePlayer(person.player)
 
-        let pick = draftResults[selectedSeason].find(drafted => drafted.player_id == person.id)
-    
+        let pick = null
+        if(draftResults[selectedSeason]) {
+            pick = draftResults[selectedSeason].find(drafted => drafted.player_id == person.id)
+        }
+
 
         setPlayerOutline(
             <div className='player-container'>

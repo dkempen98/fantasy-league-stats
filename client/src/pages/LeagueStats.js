@@ -12,6 +12,9 @@ import twentyThreeLeague from "../components/data/league2023.json"
 import twentyFourPlayers from "../components/data/players2024.json"
 import twentyFourTeams from "../components/data/teams2024.json"
 import twentyFourLeague from "../components/data/league2024.json"
+import twentyFivePlayers from "../components/data/players2025.json"
+import twentyFiveTeams from "../components/data/teams2025.json"
+import twentyFiveLeague from "../components/data/league2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
@@ -32,9 +35,9 @@ export default function Home() {
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyFourPlayers)
-    const [teams, setTeams] = useState(twentyFourTeams)
-    const [league, setLeague] = useState(twentyFourLeague)
+    const [players, setPlayers] = useState(twentyFivePlayers)
+    const [teams, setTeams] = useState(twentyFiveTeams)
+    const [league, setLeague] = useState(twentyFiveLeague)
     const [defaultNames, setDefaultNames] = useState([])
     const [id, setId] = useState([])
     const [ownerNames, setOwners] = useState([])
@@ -427,6 +430,13 @@ export default function Home() {
             setTeams(twentyFourTeams)
             setPlayers(twentyFourTeams)
             setLeague(twentyFourLeague)
+        }
+        if(newYear == 2025){
+            setWeek(0)
+            setSeason(2025)
+            setTeams(twentyFiveTeams)
+            setPlayers(twentyFiveTeams)
+            setLeague(twentyFiveLeague)
         }
     }
 

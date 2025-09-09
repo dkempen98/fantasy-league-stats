@@ -25,7 +25,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 
 
 // Adjust the season below to determine the year you are pulling data for
-const season = 2024
+const season = 2025
 let league = []
 
 leagueData(season)
@@ -65,7 +65,10 @@ function leagueData(season, week = 1) {
                     team.owner = 'Henry'
                     break
                 case 6:
-                    team.owner = 'Eric'
+                    team.owner = 'Bryce'
+                    if(season < 2025) {
+                        team.owner = 'Eric'
+                    }
                     break
                 case 7:
                     team.owner = 'Ivan'
@@ -92,8 +95,10 @@ function leagueData(season, week = 1) {
                     team.owner = 'Randy'
                     break
                 case 12:
-                    team.owner = 'Megan'
-                    if(season === 2023) {
+                    team.owner = 'Alec'
+                    if(season === 2024) {
+                        team.owner = 'Megan'
+                    } else if(season === 2021) {
                         team.owner = 'Matt'
                     }
                     break
