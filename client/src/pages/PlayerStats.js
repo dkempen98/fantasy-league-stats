@@ -483,7 +483,7 @@ export default function Home() {
                         </div>
                     </div>
                 }
-                { !pick?.owner &&
+                { (!pick?.owner && selectedSeason in draftResults) &&
                     <div className="ps-player-info-container">
                         Undrafted
                     </div>
