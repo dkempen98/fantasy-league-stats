@@ -38,7 +38,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 const season = 2025
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 7
+const maxWeek = 8
 
 let weeklyPlayerData = []
 let playerInfo = []
