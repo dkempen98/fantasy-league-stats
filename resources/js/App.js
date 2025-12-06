@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { StateProvider } from './StateContext.js';
 import Navbar from './components/reusable-stuff/navbar.js';
 import Home from './pages/Home.js'
@@ -9,6 +9,7 @@ import Draft from './pages/Draft.js'
 
 import 'normalize.css';
 import './App.scss';
+import TeamComps from "./pages/TeamComps.js";
 
 
 function App() {
@@ -19,15 +20,15 @@ function App() {
             <Navbar />
             <div className="container">
               <Routes>
-                <Route 
+                <Route
                   path="/"
                   element={<Home />}
                 />
-                <Route 
+                <Route
                   path="/season"
                   element={<LeagueStats />}
                 />
-                <Route 
+                <Route
                   path="/:teamId"
                   element={<Team />}
                 />
@@ -41,7 +42,12 @@ function App() {
                   path="/draft"
                   element={<Draft />}
                 />
-                
+
+                  <Route
+                      path="/head-to-head"
+                      element={<TeamComps />}
+                  />
+
               </Routes>
             </div>
           </div>
