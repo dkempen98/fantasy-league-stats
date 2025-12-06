@@ -63,19 +63,23 @@ export default function TeamComps() {
         if(activeTeam && activeOtherTeam) {
             let num = 1;
             let wins = 0;
+            let playoffWin = 0;
             let myDogWins = 0;
             let yourDogWins = 0;
             let losses = 0;
+            let playoffLosses = 0;
             let resultStreak = 0;
             let result = 0;
             let myTotalPoints = 0;
             let yourTotalPoints = 0;
+            let year = 2021;
+            let lastWeek = 0;
             allTeams.forEach(week => {
+                if(week[0][0].week < lastWeek) {
+                    year++
+                }
+                lastWeek = week[0][0].week;
                 week.forEach(matchup => {
-                    if(num == 1) {
-                        console.log(matchup)
-                    }
-                    num++
                     let match = 0;
                     let me = {};
                     let you = {};
@@ -90,23 +94,32 @@ export default function TeamComps() {
                         you = matchup[0];
                     }
                     if(match) {
-                        if (result != me.win) {
-                            result = me.win;
-                            resultStreak = 1;
-                        } else {
-                            resultStreak++;
-                        }
-                        if (me.win) {
-                            wins++;
-                        } else {
-                            losses++;
-                        }
-                        myTotalPoints += me.score;
-                        yourTotalPoints += you.score;
-                        if (me.win && me.projectedScore < you.projectedScore) {
-                            myDogWins++
-                        } else if (!me.win && me.projectedScore > you.projectedScore) {
-                            yourDogWins++
+                        let playoff = checkPlayoff(me.week, year);
+                        if(playoff !== 1) {
+                            if (result != me.win) {
+                                result = me.win;
+                                resultStreak = 1;
+                            } else {
+                                resultStreak++;
+                            }
+                            if (me.win) {
+                                wins++;
+                                if(playoff) {
+                                    playoffWin++;
+                                }
+                            } else {
+                                losses++;
+                                if(playoff) {
+                                    playoffLosses++;
+                                }
+                            }
+                            myTotalPoints += me.score;
+                            yourTotalPoints += you.score;
+                            if (me.win && me.projectedScore < you.projectedScore) {
+                                myDogWins++
+                            } else if (!me.win && me.projectedScore > you.projectedScore) {
+                                yourDogWins++
+                            }
                         }
                     }
                 })
@@ -124,6 +137,8 @@ export default function TeamComps() {
             setMatchupData({
                 "wins": wins,
                 "losses": losses,
+                "playoffWin": playoffWin,
+                "playoffLosses": playoffLosses,
                 "myDogWins": myDogWins,
                 "yourDogWins": yourDogWins,
                 "resultStreak": resultStreak,
@@ -131,6 +146,27 @@ export default function TeamComps() {
                 "myTotalPoints": myTotalPoints,
                 "yourTotalPoints": yourTotalPoints,
             })
+        }
+    }
+
+    function checkPlayoff(week, year) {
+        switch (year) {
+            case 2021:
+            case 2022:
+            case 2023:
+            case 2024:
+                if(week > 13) {
+                    if(week % 2 === 0) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                } else {
+                    return 0
+                }
+                break;
+            case 2025:
+                return week > 14;
         }
     }
 
@@ -212,12 +248,12 @@ export default function TeamComps() {
                         <h3>Matchup Data</h3>
                     </div>
                     <div className="card">
-                        {activeTeam} Wins: {matchupData.wins}<br/>
-                        {activeOtherTeam} Wins: {matchupData.losses}<br/>
+                        {activeTeam} Wins: {matchupData.wins} ({matchupData.playoffWin} Playoff Wins)<br/>
+                        {activeOtherTeam} Wins: {matchupData.losses} ({matchupData.playoffLosses} Playoff Wins)<br/>
                         {activeTeam} Underdog Wins: {matchupData.myDogWins}<br/>
                         {activeOtherTeam} Underdog Wins: {matchupData.yourDogWins}<br/>
-                        {activeTeam} Total Points: {matchupData.myTotalPoints}<br/>
-                        {activeOtherTeam} Total Points: {matchupData.yourTotalPoints}<br/>
+                        {activeTeam} Total Points: {matchupData.myTotalPoints?.toFixed(2)} ({matchupData.myTotalPoints > matchupData.yourTotalPoints ? "+" : "-"}{Math.abs(matchupData.myTotalPoints - matchupData.yourTotalPoints).toFixed(2)})<br/>
+                        {activeOtherTeam} Total Points: {matchupData.yourTotalPoints?.toFixed(2)}<br/>
                         <br/>
                         {activeTeam} is on a {matchupData.resultStreak} game {matchupData.result ? "winning" : "losing" } streak against {activeOtherTeam}<br/>
                     </div>
