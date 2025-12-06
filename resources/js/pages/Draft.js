@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useStateContext } from "../StateContext.js"
+import axios from "axios";
 import draftResults2021 from "../components/data/draftResults2021.json"
 import draftResults2022 from "../components/data/draftResults2022.json"
 import draftResults2023 from "../components/data/draftResults2023.json"
@@ -12,7 +13,7 @@ import league2024 from "../components/data/league2024.json"
 
 export default function Draft() {
 
-    const { 
+    const {
         currentWeek,
         currentSeason,
         availableSeasons,
@@ -23,7 +24,7 @@ export default function Draft() {
     const [draft, setDraft] = useState(draftResults2024)
     const [league, setLeague] = useState(league2024)
     const [leagueSize, setLeagueSize] = useState(10)
-    
+
     const [filterType, setFilterType] = useState('Round')
     const [filterOptions, setFilterOptions] = useState()
     const [filterOptionSelection, setFilterOptionSelection] = useState(1)
@@ -38,13 +39,13 @@ export default function Draft() {
     function createFilterOptions() {
         if(filterType === 'Round') {
             let roundCount = draft.length / leagueSize
-            let rounds = [] 
+            let rounds = []
             for(let i = 1; roundCount >= i; i++) {
                 rounds.push(
                     <option key={`${i}-round`} value={i}>{'Round ' + i}</option>
                 )
-            } 
-            
+            }
+
             setFilterOptions(rounds)
             setFilterOptionSelection(1)
             return
@@ -55,13 +56,13 @@ export default function Draft() {
             league.forEach((team) => {
                 teams.push(team.owner)
             })
-            let teamOptions = [] 
+            let teamOptions = []
             for(let i = 0; teams.length > i; i++) {
                 teamOptions.push(
                     <option key={`${i}-team`} value={teams[i]}>{teams[i]}</option>
                 )
-            } 
-            
+            }
+
             setFilterOptions(teamOptions)
             setFilterOptionSelection(teams[0])
             return
@@ -69,13 +70,13 @@ export default function Draft() {
 
         if(filterType === 'Position') {
             let positions = ['QB', 'WR', 'RB', 'TE', 'D/ST', 'K']
-            let positionOptions = [] 
+            let positionOptions = []
             for(let i = 0; positions.length > i; i++) {
                 positionOptions.push(
                     <option key={i} value={positions[i]}>{positions[i]}</option>
                 )
-            } 
-            
+            }
+
             setFilterOptions(positionOptions)
             setFilterOptionSelection(positions[0])
             return
@@ -184,7 +185,7 @@ export default function Draft() {
             setLeague(league2021)
             setDraft(draftResults2021)
             return
-        }   
+        }
         if(season === 2022) {
             setLeague(league2022)
             setDraft(draftResults2022)
@@ -201,8 +202,13 @@ export default function Draft() {
             return
         }
     }
+    async function getDraft() {
+        let draft = await axios.get('/api/draft');
+        console.log(draft);
+    }
     useEffect(() => {
         setLeagueSize(league.length)
+        getDraft();
     }, [league])
 
     useEffect(() => {
