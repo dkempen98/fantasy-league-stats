@@ -1,6 +1,6 @@
-import React, { useSyncExternalStore } from "react";
+import React from "react";
 import { Bar } from 'react-chartjs-2';
-import Chart from "chart.js/auto/auto.mjs"
+import { Chart as ChartJS } from 'chart.js/auto';
 
 export default function BarChart({chartData}) {
     return <Bar data={chartData} options={ {

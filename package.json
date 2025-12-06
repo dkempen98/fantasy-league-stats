@@ -1,28 +1,40 @@
 {
-  "name": "fantasy-league-stats",
-  "version": "1.0.0",
-  "description": "Advanced stats for our fantasy football league",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd client && npm run start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dkempen98/fantasy-league-stats.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dkempen98/fantasy-league-stats/issues"
-  },
-  "homepage": "https://github.com/dkempen98/fantasy-league-stats#readme",
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.0",
-    "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "mysql2": "^3.11.0",
-    "sass": "^1.64.0"
-  }
+    "name": "fantasy-league-stats",
+    "version": "1.0.0",
+    "description": "Advanced stats for our fantasy football league",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dkempen98/fantasy-league-stats.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dkempen98/fantasy-league-stats/issues"
+    },
+    "homepage": "https://github.com/dkempen98/fantasy-league-stats#readme",
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.4.0",
+        "@fortawesome/free-solid-svg-icons": "^6.4.0",
+        "@fortawesome/react-fontawesome": "^0.2.0",
+        "chart.js": "^4.4.7",
+        "normalize.css": "^8.0.1",
+        "react": "^18.3.1",
+        "react-chartjs-2": "^5.2.0",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^6.28.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^4.3.4",
+        "axios": "^1.7.4",
+        "laravel-vite-plugin": "^1.0.5",
+        "sass": "^1.64.0",
+        "vite": "^5.0.0"
+    }
 }
