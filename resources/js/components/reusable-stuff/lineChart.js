@@ -4,6 +4,10 @@ import { Chart as ChartJS } from 'chart.js/auto';
 
 export default function LineChart({chartData}) {
     return <Line data={chartData} options={ {
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
         plugins: {
             legend: {
                 display: false,

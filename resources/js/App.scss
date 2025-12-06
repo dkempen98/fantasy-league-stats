@@ -15,14 +15,14 @@ better to have several variable colors than it is to hard code them in.
 
 :root {
   --bg: #505050;
-  --bright: hsl(0, 100%, 20%);
-  --bright-secondary: hsl(0, 100%, 39%);
+  --bright: #00243b;
+  --bright-secondary: #064831;
   --dark: #000000;
   --text: white;
   --alt-text: black;
-  --winner-legend: #105825;
-  --loser-legend: #670000;
-  --primary-legend: #670000;
+  --winner-legend: #064831;
+  --loser-legend: #774F0F;
+  --primary-legend: #064831;
   --secondary-legend: #383838;
   --table: #252525;
 }
@@ -71,6 +71,10 @@ h6 {
   &-mobile-column {
     flex-direction: row;
   }
+
+  &-large-gap {
+    gap: 5rem;
+  }
 }
 
 .pr {
@@ -84,7 +88,7 @@ h6 {
 .global-week-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .global-dropdown {
@@ -130,7 +134,7 @@ h6 {
 .global-arrow::before {
   border-left: var(--triangle-size) solid transparent;
   border-right: var(--triangle-size) solid transparent;
-  border-bottom: var(--triangle-size) solid var(--bright);
+  border-bottom: var(--triangle-size) solid var(--bright-secondary);
 
   top: 33%;
 }
@@ -138,7 +142,7 @@ h6 {
 .global-arrow::after {
   border-left: var(--triangle-size) solid transparent;
   border-right: var(--triangle-size) solid transparent;
-  border-top: var(--triangle-size) solid var(--bright);
+  border-top: var(--triangle-size) solid var(--bright-secondary);
 
   top: 67%;
 }
@@ -222,7 +226,15 @@ h6 {
 
 .next-button {
   margin-left: auto;
-  
+  background-color: var(--bright);
+  border-right: solid 1px var(--dark);
+  border-top: solid 1px var(--dark);
+}
+
+.prev-button {
+  background-color: var(--bright);
+  border-right: solid 1px var(--dark);
+  border-top: solid 1px var(--dark);
 }
 
 .page-header {
@@ -239,6 +251,14 @@ h6 {
   
   box-shadow: .5rem .5rem .5rem #00000090;
   border-radius: 5px;
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
+  & li{
+    margin: 2px 0 2px 0;
+  }
 }
 
 .section-header {
@@ -383,17 +403,25 @@ h6 {
 .search-results {
   background-color: #000000;
   width: calc(20rem + 6px);
-  max-width: 80vw;
+  max-width: calc(82vw - 1px);
   margin: 0;
   padding: 0;
   border: solid 2px var(--bright);
   border-top: none;
+  position: absolute;
+  z-index: 1000;
+  cursor: pointer;
 
   &-items {
     border-bottom: 2px solid var(--bright);
     line-height: 2rem;
     padding-left: 5px;
     list-style: none;
+    &-no-result {
+      list-style: none;
+      padding-left: 5px;
+      line-height: 2rem;
+    }
   }
 }
 
@@ -503,12 +531,137 @@ h6 {
 
 .team-logo {
   border-radius: 5px;
-  background-color: #ffffff79;  
-  
+  background-color: #ffffff79;
+
   width: 60px;
   position: absolute;
   right: 7px;
   top: 7px;
+  &-fixed {
+    position: relative;
+  }
+}
+
+.matchup {
+  &-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  &-header {
+    display: flex;
+    position: relative;
+    height: 10rem;
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  &-vs {
+    position: absolute;
+    height: 100%;
+    //top: 5rem;
+    z-index: 101;
+    opacity: 0;
+    & > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &-bolt {
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin-inline: auto;
+    width: fit-content;
+    //height: 15rem;
+  }
+  &-bolt > img {
+    height: calc(10rem + 3px);
+  }
+
+  &-team-image {
+    min-height: 5rem;
+    width: 50%;
+    position: relative;
+    //background-blend-mode: multiply;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+    border: 3px solid black;
+    border-bottom: none;
+    &.left {
+      background-color: var(--bright);
+      border-right: none;
+      border-top-left-radius: 5px;
+    }
+    &.right {
+      background-color: var(--bright-secondary);
+      border-left: none;
+      border-top-right-radius: 5px;
+    }
+  }
+
+  &-title {
+    background: var(--bright);
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+    margin-bottom: 0;
+  }
+
+  &-owner {
+    font-size: 5rem;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    backdrop-filter: blur(20px);
+    background: radial-gradient(rgba(136, 136, 136, 0.75), rgba(3, 3, 3, 0.75));
+    border: solid 3px black;
+  }
+
+  &-row {
+    //border-bottom: 1px solid white;
+    padding: 0 1rem 0 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-stat {
+    text-align: center;
+    padding: 5px 0 5px 0;
+    margin-bottom: 10px;
+    border: 2px solid silver;
+    &.left {
+      min-width: 4rem;
+      border-radius: 100px 0 0 100px;
+      background-color: var(--bright) ;
+      border-right: 1px solid silver;
+    }
+    &.right {
+      min-width: 4rem;
+      border-radius: 0 100px 100px 0;
+      background-color: var(--bright-secondary) ;
+      border-left: 1px solid silver;
+    }
+    &.center {
+      border-left: none;
+      border-right: none;
+      flex-grow: 1;
+      background-color: var(--dark);
+    }
+  }
 }
 
 
@@ -567,6 +720,16 @@ tr, caption {
   border-bottom: 1px solid black;
 }
 
+.ps {
+  &-player-info-container {
+    display: flex;
+    gap: 3rem;
+    background-color: var(--dark);
+    padding: 1rem;
+    font-weight: 600;
+  }
+}
+
 .chart-container {
   display: flex;
   align-items: center;
@@ -621,6 +784,11 @@ tr, caption {
   min-height: 30rem;
 }
 
+.jumbo-chart {
+  max-width: 90rem;
+  min-height: 50rem;
+}
+
 .line-chart {
   min-height: 0rem;
 }
@@ -667,11 +835,11 @@ tr, caption {
   }
 
   &-player {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    margin: 0;
-    padding: 6px;
+    width: 100%;
+    padding: 0;
+    margin:0;
+    text-align: center;
+    font-weight: bold;
   }
 
   &-draft {
@@ -781,6 +949,9 @@ tr, caption {
 }
 
 @media (min-width: 1001px) {
+  .global-week-header {
+    gap: 1rem;
+  }
   .nb-primary {
     padding-block: 1rem;
     padding-inline: clamp(3rem, 5vw, 10rem);
@@ -796,7 +967,14 @@ tr, caption {
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 560px) {
+
+  .ps {
+    &-player-info-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
 
   tr {
     height: 3.5em;
@@ -843,6 +1021,9 @@ tr, caption {
   .hide-large {
     display: inline-block;
   }
+  .hide-small {
+    display: none;
+  }
   .flex-mobile-column {
     flex-direction: column;
   }
@@ -856,6 +1037,14 @@ tr, caption {
     max-width: 90%;
     min-width: 50%;
   }
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.align-end {
+  align-items: flex-end;
 }
 
 

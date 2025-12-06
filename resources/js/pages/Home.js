@@ -3,10 +3,19 @@ import { useState, useEffect, React } from "react";
 import { useStateContext } from "../StateContext.js";
 import twentyOnePlayers from "../components/data/players2021.json"
 import twentyOneTeams from "../components/data/teams2021.json"
+import twentyOneLeague from "../components/data/league2021.json"
 import twentyTwoPlayers from "../components/data/players2022.json"
 import twentyTwoTeams from "../components/data/teams2022.json"
+import twentyTwoLeague from "../components/data/league2022.json"
 import twentyThreePlayers from "../components/data/players2023.json"
 import twentyThreeTeams from "../components/data/teams2023.json"
+import twentyThreeLeague from "../components/data/league2023.json"
+import twentyFourPlayers from "../components/data/players2024.json"
+import twentyFourTeams from "../components/data/teams2024.json"
+import twentyFourLeague from "../components/data/league2024.json"
+import twentyFivePlayers from "../components/data/players2025.json"
+import twentyFiveTeams from "../components/data/teams2025.json"
+import twentyFiveLeague from "../components/data/league2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
@@ -27,14 +36,18 @@ export default function Home() {
     
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyThreePlayers)
-    const [teams, setTeams] = useState(twentyThreeTeams)
-    const [defaultNames, setDefaultNames] = useState(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+    const [players, setPlayers] = useState(twentyFivePlayers)
+    const [teams, setTeams] = useState(twentyFiveTeams)
+    const [league, setLeague] = useState(twentyFiveLeague)
+    const [defaultNames, setDefaultNames] = useState([])
     const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
     const [ownerNames, setOwners] = useState([])
     const [margin, setMargin] = useState([])
     const [win, setWin] = useState([])
+
+    const [ownerNamesMatchupLabels, setOwnerNamesMatchupLabels] = useState([])
+    const [chartDisplayScores, setChartDisplayScores] = useState([])
 
     const [closestWinner, setClosestWinner] = useState('')
     const [closestLoser, setClosestLoser] = useState('')
@@ -64,16 +77,38 @@ export default function Home() {
         
         
 
-        teams[week].forEach(matchup => {
-            matchup.forEach(specificTeam => {
-                teamIdPlaceholder.push(specificTeam.id)
-                teamPlaceholder.push(specificTeam.team)
-                ownerPlaceholder.push(specificTeam.owner)
-                marginPlaceholder.push(specificTeam.margin)
-                scorePlaceholder.push(specificTeam.score)
-                winPlaceholder.push(specificTeam.win)
-            })
-        });
+        console.log(teams, week)
+        if(teams.length) {
+            teams[week].forEach(matchup => {
+                matchup.forEach(specificTeam => {
+                    teamIdPlaceholder.push(specificTeam.id)
+                    teamPlaceholder.push(specificTeam.team)
+                    ownerPlaceholder.push(specificTeam.owner)
+                    marginPlaceholder.push(specificTeam.margin)
+                    scorePlaceholder.push(specificTeam.score)
+                    winPlaceholder.push(specificTeam.win)
+                })
+            });
+        }
+
+        let teamLabels = []
+        ownerPlaceholder.forEach((team, i) => {
+            if(i % 2 === 0 && i !== 0) {
+                // teamLabels.push(team + ' v. ' + ownerNames[i + 1])
+                teamLabels.push('')
+            }
+            teamLabels.push(team)
+        })
+        setOwnerNamesMatchupLabels(teamLabels)
+
+        let chartScores = []
+        scorePlaceholder.forEach((score, i) => {
+            if(i % 2 === 0 && i !== 0) {
+                chartScores.push(null)
+            }
+            chartScores.push(score)
+        })
+        setChartDisplayScores(chartScores);
 
         setId(teamIdPlaceholder)
         setTeamNames(teamPlaceholder)
@@ -81,6 +116,7 @@ export default function Home() {
         setMargin(marginPlaceholder)
         setWin(winPlaceholder)
         setTeamScores(scorePlaceholder)
+
     }
 
     function getWeeklyStats() {
@@ -178,7 +214,10 @@ export default function Home() {
         // Set colors for winning and losing teams
         let winLoss = []
 
-        win.forEach(game => {
+        win.forEach((game, i) => {
+            if(i % 2 === 0 && i !== 0) {
+                winLoss.push(null)
+            }
             if(game){
                 winLoss.push(winColor)
             } else {
@@ -195,6 +234,7 @@ export default function Home() {
         } else {
         setWeek(teams.length - 1)
         }
+        applyTeamNames();
     },[])
 
     useEffect(() => {
@@ -205,11 +245,26 @@ export default function Home() {
         getWeeklyStats()
     }, [teamScores, season])
 
+    useEffect(() => {
+        applyTeamNames();
+    }, [season])
+
+
+
+
         
 
 
     function weekChange(newWeek){
         setWeek(newWeek)
+    }
+
+    function applyTeamNames() {
+        let teamNames = []
+        league.forEach((team) => {
+            teamNames.push(team.owner)
+        })
+        setDefaultNames(teamNames);
     }
 
     function seasonChange(newYear){
@@ -218,21 +273,35 @@ export default function Home() {
             setSeason(2021)
             setTeams(twentyOneTeams)
             setPlayers(twentyOnePlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Kayla", "Henry", "Eric", "Kief", "Trap", "Drew", "Josh"])
+            setLeague(twentyOneLeague)
         }
         if(newYear == 2022){
             setWeek(0)
             setSeason(2022)
             setTeams(twentyTwoTeams)
             setPlayers(twentyTwoPlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"])
+            setLeague(twentyTwoLeague)
         }
         if(newYear == 2023){
             setWeek(0)
             setSeason(2023)
             setTeams(twentyThreeTeams)
             setPlayers(twentyThreePlayers)
-            setDefaultNames(["Alex", "Ben", "Tony", "Henry", "Eric", "Trap", "Drew", "Kayla", "Randy", "Matt"])
+            setLeague(twentyThreeLeague)
+        }
+        if(newYear == 2024){
+            setWeek(0)
+            setSeason(2024)
+            setTeams(twentyFourTeams)
+            setPlayers(twentyFourPlayers)
+            setLeague(twentyFourLeague)
+        }
+        if(newYear == 2025){
+            setWeek(0)
+            setSeason(2025)
+            setTeams(twentyFiveTeams)
+            setPlayers(twentyFivePlayers)
+            setLeague(twentyFiveLeague)
         }
     }
 
@@ -300,13 +369,13 @@ export default function Home() {
                     <div className="chart-title">
                         <h3>Total Points Scored</h3>
                     </div>
-                    <div className="chart medium-chart">
+                    <div className="chart large-chart">
                         <BarChart chartData={
                             {
-                                labels: ownerNames,
+                                labels: ownerNamesMatchupLabels,
                                 datasets: [{
                                     label: '',
-                                    data: teamScores,
+                                    data: chartDisplayScores,
                                     backgroundColor: winLossColors,
                                 }]
                             }
@@ -321,7 +390,7 @@ export default function Home() {
                     <div className="chart-title">
                         <h3>Total Bench Points</h3>
                     </div>
-                    <div className="chart medium-chart">
+                    <div className="chart large-chart">
                         <BarChart chartData={
                             {
                                 labels: defaultNames,

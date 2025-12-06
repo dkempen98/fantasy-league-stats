@@ -3,10 +3,11 @@ import { useStateContext } from "../StateContext.js"
 import draftResults2021 from "../components/data/draftResults2021.json"
 import draftResults2022 from "../components/data/draftResults2022.json"
 import draftResults2023 from "../components/data/draftResults2023.json"
+import draftResults2024 from "../components/data/draftResults2024.json"
 import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
-import { faKipSign } from "@fortawesome/free-solid-svg-icons"
+import league2024 from "../components/data/league2024.json"
 
 
 export default function Draft() {
@@ -18,9 +19,9 @@ export default function Draft() {
         yearDropdownOptions
     } = useStateContext()
 
-    const [season, setSeason] = useState(2022)
-    const [draft, setDraft] = useState(draftResults2022)
-    const [league, setLeague] = useState(league2022)
+    const [season, setSeason] = useState(2024)
+    const [draft, setDraft] = useState(draftResults2024)
+    const [league, setLeague] = useState(league2024)
     const [leagueSize, setLeagueSize] = useState(10)
     
     const [filterType, setFilterType] = useState('Round')
@@ -40,7 +41,7 @@ export default function Draft() {
             let rounds = [] 
             for(let i = 1; roundCount >= i; i++) {
                 rounds.push(
-                    <option key={i} value={i}>{'Round ' + i}</option>
+                    <option key={`${i}-round`} value={i}>{'Round ' + i}</option>
                 )
             } 
             
@@ -57,7 +58,7 @@ export default function Draft() {
             let teamOptions = [] 
             for(let i = 0; teams.length > i; i++) {
                 teamOptions.push(
-                    <option key={i} value={teams[i]}>{teams[i]}</option>
+                    <option key={`${i}-team`} value={teams[i]}>{teams[i]}</option>
                 )
             } 
             
@@ -99,17 +100,18 @@ export default function Draft() {
     }
 
     function createTableRow(pick) {
+        console.log(pick)
         let round = Math.ceil((pick + 1) / leagueSize)
 
         return (
-            <tr key={pick}>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Team'}key={pick + 'owner'}>{draft[pick].owner}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Round'}key={pick + 'round'}>{round}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Pick'}key={pick + 'pick'}>{pick + 1}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Name'}key={pick + 'player'}>{draft[pick].player}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Position (Rank)'}key={pick + 'position'}>{draft[pick].position + ' (' + draft[pick].position_rank + ")"}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Overall Rank'}key={pick + 'rank'}>{draft[pick].overall_rank}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'NFL Team'}key={pick + 'team'}>{draft[pick].nfl_team}</td>
+            <tr key={`${pick}-pick`}>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Team'}key={pick + '-pick-owner'}>{draft[pick].owner}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Round'}key={pick + '-pick-round'}>{round}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Pick'}key={pick + '-pick-pick'}>{pick + 1}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Name'}key={pick + '-pick-player'}>{draft[pick].player}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Position (Rank)'}key={pick + '-pick-position'}>{draft[pick].position + ' (' + draft[pick].position_rank + ")"}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Overall Rank'}key={pick + '-pick-rank'}>{draft[pick].overall_rank}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'NFL Team'}key={pick + '-pick-team'}>{draft[pick].nfl_team}</td>
             </tr>
         )
     }
@@ -128,15 +130,21 @@ export default function Draft() {
         let thisNavButtons = []
 
         if(lowestPick > 0) {
-            thisNavButtons.push(<button className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
+            thisNavButtons.push(<button className='global-button prev-button' key={`${lowestPick}-prevButton`} onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) - 1)}><span></span>Last Page<span></span></button>)
         } else {
-            thisNavButtons.push(<button disabled={true} className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal - 1)}><span></span>Last Page<span></span></button>)
+            thisNavButtons.push(<button disabled={true} className='global-button prev-button' key={'prevButton'} onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) - 1)}><span></span>Last Page<span></span></button>)
         }
 
         if(highestPick < draft.length) {
-            thisNavButtons.push(<button className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
+            thisNavButtons.push(
+                <button
+                    className='global-button next-button' key={`${highestPick}-nextButton`}
+                    onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) + 1)}>
+                    <span></span>Next Page<span></span>
+                </button>
+            )
         } else {
-            thisNavButtons.push(<button disabled={true} className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => oldVal + 1)}><span></span>Next Page<span></span></button>)
+            thisNavButtons.push(<button disabled={true} className='global-button next-button' key={'nextButton'} onClick={() => setFilterOptionSelection((oldVal) => Number(oldVal) + 1)}><span></span>Next Page<span></span></button>)
         }
 
         setDraftBoard(thisBoard)
@@ -187,6 +195,11 @@ export default function Draft() {
             setDraft(draftResults2023)
             return
         }
+        if(season === 2024) {
+            setLeague(league2024)
+            setDraft(draftResults2024)
+            return
+        }
     }
     useEffect(() => {
         setLeagueSize(league.length)
@@ -213,8 +226,10 @@ export default function Draft() {
                     <div className="global-dropdown dropdown-size-match-mobile">
                         <select value={season} onChange={(e) => setSeason(parseInt(e.target.value))}>
                             {/* {yearDropdownOptions} */}
-                            <option key={1} value={2021}>2021</option>
-                            <option key={2} value={2022}>2022</option>
+                            <option key={'2021-season-button'} value={2021}>2021</option>
+                            <option key={'2022-season-button'} value={2022}>2022</option>
+                            <option key={'2023-season-button'} value={2023}>2023</option>
+                            <option key={'2024-season-button'} value={2024}>2024</option>
                         </select>
                         <span className="global-arrow"></span>
                     </div>

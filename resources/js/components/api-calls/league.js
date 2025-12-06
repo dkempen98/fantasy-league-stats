@@ -1,11 +1,10 @@
-import pkg from 'espn-fantasy-football-api/node.js';
+import pkg from 'espn-fantasy-football-api/node-dev.js';
 const { Client } = pkg;
 import fs from 'fs'
 import * as dotenv from 'dotenv'
-dotenv.config()
+dotenv.config({path: '../../../../.env'})
 
 console.log("----------------API-----------------")
-console.log(process.env.LEAGUE_ID)
 
 const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 
@@ -26,7 +25,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 
 
 // Adjust the season below to determine the year you are pulling data for
-const season = 2023
+const season = 2025
 let league = []
 
 leagueData(season)
@@ -66,7 +65,10 @@ function leagueData(season, week = 1) {
                     team.owner = 'Henry'
                     break
                 case 6:
-                    team.owner = 'Eric'
+                    team.owner = 'Bryce'
+                    if(season < 2025) {
+                        team.owner = 'Eric'
+                    }
                     break
                 case 7:
                     team.owner = 'Ivan'
@@ -93,14 +95,21 @@ function leagueData(season, week = 1) {
                     team.owner = 'Randy'
                     break
                 case 12:
-                    team.owner = 'Matt'
+                    team.owner = 'Alec'
+                    if(season === 2024) {
+                        team.owner = 'Megan'
+                    } else if(season === 2021) {
+                        team.owner = 'Matt'
+                    }
                     break
             }
 
             league.push(team)
         })
         let leagueInfo = JSON.stringify(league);
-        // fs.writeFileSync(`./client/src/components/data/league${season}.json`, leagueInfo)
+
+        // console.log(leagueInfo);
+        fs.writeFileSync(`../data/league${season}.json`, leagueInfo)
 
         console.log('Files Created!')
     })

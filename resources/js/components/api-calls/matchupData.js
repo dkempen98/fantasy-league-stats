@@ -1,11 +1,10 @@
-import pkg from 'espn-fantasy-football-api/node.js';
+import pkg from 'espn-fantasy-football-api/node-dev.js';
 const { Client } = pkg;
 import fs from 'fs'
-import * as dotenv from 'dotenv'
-dotenv.config({ path: '../../../../.env' })
+import dotenv from 'dotenv'
+dotenv.config({path: '../../../../.env'})
 
 console.log("----------------API-----------------")
-console.log(process.env.LEAGUE_ID)
 
 const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 
@@ -36,10 +35,10 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 12: Matt
 
 // Select the season you are pulling matchup data for
-const season = 2023
+const season = 2025
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 17
+const maxWeek = 13
 
 let weeklyPlayerData = []
 let playerInfo = []
@@ -91,8 +90,12 @@ function setTeam(playerId) {
             ownerInfo.teamName = 'Team Dumb Dick'
             break
         case 6:
-            ownerInfo.owner = 'Eric'
-            ownerInfo.teamName = 'Message Therapists'
+            ownerInfo.owner = 'Bryce'
+            ownerInfo.teamName = 'Waiver Wire Warriors'
+            if(season < 2025) {
+                ownerInfo.owner = 'Eric'
+                ownerInfo.teamName = 'Message Therapists'
+            }
             break
         case 7:
             ownerInfo.owner = 'Ivan'
@@ -127,8 +130,15 @@ function setTeam(playerId) {
             ownerInfo.teamName = 'Team Swoope'
             break
         case 12:
-            ownerInfo.owner = 'Matt'
-            ownerInfo.teamName = 'Clouds?'
+            ownerInfo.owner = 'Alec'
+            ownerInfo.teamName = 'Money Manziel'
+            if(season === 2024) {
+                ownerInfo.owner = 'Megan'
+                ownerInfo.teamName = 'Tis the Lamb Season'
+            } else if(season === 2021) {
+                ownerInfo.owner = 'Matt'
+                ownerInfo.teamName = 'Clouds?'
+            }
             break
     }
     return ownerInfo
@@ -283,7 +293,7 @@ function getInfo(week, matchupId) {
     .then(res => {
         weeklyPlayerData.push(playerInfo)
         weeklyTeamData.push(teamInfo)
-        // console.log(teamInfo)
+        console.log(teamInfo)
     })
 
     .then(res => {
@@ -302,10 +312,10 @@ function getInfo(week, matchupId) {
             // Each season gets its own file. These files act as a database of sorts
                         
             let info = JSON.stringify(weeklyPlayerData);
-            // fs.writeFileSync(`./client/src/components/data/players${season}.json`, info)
+            fs.writeFileSync(`../data/players${season}.json`, info)
 
             info = JSON.stringify(weeklyTeamData);
-            // fs.writeFileSync(`./client/src/components/data/teams${season}.json`, info)
+            fs.writeFileSync(`../data/teams${season}.json`, info)
 
             console.log('Files Created!')
         }

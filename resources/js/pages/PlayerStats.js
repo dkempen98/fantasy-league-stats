@@ -4,10 +4,13 @@ import { useStateContext } from "../StateContext.js";
 import league2021 from "../components/data/league2021.json"
 import league2022 from "../components/data/league2022.json"
 import league2023 from "../components/data/league2023.json"
+import league2024 from "../components/data/league2024.json"
+import league2025 from "../components/data/league2025.json"
 import players2021 from "../components/data/players2021.json"
 import players2022 from "../components/data/players2022.json"
 import players2023 from "../components/data/players2023.json"
-import BarChart from "../components/reusable-stuff/barChart.js";
+import players2024 from "../components/data/players2024.json"
+import players2025 from "../components/data/players2025.json"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 // import { Grid } from 'gridjs-react';
@@ -38,11 +41,12 @@ export default function Home() {
         loseColor,
         currentWeek,
         currentSeason,
+        draftResults,
     } = useStateContext()
         
 
     function handleClickOutside(e) {
-        if(!refOne.current.contains(e.target)) {
+        if(e === 'manualReset' || !refOne.current.contains(e.target)) {
             setSearchQuery('')
             document.getElementById('search-bar').style.borderRadius = '30px';
             document.getElementById('search-bar-input').value = '';
@@ -51,6 +55,10 @@ export default function Home() {
 
     function weekChange(newWeek){
         setWeek(newWeek)
+    }
+
+    function getRoundedNum(num) {
+        return Math.round((num + Number.EPSILON) * 100) / 100
     }
 
     function createPlayerList() {
@@ -86,6 +94,26 @@ export default function Home() {
                     }
                 })
             });
+            players2024.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
+            players2025.forEach(week => {
+                week.forEach(thisPlayer => {
+                    if(!playerList.some(e => e.id === thisPlayer.id)) {
+                        playerList.push({
+                            id: thisPlayer.id,
+                            player: thisPlayer.player
+                        })
+                    }
+                })
+            });
             return playerList
         })
     }
@@ -96,12 +124,15 @@ export default function Home() {
         document.getElementById('search-bar-input').value = '';
         
         let playerLogs = []
-        let allStats = [...players2021, ...players2022, ...players2023]
+        let allStats = [...players2021, ...players2022, ...players2023, ...players2024, ...players2025]
 
-        let headerKeys = ['year', 'week', 'team']
-        let activeHeaders = ['Year', 'Week', 'Team']
+        let headerKeys = ['year', 'week', 'team', 'Points', 'Proj. Points']
+        let activeHeaders = ['Year', 'Week', 'Team', 'Points', 'Proj. Points']
         let activeSeasons = []
-        let seasonStats = {}
+        let seasonStats = {
+            points: 0,
+            projPoints: 0
+        }
 
         allStats.forEach(week => {
             week.forEach(record => {
@@ -124,6 +155,8 @@ export default function Home() {
         })
 
 
+        let proTeam = null;
+        let ownerId = null;
         let tableRows = []
         let currentSelectedSeason = selectedSeason
         if(!selectedSeason) {
@@ -139,8 +172,20 @@ export default function Home() {
         }
 
         playerLogs.forEach(gameLog => {
-            let statLog = [gameLog.seasonId, gameLog.week, gameLog.owner]
-            let rowData = ["Year", "Week", "Team"]
+            if(gameLog.seasonId === selectedSeason) {
+                proTeam = gameLog.proTeam;
+                ownerId = gameLog.teamId;
+                seasonStats.points += gameLog.points
+                seasonStats.projPoints += gameLog.projectedPoints
+            }
+            let statLog = [
+                gameLog.seasonId,
+                gameLog.week,
+                gameLog.owner,
+                getRoundedNum(gameLog.points),
+                getRoundedNum(gameLog.projectedPoints)
+            ]
+            let rowData = ["Year", "Week", "Team", "Points", "Proj. Points"]
 
             if(gameLog.seasonId !== currentSelectedSeason) return
 
@@ -277,7 +322,13 @@ export default function Home() {
         })
 
 
-        let seasonStatArray = [currentSelectedSeason,'Totals','-']
+        let seasonStatArray = [
+            currentSelectedSeason,
+            'Totals',
+            '-',
+            getRoundedNum(seasonStats.points),
+            getRoundedNum(seasonStats.projPoints)
+        ]
 
 
         if(headerKeys.includes('passingYards')) {
@@ -340,26 +391,29 @@ export default function Home() {
         let playerOwner = {}
         let season = playerLogs[playerLogs.length - 1].seasonId
         let weekLastPlayed = playerLogs[playerLogs.length - 1].week
-        let ownerId = playerLogs[playerLogs.length - 1].teamId
-        let proTeam = playerLogs[playerLogs.length - 1].proTeam
         let proLogo = ""
         let ownerLogo = ""
 
+        console.log(proTeam)
         if(proTeam) {
             proLogo = "/images/proLogos/" + proTeam + ".png"
         } else {
             proLogo = "/images/proLogos/NFL.png"
         }
 
-        if (season === 2021) {
+        if (selectedSeason === 2021) {
             league = league2021
             if(!activeSeasons.includes(2021)) {
                 activeSeasons.push(2021)
             }
-        } else if (season === 2022) {
+        } else if (selectedSeason === 2022) {
             league = league2022
-        } else if (season === 2023) {
+        } else if (selectedSeason === 2023) {
             league = league2023
+        } else if (selectedSeason === 2024) {
+            league = league2024
+        } else if (selectedSeason === 2025) {
+            league = league2025
         }
 
         for (let i = 0; i < league.length; i++) {
@@ -368,10 +422,15 @@ export default function Home() {
             }
           }
 
-        if (season == currentSeason && currentWeek == weekLastPlayed - 1) {
+        if (playerOwner.logoURL) {
             ownerLogo = playerOwner.logoURL
+            if(!playerOwner.logoURL?.includes('mystique-api')) {
+                ownerLogo = playerOwner.logoURL;
+            } else {
+                ownerLogo =  `/images/teamLogos/${playerOwner.owner.toLowerCase()}_logo_${selectedSeason}.png`;
+            }
         } else {
-            ownerLogo = "/images/proLogos/nfl.png"
+            ownerLogo = "/images/proLogos/NFL.png"
         }
 
         let mappedHeaders = activeHeaders.map((header, index) =>
@@ -383,7 +442,12 @@ export default function Home() {
         )
 
         setActivePlayer(person.player)
-    
+
+        let pick = null
+        if(draftResults[selectedSeason]) {
+            pick = draftResults[selectedSeason].find(drafted => drafted.player_id == person.id)
+        }
+
 
         setPlayerOutline(
             <div className='player-container'>
@@ -404,21 +468,39 @@ export default function Home() {
                         <div>
                             <img src={ownerLogo} className="team-logo"/>
                         </div>
-                        <label style={{marginTop: '5px'}} className='hide-large checkbox-label checkbox-bg checkbox-player'>
-                            <input
-                                type={"checkbox"}
-                                checked={tableView}
-                                onChange={() => tableViewToggle()}
-                                className={'hide-large checkbox'}
-                            />
-                            Table View
-                        </label>
                     </div>
                 </div>
+                { pick?.owner &&
+                    <div className="ps-player-info-container">
+                        <div>
+                            Drafted By: { pick.owner }
+                        </div>
+                        <div>
+                            Draft Position: { pick.pick }
+                        </div>
+                        <div>
+                            Season Result: { pick.position } { pick.position_rank } (#{ pick.overall_rank } Overall)
+                        </div>
+                    </div>
+                }
+                { (!pick?.owner && selectedSeason in draftResults) &&
+                    <div className="ps-player-info-container">
+                        Undrafted
+                    </div>
+                }
                 <div className="table-wrapper">
+                    <label className='hide-large checkbox-label checkbox-bg checkbox-player'>
+                        <input
+                            type={"checkbox"}
+                            checked={tableView}
+                            onChange={() => tableViewToggle()}
+                            className={'hide-large checkbox'}
+                        />
+                        Table View
+                    </label>
                     <div className="table-container">
                         <table>
-                            <caption className={tableView ? '' : 'mobile-on'}>PLAYER STATS</caption>
+                            <caption>PLAYER STATS</caption>
                             <thead id="table-head">
                                 <tr>
                                     {mappedHeaders}
@@ -477,6 +559,9 @@ export default function Home() {
 
         setSearchResults(() => {
             let results = playerSearch.filter(person => person.player.toLowerCase().includes(searchQuery.toLowerCase()))
+            if(results.length === 0) {
+                return <li className="search-results-items-no-result" onClick={(event) => handleClickOutside('manualReset')}>No Results Found</li> ;
+            }
             return results.map((p) =>
                 <li key={p.id} className="search-results-items" onClick={() => playerSelected(p)}>{p.player}</li>
             );
