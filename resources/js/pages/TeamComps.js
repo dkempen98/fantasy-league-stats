@@ -254,6 +254,7 @@ export default function TeamComps() {
                         {activeOtherTeam} Underdog Wins: {matchupData.yourDogWins}<br/>
                         {activeTeam} Total Points: {matchupData.myTotalPoints?.toFixed(2)} ({matchupData.myTotalPoints > matchupData.yourTotalPoints ? "+" : "-"}{Math.abs(matchupData.myTotalPoints - matchupData.yourTotalPoints).toFixed(2)})<br/>
                         {activeOtherTeam} Total Points: {matchupData.yourTotalPoints?.toFixed(2)}<br/>
+                        Average Margin of Victory: {(Math.abs(matchupData.myTotalPoints - matchupData.yourTotalPoints) / (matchupData.wins + matchupData.losses)).toFixed(2)}<br/>
                         <br/>
                         {activeTeam} is on a {matchupData.resultStreak} game {matchupData.result ? "winning" : "losing" } streak against {activeOtherTeam}<br/>
                     </div>
