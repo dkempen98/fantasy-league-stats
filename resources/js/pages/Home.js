@@ -19,21 +19,21 @@ import twentyFiveLeague from "../components/data/league2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
-    
-    const { 
+
+    const {
         primaryColor,
         primarySolid,
-        winColor, 
-        winSolid, 
-        secondaryColor, 
-        secondarySolid, 
+        winColor,
+        winSolid,
+        secondaryColor,
+        secondarySolid,
         loseColor,
         loseSolid,
         yearDropdownOptions,
         currentSeason,
         currentWeek
     } = useStateContext()
-    
+
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
     const [players, setPlayers] = useState(twentyFivePlayers)
@@ -74,8 +74,8 @@ export default function Home() {
         let marginPlaceholder = []
         let scorePlaceholder = []
         let winPlaceholder = []
-        
-        
+
+
 
         console.log(teams, week)
         if(teams.length) {
@@ -129,14 +129,14 @@ export default function Home() {
         teamScores.forEach(score => {
             total += score
         })
-        
+
         avg = total / 10
         setAverage(avg)
 
         // find the closest game
         // Based on the way the teams and the scores are set up, matchups are always
         // next to each other in arrays which is why the for loop below works
-        
+
         let closestGame = 1000
         let closestWinnerPlaceholder = ''
         let closestLoserPlaceholder = ''
@@ -222,7 +222,7 @@ export default function Home() {
                 winLoss.push(winColor)
             } else {
                 winLoss.push(loseColor)
-            } 
+            }
         });
 
         setWinLossColors(winLoss)
@@ -252,7 +252,7 @@ export default function Home() {
 
 
 
-        
+
 
 
     function weekChange(newWeek){
@@ -330,10 +330,10 @@ export default function Home() {
                         <option key={11} value={10} disabled={teams.length < 11 ? true : false}>Week 11</option>
                         <option key={12} value={11} disabled={teams.length < 12 ? true : false}>Week 12</option>
                         <option key={13} value={12} disabled={teams.length < 13 ? true : false}>Week 13</option>
-                        <option key={14} value={13} disabled={teams.length < 14 ? true : false}>Round 1.1</option>
-                        <option key={15} value={14} disabled={teams.length < 14 ? true : false}>Round 1.2</option>
-                        <option key={16} value={15} disabled={teams.length < 16 ? true : false}>Round 2.1</option>
-                        <option key={17} value={16} disabled={teams.length < 16 ? true : false}>Round 2.2</option>
+                        <option key={14} value={13} disabled={teams.length < 14 ? true : false}>{season > 2024 ? "Week 14" : "Round 1.1"}</option>
+                        <option key={15} value={14} disabled={teams.length < 15 ? true : false}>{season > 2024 ? "Round 1" : "Round 1.2"}</option>
+                        <option key={16} value={15} disabled={teams.length < 16 ? true : false}>{season > 2024 ? "Round 2" : "Round 2.1"}</option>
+                        <option key={17} value={16} disabled={teams.length < 17 ? true : false}>{season > 2024 ? "Round 3" : "Round 2.2"}</option>
                     </select>
                     <span className="global-arrow"></span>
                 </div>
@@ -347,13 +347,13 @@ export default function Home() {
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Closest Game</h3> 
+                        <h3>Closest Game</h3>
                     </div>
                     <p>{closestWinner} beat {closestLoser} by {closest} points</p>
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Highest Scoring Loser</h3> 
+                        <h3>Highest Scoring Loser</h3>
                     </div>
                     <p>{maxLoser[0]} scored {maxLoser[1]} points and lost <br/><br/> This was {(Math.abs(maxLoser[1] - averageScore)).toFixed(2)} points {parseInt(maxLoser[1]) > averageScore ? 'above' : 'below'} the average <br/><br/> They would have beat {loseMax} teams this week</p>
                 </div>
@@ -398,7 +398,7 @@ export default function Home() {
                                     label: '',
                                     data: benchScores,
                                     backgroundColor: [primaryColor, secondaryColor],
-                                    barPercentage: 1 
+                                    barPercentage: 1
                                 }]
                             }
                         }/>

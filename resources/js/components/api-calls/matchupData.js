@@ -10,7 +10,7 @@ const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
 
 // Get the necessary cookie information from your browser while logged into
 // the ESPN site and add them to your env file. More info on how to do this
-// can be found in the API Documentation here: 
+// can be found in the API Documentation here:
 // http://espn-fantasy-football-api.s3-website.us-east-2.amazonaws.com/
 
 myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
@@ -38,7 +38,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 const season = 2025
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 13
+const maxWeek = 14
 
 let weeklyPlayerData = []
 let playerInfo = []
@@ -68,14 +68,17 @@ function setTeam(playerId) {
         case 1:
             ownerInfo.owner = 'Alex'
             ownerInfo.teamName = 'Hollywoo Stars And Celebrities'
+            // ownerInfo.inPlayoffs = true
             break
         case 2:
             ownerInfo.owner = 'Ben'
             ownerInfo.teamName = 'Broncos Country Lets Cry'
+            // ownerInfo.inPlayoffs = true
             break
         case 3:
             ownerInfo.owner = 'Tony'
             ownerInfo.teamName = 'Doll Fins'
+            // ownerInfo.inPlayoffs = false
             break
         case 4:
             ownerInfo.owner = 'Nate'
@@ -88,10 +91,12 @@ function setTeam(playerId) {
         case 5:
             ownerInfo.owner = 'Henry'
             ownerInfo.teamName = 'Team Dumb Dick'
+            // ownerInfo.inPlayoffs = true
             break
         case 6:
             ownerInfo.owner = 'Bryce'
             ownerInfo.teamName = 'Waiver Wire Warriors'
+            // ownerInfo.inPlayoffs = true
             if(season < 2025) {
                 ownerInfo.owner = 'Eric'
                 ownerInfo.teamName = 'Message Therapists'
@@ -108,14 +113,17 @@ function setTeam(playerId) {
         case 8:
             ownerInfo.owner = 'Trap'
             ownerInfo.teamName = 'Wet Turd Burglars'
+            // ownerInfo.inPlayoffs = false
             break
         case 9:
             ownerInfo.owner = 'Drew'
             ownerInfo.teamName = 'Death at a Margaritaville'
+            // ownerInfo.inPlayoffs = false
             break
         case 10:
             ownerInfo.owner = 'Kayla'
             ownerInfo.teamName = 'Cleveland River Fires'
+            // ownerInfo.inPlayoffs = true
             if(season === 2022) {
                 ownerInfo.owner = 'Joey'
                 ownerInfo.teamName = 'Smashmouth All Stars'
@@ -128,10 +136,12 @@ function setTeam(playerId) {
         case 11:
             ownerInfo.owner = 'Randy'
             ownerInfo.teamName = 'Team Swoope'
+            // ownerInfo.inPlayoffs = false
             break
         case 12:
             ownerInfo.owner = 'Alec'
             ownerInfo.teamName = 'Money Manziel'
+            // ownerInfo.inPlayoffs = true
             if(season === 2024) {
                 ownerInfo.owner = 'Megan'
                 ownerInfo.teamName = 'Tis the Lamb Season'
@@ -153,7 +163,7 @@ function getInfo(week, matchupId) {
     .then(res => res.forEach(matchup => {
         teamProj = 0
         console.log('--------------------------NEW MATCHUP--------------------------')
-        //   console.log(matchup)  
+        //   console.log(matchup)
           console.log('--------------------------HOME PLAYERS-----------------------')
           matchup.homeRoster.forEach(homePlayers => {
             // console.log(homePlayers.player)
@@ -165,7 +175,7 @@ function getInfo(week, matchupId) {
             //   console.log('NAME: ' + homePlayers.player.fullName)
             //   console.log('POSITION: ' + homePlayers.position)
             //   console.log('POINTS: ' + homePlayers.totalPoints)
-              for (const [key, value] of Object.entries(homePlayers.projectedPointBreakdown)) {        
+              for (const [key, value] of Object.entries(homePlayers.projectedPointBreakdown)) {
                   if(typeof(value) === "number") {
                       projScore += value
                     }
@@ -177,20 +187,21 @@ function getInfo(week, matchupId) {
                     teamProj += projScore
                 }
                 scoreDifference = score - projScore
+              // console.log(homePlayers);
                 playerInfo.push(
                     {
-                        id: homePlayers.player.id,
-                        player: homePlayers.player.fullName,
-                        lastName: homePlayers.player.lastName,
+                        id: homePlayers.id,
+                        player: homePlayers.fullName,
+                        lastName: homePlayers.lastName,
                         teamId: matchup.homeTeamId,
                         owner: playerName,
                         team: teamName,
-                        proTeam: homePlayers.player.proTeamAbbreviation,
+                        proTeam: homePlayers.proTeamAbbreviation,
                         seasonId: season,
                         week: week,
                         matchup: matchupId,
                         position: homePlayers.position,
-                        eligiblePosition: homePlayers.player.eligiblePositions,
+                        eligiblePosition: homePlayers.eligiblePositions,
                         points: homePlayers.totalPoints,
                         projectedPoints: projScore,
                         performance: scoreDifference,
@@ -198,7 +209,7 @@ function getInfo(week, matchupId) {
                         pointStats: homePlayers.pointBreakdown
                     }
                     )
-                    
+
                 })
                 console.log('--------------------------HOME TEAM-----------------------')
                 if(matchup.awayScore > matchup.homeScore) {
@@ -234,7 +245,7 @@ function getInfo(week, matchupId) {
                     // console.log('POSITION: ' + awayPlayers.position)
                     // console.log('POINTS: ' + awayPlayers.totalPoints)
                     // console.log(awayPlayers.player)
-                    for (const [key, value] of Object.entries(awayPlayers.projectedPointBreakdown)) {        
+                    for (const [key, value] of Object.entries(awayPlayers.projectedPointBreakdown)) {
                         if(typeof(value) === "number") {
                             projScore += value
                         }}
@@ -245,18 +256,18 @@ function getInfo(week, matchupId) {
                     scoreDifference = score - projScore
                     playerInfo.push(
                         {
-                            id: awayPlayers.player.id,
-                            player: awayPlayers.player.fullName,
-                            lastName: awayPlayers.player.lastName,
+                            id: awayPlayers.id,
+                            player: awayPlayers.fullName,
+                            lastName: awayPlayers.lastName,
                             teamId: matchup.awayTeamId,
                             owner: playerName,
                             team: teamName,
-                            proTeam: awayPlayers.player.proTeamAbbreviation,
+                            proTeam: awayPlayers.proTeamAbbreviation,
                             seasonId: season,
                             week: week,
                             matchup: matchupId,
                             position: awayPlayers.position,
-                            eligiblePosition: awayPlayers.player.eligiblePositions,
+                            eligiblePosition: awayPlayers.eligiblePositions,
                             points: awayPlayers.totalPoints,
                             projectedPoints: projScore,
                             performance: scoreDifference,
@@ -310,7 +321,7 @@ function getInfo(week, matchupId) {
             // They are stored in the /data folder
 
             // Each season gets its own file. These files act as a database of sorts
-                        
+
             let info = JSON.stringify(weeklyPlayerData);
             fs.writeFileSync(`../data/players${season}.json`, info)
 
