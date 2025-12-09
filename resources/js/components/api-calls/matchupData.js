@@ -173,7 +173,7 @@ function getInfo(week, matchupId) {
               projScore = 0
               score = homePlayers.totalPoints
             //   console.log('NAME: ' + homePlayers.player.fullName)
-            //   console.log('POSITION: ' + homePlayers.position)
+            //   console.log('POSITION: ' + homePlayers.rosteredPosition)
             //   console.log('POINTS: ' + homePlayers.totalPoints)
               for (const [key, value] of Object.entries(homePlayers.projectedPointBreakdown)) {
                   if(typeof(value) === "number") {
@@ -183,7 +183,7 @@ function getInfo(week, matchupId) {
                 // console.log('PROJECTED POINTS: ' + projScore)
                 // console.log(homePlayers.player.fullName)
                 // console.log(homePlayers.totalPoints)
-                if(homePlayers.position != 'Bench') {
+                if(homePlayers.rosteredPosition != 'Bench') {
                     teamProj += projScore
                 }
                 scoreDifference = score - projScore
@@ -200,7 +200,7 @@ function getInfo(week, matchupId) {
                         seasonId: season,
                         week: week,
                         matchup: matchupId,
-                        position: homePlayers.position,
+                        position: homePlayers.rosteredPosition,
                         eligiblePosition: homePlayers.eligiblePositions,
                         points: homePlayers.totalPoints,
                         projectedPoints: projScore,
@@ -241,15 +241,16 @@ function getInfo(week, matchupId) {
                 matchup.awayRoster.forEach(awayPlayers => {
                     projScore = 0
                     score = awayPlayers.totalPoints
-                    // console.log('NAME: ' + awayPlayers.player.fullName)
-                    // console.log('POSITION: ' + awayPlayers.position)
+                    console.log(awayPlayers);
+                    // console.log('NAME: ' + awayPlayers.fullName)
+                    // console.log('POSITION: ' + awayPlayers.rosteredPosition)
                     // console.log('POINTS: ' + awayPlayers.totalPoints)
                     // console.log(awayPlayers.player)
                     for (const [key, value] of Object.entries(awayPlayers.projectedPointBreakdown)) {
                         if(typeof(value) === "number") {
                             projScore += value
                         }}
-                    if(awayPlayers.position != 'Bench') {
+                    if(awayPlayers.rosteredPosition != 'Bench') {
                         teamProj += projScore
                     }
                     // console.log('PROJECTED POINTS: ' + projScore)
@@ -266,7 +267,7 @@ function getInfo(week, matchupId) {
                             seasonId: season,
                             week: week,
                             matchup: matchupId,
-                            position: awayPlayers.position,
+                            position: awayPlayers.rosteredPosition,
                             eligiblePosition: awayPlayers.eligiblePositions,
                             points: awayPlayers.totalPoints,
                             projectedPoints: projScore,
