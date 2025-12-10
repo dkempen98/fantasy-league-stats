@@ -300,10 +300,9 @@ export default function TeamComps() {
             </div>
             <div className="matchup-body">
                 <div className="matchup-row">
-                    <div className="matchup-stat center divider">
-                        Totals
-                        <br/>
-                        <span className="sub-text">{showPlayoffs ? "Including Playoffs" : "Excluding Playoffs"}</span>
+                    <div className="matchup-stat center divider flex flex-columm">
+                        <span className="sub-">Totals</span>
+                        {/*<span className="sub-text">{showPlayoffs ? "Including Playoffs" : "Excluding Playoffs"}</span>*/}
                     </div>
                 </div>
 
@@ -340,7 +339,7 @@ export default function TeamComps() {
                 <div className="matchup-row">
                     <div className="matchup-stat left">{matchupData.wins > 0 ? (matchupData.myVictoryMargin / matchupData.wins)?.toFixed(2) : "-"}</div>
                     <div className="matchup-stat center">Avg. Margin of Victory</div>
-                    <div className="matchup-stat right">{matchupData.losses > 0 ? (matchupData.yourVictoryMargin / matchupData.losses ?? 1)?.toFixed(2) : "-"}</div>
+                    <div className="matchup-stat right">{matchupData.losses > 0 ? (matchupData.yourVictoryMargin / matchupData.losses)?.toFixed(2) : "-"}</div>
                 </div>
                 <div className="matchup-row">
                     <div className="matchup-stat center divider">Matchups</div>
