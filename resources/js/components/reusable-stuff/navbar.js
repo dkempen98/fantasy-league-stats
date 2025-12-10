@@ -49,7 +49,7 @@ export default function Navbar() {
             <button onClick={openNav} className='nb-mobile-toggle' aria-controls='primary-navigation' aria-expanded={menuVis}>
                 <span className='sr-only'>Menu</span>
             </button>
-            
+
             <nav>
                 <ul className="nb-primary nb-flex" data-visible={menuVis} active='true' ref={wrapperRef}>
                     <li>
@@ -58,23 +58,28 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/team" onClick={() => changePage("team")}>  
+                        <Link to="/team" onClick={() => changePage("team")}>
                             <span className={window.location.pathname === "/team" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">02</span>Teams
                         </Link>
                     </li>
                     <li>
-                        <Link to="/season" onClick={() => changePage()}>  
+                        <Link to="/season" onClick={() => changePage()}>
                             <span className={window.location.pathname === "/season" ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">03</span>Seasons
                         </Link>
                     </li>
                     <li>
-                        <Link to="/players" onClick={() => changePage('players')}>  
-                            <span className={window.location.pathname === '/players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Players
+                        <Link to="/head-to-head" onClick={() => changePage('head-to-head')}>
+                            <span className={window.location.pathname === '/head-to-head' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">04</span>Head to Head
                         </Link>
                     </li>
                     <li>
-                        <Link to="/draft" onClick={() => changePage('draft')}>  
-                            <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Drafts
+                        <Link to="/players" onClick={() => changePage('players')}>
+                            <span className={window.location.pathname === '/players' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">05</span>Players
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/draft" onClick={() => changePage('draft')}>
+                            <span className={window.location.pathname === '/draft' ? 'nb-span nb-active' : 'nb-span'} aria-hidden="true">06</span>Drafts
                         </Link>
                     </li>
                 </ul>

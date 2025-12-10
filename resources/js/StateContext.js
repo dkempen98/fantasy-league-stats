@@ -34,7 +34,7 @@ export function StateProvider({ children }) {
 
   const [winColor, setWinColor] = useState("#064831c0")
   const [winSolid, setWinSolid] = useState("#064831")
-  
+
   const [loseColor, setLoseColor] = useState("#774F0Fc0")
   const [loseSolid, setLoseSolid] = useState("#774F0F")
 
@@ -51,7 +51,7 @@ export function StateProvider({ children }) {
   function init() {
     setCurrentWeek(currentYear.length - 1)
 
-    const years = availableSeasons.map((year, index) => 
+    const years = availableSeasons.map((year, index) =>
       <option key={index} value={year}>{year}</option>
     )
 
@@ -93,18 +93,44 @@ export function StateProvider({ children }) {
         2025: league2025,
     }
 
+    const checkPlayoff = (week, year) => {
+        switch (year) {
+            case 2021:
+            case 2022:
+            case 2023:
+            case 2024:
+            case "2021":
+            case "2022":
+            case "2023":
+            case "2024":
+                if(week > 13) {
+                    if(week % 2 === 0) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                } else {
+                    return 0
+                }
+                break;
+            case 2025:
+            case "2025":
+                return week > 14 ? 1 : 0;
+        }
+    }
+
   return (
-    <StateContext.Provider value={{ 
+    <StateContext.Provider value={{
       primaryColor,
       primarySolid,
       brightSecondary,
       brightSecondarySolid,
-      winColor, 
-      winSolid, 
-      secondaryColor, 
-      secondarySolid, 
+      winColor,
+      winSolid,
+      secondaryColor,
+      secondarySolid,
       loseColor,
-      loseSolid, 
+      loseSolid,
       currentWeek,
       currentSeason,
       availableSeasons,
@@ -113,6 +139,7 @@ export function StateProvider({ children }) {
       matchups,
       players,
       league,
+      checkPlayoff,
       }}>
       {children}
     </StateContext.Provider>

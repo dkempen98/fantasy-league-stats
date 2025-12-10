@@ -21,6 +21,7 @@ export default function TeamComps() {
         matchups,
         players,
         league,
+        checkPlayoff
     } = useStateContext()
 
     const [myTeam, setMyTeam] = useState("Ben")
@@ -28,6 +29,7 @@ export default function TeamComps() {
 
     const [matchupData, setMatchupData] = useState({})
     const [showPlayoffs, setShowPlayoffs] = useState(false)
+    const [allMatchups, setAllMatchups] = useState([])
 
     useEffect(() => {
         initData()
@@ -35,7 +37,7 @@ export default function TeamComps() {
 
     useEffect(() => {
         initData()
-    }, [myTeam, yourTeam])
+    }, [myTeam, yourTeam, showPlayoffs])
 
     function initData() {
         if(myTeam && yourTeam) {
@@ -53,9 +55,12 @@ export default function TeamComps() {
             let yearlyBreakdown = {};
             let myVictoryMargin = 0;
             let yourVictoryMargin = 0;
+            let tempMatchups = [];
 
             for (const [year, weeks] of Object.entries(matchups)) {
+                let weekNum = 0;
                 weeks.forEach(week => {
+                    weekNum++
                     week.forEach(matchup => {
                         let match = 0;
                         let me = {};
@@ -72,14 +77,48 @@ export default function TeamComps() {
                         }
                         if(match) {
                             let playoff = checkPlayoff(me.week, year);
-                            if(playoff) {
+                            if(playoff !== -1) {
+                                let myProjection = me.projectedScore;
+                                let yourProjection = you.projectedScore;
+                                if(playoff === 1) {
+                                    let nextWeek = weeks[weekNum];
+                                    console.log(nextWeek);
+                                    if(nextWeek && checkPlayoff(weekNum + 1, year) === -1) {
+                                        nextWeek.forEach(game => {
+                                            if(game[0].owner == myTeam && game[1].owner == yourTeam) {
+                                                myProjection += game[0].projectedScore;
+                                                yourProjection += game[1].projectedScore;
+                                            }
+                                            if(game[1].owner == myTeam && game[0].owner == yourTeam) {
+                                                myProjection += game[1].projectedScore;
+                                                yourProjection += game[0].projectedScore;
+                                            }
+                                        })
+                                    }
+                                }
+                                tempMatchups.push([
+                                    {
+                                        ...me,
+                                        projectedScore: myProjection
+                                    },
+                                    {
+                                        ...you,
+                                        projectedScore: yourProjection
+                                    },
+                                    {
+                                        year: year,
+                                        week: weekNum,
+                                        playoff: playoff
+                                    }
+                                ]);
+                            }
+                            if(playoff === 1) {
                                 if (me.win) {
                                     playoffWin++;
                                 } else {
                                     playoffLosses++;
                                 }
                             }
-                            console.log('ping')
                             if(playoff !== -1 && (showPlayoffs || playoff === 0)) {
                                 if(!yearlyBreakdown[year]) {
                                     yearlyBreakdown[year] = {
@@ -98,15 +137,9 @@ export default function TeamComps() {
                                 if (me.win) {
                                     wins++;
                                     myVictoryMargin += me.margin;
-                                    if(playoff) {
-                                        playoffWin++;
-                                    }
                                 } else {
                                     losses++;
                                     yourVictoryMargin += you.margin;
-                                    if(playoff) {
-                                        playoffLosses++;
-                                    }
                                 }
                                 myTotalPoints += me.score;
                                 yourTotalPoints += you.score;
@@ -147,32 +180,7 @@ export default function TeamComps() {
                 "games": wins + losses,
                 "yearlyBreakdown": yearlyBreakdown,
             })
-        }
-    }
-
-    function checkPlayoff(week, year) {
-        switch (year) {
-            case 2021:
-            case 2022:
-            case 2023:
-            case 2024:
-            case "2021":
-            case "2022":
-            case "2023":
-            case "2024":
-                if(week > 13) {
-                    if(week % 2 === 0) {
-                        return 1
-                    } else {
-                        return -1
-                    }
-                } else {
-                    return 0
-                }
-                break;
-            case 2025:
-            case "2025":
-                return week > 14 ? 1 : 0;
+            setAllMatchups(tempMatchups);
         }
     }
 
@@ -215,8 +223,68 @@ export default function TeamComps() {
             return `/images/teamLogos/${team.owner.toLowerCase()}_logo_${team.year}.png`;
         }
 
-
+        console.log(allMatchups)
         return <div className="matchup-container">
+            <div className="matchup-dropdowns">
+                <div className="matchup-dropdown-container left">
+                    <div className="global-dropdown no-shadow">
+                        <select
+                            value={myTeam}
+                            onChange={(e) => teamChange(e.target.value)}
+                        >
+                            <option key={"Alec"} value={"Alec"}>Alec</option>
+                            <option key={"Alex"} value={"Alex"}>Alex</option>
+                            <option key={"Ben"} value={"Ben"}>Ben</option>
+                            <option key={"Bryce"} value={"Bryce"}>Bryce</option>
+                            <option key={"Drew"} value={"Drew"}>Drew</option>
+                            <option key={"Henry"} value={"Henry"}>Henry</option>
+                            <option key={"Kayla"} value={"Kayla"}>Kayla</option>
+                            <option key={"Randy"} value={"Randy"}>Randy</option>
+                            <option key={"Tony"} value={"Tony"}>Tony</option>
+                            <option key={"Trap"} value={"Trap"}>Trap</option>
+                            <option disabled key={"x"} value={"x"}>Inactive</option>
+                            <option key={"Eric"} value={"Eric"}>Eric</option>
+                            <option key={"Ivan"} value={"Ivan"}>Ivan</option>
+                            <option key={"Joey"} value={"Joey"}>Joey</option>
+                            <option key={"Josh"} value={"Josh"}>Josh</option>
+                            <option key={"Kief"} value={"Kief"}>Kief</option>
+                            <option key={"Matt"} value={"Matt"}>Matt</option>
+                            <option key={"Megan"} value={"Megan"}>Megan</option>
+                            <option key={"Nate"} value={"Nate"}>Nate</option>
+                        </select>
+                        <span className="global-arrow"></span>
+                    </div>
+                </div>
+                <div className="matchup-dropdown-container right">
+                    <div className="global-dropdown no-shadow secondary">
+                        <select
+                            value={yourTeam}
+                            onChange={(e) => teamChange(e.target.value, true)}
+                        >
+                            <option key={"Alec"} value={"Alec"}>Alec</option>
+                            <option key={"Alex"} value={"Alex"}>Alex</option>
+                            <option key={"Ben"} value={"Ben"}>Ben</option>
+                            <option key={"Bryce"} value={"Bryce"}>Bryce</option>
+                            <option key={"Drew"} value={"Drew"}>Drew</option>
+                            <option key={"Henry"} value={"Henry"}>Henry</option>
+                            <option key={"Kayla"} value={"Kayla"}>Kayla</option>
+                            <option key={"Randy"} value={"Randy"}>Randy</option>
+                            <option key={"Tony"} value={"Tony"}>Tony</option>
+                            <option key={"Trap"} value={"Trap"}>Trap</option>
+                            <option disabled key={"x"} value={"x"}>Inactive</option>
+                            <option key={"Eric"} value={"Eric"}>Eric</option>
+                            <option key={"Ivan"} value={"Ivan"}>Ivan</option>
+                            <option key={"Joey"} value={"Joey"}>Joey</option>
+                            <option key={"Josh"} value={"Josh"}>Josh</option>
+                            <option key={"Kief"} value={"Kief"}>Kief</option>
+                            <option key={"Matt"} value={"Matt"}>Matt</option>
+                            <option key={"Megan"} value={"Megan"}>Megan</option>
+                            <option key={"Nate"} value={"Nate"}>Nate</option>
+                        </select>
+                        <span className="global-arrow secondary"></span>
+                    </div>
+                </div>
+            </div>
             <div className="matchup-header">
                 <div style={{
                     backgroundImage: `url(${getImage(selectedTeam)})`,
@@ -232,15 +300,19 @@ export default function TeamComps() {
             </div>
             <div className="matchup-body">
                 <div className="matchup-row">
-                    <div className="matchup-stat left">{myTeam}</div>
-                    <div className="matchup-stat center">Team</div>
-                    <div className="matchup-stat right">{yourTeam}</div>
+                    <div className="matchup-stat center divider">Totals</div>
                 </div>
 
                 <div className="matchup-row">
                     <div className="matchup-stat left">{(matchupData.myTotalPoints)?.toFixed(2)}</div>
                     <div className="matchup-stat center">Score</div>
                     <div className="matchup-stat right">{(matchupData.yourTotalPoints)?.toFixed(2)}</div>
+                </div>
+
+                <div className="matchup-row">
+                    <div className="matchup-stat left">{(matchupData.myTotalPoints / (matchupData.wins + matchupData.losses))?.toFixed(2)}</div>
+                    <div className="matchup-stat center">Avg. Score</div>
+                    <div className="matchup-stat right">{(matchupData.yourTotalPoints / (matchupData.wins + matchupData.losses))?.toFixed(2)}</div>
                 </div>
 
                 <div className="matchup-row">
@@ -266,8 +338,35 @@ export default function TeamComps() {
                     <div className="matchup-stat center">Avg. Margin of Victory</div>
                     <div className="matchup-stat right">{(matchupData.yourVictoryMargin / matchupData.games)?.toFixed(2)}</div>
                 </div>
-
+                <div className="matchup-row">
+                    <div className="matchup-stat center divider">Matchups</div>
+                </div>
+                <div>
+                    {allMatchups.map((game) => {
+                        return (
+                            <div className="matchup-row">
+                                <div className={game[0].win ? "win matchup-stat left" : "loss matchup-stat left"}>
+                                    { game[0].score?.toFixed(2) }
+                                    <br/>
+                                    <span className="sub-text">{ game[0].projectedScore?.toFixed(2) }</span>
+                                </div>
+                                <div className="matchup-stat center">
+                                    { game[2].playoff ? "Playoffs" : "Week " + game[2].week }
+                                    <br/>
+                                    <span className="sub-text">{ game[2].year }</span>
+                                </div>
+                                <div className={game[1].win ? "win matchup-stat right" : "loss matchup-stat right"}>
+                                    { game[1].score?.toFixed(2) }
+                                    <br/>
+                                    <span className="sub-text">{ game[1].projectedScore?.toFixed(2) }</span>
+                                </div>
+                            </div>
+                        )})}
+                </div>
             </div>
+            {/*<div className="matchup-footer">*/}
+            {/*    <button onClick={() => setShowPlayoffs(!showPlayoffs)}>{showPlayoffs ? "Do Not" : ""} Include Playoffs in Totals</button>*/}
+            {/*</div>*/}
         </div>
 
         // backgroundColor: otherTeamWeek.win ? winColor : loseSolid,
@@ -279,82 +378,7 @@ export default function TeamComps() {
     return (
         <section className="global-base">
             <h1 className="page-header"><span>Head to Head</span></h1>
-            <section className="global-week-header flex-mobile-column align-end">
-                <div className="global-dropdown">
-                    <select
-                        value={myTeam}
-                        onChange={(e) => teamChange(e.target.value)}
-                    >
-                        <option key={"Alec"} value={"Alec"}>Alec</option>
-                        <option key={"Alex"} value={"Alex"}>Alex</option>
-                        <option key={"Ben"} value={"Ben"}>Ben</option>
-                        <option key={"Bryce"} value={"Bryce"}>Bryce</option>
-                        <option key={"Drew"} value={"Drew"}>Drew</option>
-                        <option key={"Henry"} value={"Henry"}>Henry</option>
-                        <option key={"Kayla"} value={"Kayla"}>Kayla</option>
-                        <option key={"Randy"} value={"Randy"}>Randy</option>
-                        <option key={"Tony"} value={"Tony"}>Tony</option>
-                        <option key={"Trap"} value={"Trap"}>Trap</option>
-                        <option disabled key={"x"} value={"x"}>Inactive</option>
-                        <option key={"Eric"} value={"Eric"}>Eric</option>
-                        <option key={"Ivan"} value={"Ivan"}>Ivan</option>
-                        <option key={"Joey"} value={"Joey"}>Joey</option>
-                        <option key={"Josh"} value={"Josh"}>Josh</option>
-                        <option key={"Kief"} value={"Kief"}>Kief</option>
-                        <option key={"Matt"} value={"Matt"}>Matt</option>
-                        <option key={"Megan"} value={"Megan"}>Megan</option>
-                        <option key={"Nate"} value={"Nate"}>Nate</option>
-                    </select>
-                    <span className="global-arrow"></span>
-                </div>
-            </section>
-            <section className="global-week-header flex-mobile-column align-end">
-                <div className="global-dropdown">
-                    <select
-                        value={yourTeam}
-                        onChange={(e) => teamChange(e.target.value, true)}
-                    >
-                        <option key={"Alec"} value={"Alec"}>Alec</option>
-                        <option key={"Alex"} value={"Alex"}>Alex</option>
-                        <option key={"Ben"} value={"Ben"}>Ben</option>
-                        <option key={"Bryce"} value={"Bryce"}>Bryce</option>
-                        <option key={"Drew"} value={"Drew"}>Drew</option>
-                        <option key={"Henry"} value={"Henry"}>Henry</option>
-                        <option key={"Kayla"} value={"Kayla"}>Kayla</option>
-                        <option key={"Randy"} value={"Randy"}>Randy</option>
-                        <option key={"Tony"} value={"Tony"}>Tony</option>
-                        <option key={"Trap"} value={"Trap"}>Trap</option>
-                        <option disabled key={"x"} value={"x"}>Inactive</option>
-                        <option key={"Eric"} value={"Eric"}>Eric</option>
-                        <option key={"Ivan"} value={"Ivan"}>Ivan</option>
-                        <option key={"Joey"} value={"Joey"}>Joey</option>
-                        <option key={"Josh"} value={"Josh"}>Josh</option>
-                        <option key={"Kief"} value={"Kief"}>Kief</option>
-                        <option key={"Matt"} value={"Matt"}>Matt</option>
-                        <option key={"Megan"} value={"Megan"}>Megan</option>
-                        <option key={"Nate"} value={"Nate"}>Nate</option>
-                    </select>
-                    <span className="global-arrow"></span>
-                </div>
-            </section>
             <section>
-                <div className="chart-border">
-                    <div className="chart-title">
-                        <h3>Matchup Data</h3>
-                    </div>
-                    <div className="card">
-                        {myTeam} Wins: {matchupData.wins}<br/>
-                        {yourTeam} Wins: {matchupData.losses}<br/>
-                        {myTeam} Underdog Wins: {matchupData.myDogWins}<br/>
-                        {yourTeam} Underdog Wins: {matchupData.yourDogWins}<br/>
-                        {myTeam} Total Points: {matchupData.myTotalPoints?.toFixed(2)} ({matchupData.myTotalPoints > matchupData.yourTotalPoints ? "+" : "-"}{Math.abs(matchupData.myTotalPoints - matchupData.yourTotalPoints).toFixed(2)})<br/>
-                        {yourTeam} Total Points: {matchupData.yourTotalPoints?.toFixed(2)}<br/>
-                        Average Margin of Victory: {(Math.abs(matchupData.myTotalPoints - matchupData.yourTotalPoints) / (matchupData.wins + matchupData.losses)).toFixed(2)}<br/>
-                        <br/>
-                        {myTeam} is on a {matchupData.resultStreak} game {matchupData.result ? "winning" : "losing" } streak against {yourTeam}<br/>
-                    </div>
-                    <br/>
-                </div>
                 <div className="chart-border" style={{marginTop: '3rem'}}>
                     {matchupDisplay()}
                 </div>

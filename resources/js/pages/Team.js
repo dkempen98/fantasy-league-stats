@@ -170,9 +170,9 @@ export default function Home() {
                         seasonGamesPH.push(team)
                         myScore = team.score
                     }
-                    if (team.week != 17 && (team.week < 14 || (teams.length) == team.week)) {
+                    if (team.week != 17 && (team.week < (season < 2025 ? 14 : 15) || (teams.length) == team.week)) {
                         leagueScores += team.score
-                        if(team.id != activeTeamId && team.week < 14) {
+                        if(team.id != activeTeamId && team.week < (season < 2025 ? 14 : 15)) {
                             if(!(team.owner in againstWinsPH)) {
                                 againstWinsPH[team.owner] = 0
                                 againstLossesPH[team.owner] = 0
@@ -201,7 +201,7 @@ export default function Home() {
                 }
 
             }
-            if(weekNum < 14) {
+            if(weekNum < (season < 2025 ? 14 : 15)) {
                 weeklyScores.push(`Week ${weekNum}: ${weeklyWins}-${weeklyLosses}${weeklyTies ? '-' + weeklyTies : ''}`)
             }
             averageScoresPH.push(leagueScores / 10)

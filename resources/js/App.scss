@@ -1,6 +1,6 @@
-/* 
+/*
 
-For all classes used, type the initials of the page name followed by a dash then the name of the 
+For all classes used, type the initials of the page name followed by a dash then the name of the
 class. For example, to style a header on the Schedule page, name the class s-title and one on the
 team page would be t-title.
 
@@ -96,6 +96,9 @@ h6 {
   box-shadow: .5rem .5rem .5rem #00000090;
   max-width: fit-content;
   z-index: 100;
+    &.no-shadow {
+        box-shadow: none;
+    }
 }
 
 .global-dropdown select{
@@ -105,6 +108,13 @@ h6 {
   border: 0;
   color: var(--text);
   cursor: pointer;
+    &.secondary {
+        background-color: var(--bright-secondary);
+    }
+}
+
+.global-dropdown.secondary select{
+    background-color: var(--bright-secondary);
 }
 
 .global-arrow {
@@ -145,6 +155,14 @@ h6 {
   border-top: var(--triangle-size) solid var(--bright-secondary);
 
   top: 67%;
+}
+
+.global-arrow.secondary::before {
+    border-bottom: var(--triangle-size) solid var(--bright);
+}
+
+.global-arrow.secondary::after {
+    border-top: var(--triangle-size) solid var(--bright);
 }
 
 .global-button {
@@ -248,9 +266,14 @@ h6 {
   padding-right: 10px;
   padding-left: 50px;
   margin-left: -50px;
-  
+
   box-shadow: .5rem .5rem .5rem #00000090;
   border-radius: 5px;
+}
+
+.sub-text {
+    color: #ababab;
+    font-size: .75em;
 }
 
 .list {
@@ -270,7 +293,7 @@ h6 {
 .section-header span{
   background-color: var(--dark);
   padding: 10px;
-  
+
   box-shadow: .5rem .5rem .5rem #00000090;
   border-radius: 5px;
 }
@@ -349,7 +372,7 @@ h6 {
   padding: 15px;
   padding-left: 20rem;
   margin-left: -20rem;
-  
+
   border-radius: 5px;
 }
 
@@ -475,7 +498,7 @@ h6 {
   &:focus-within {
     width: 20rem;
     max-width: 80vw;
-    
+
 
     .search-bar-input {
       opacity: 1;
@@ -511,7 +534,7 @@ h6 {
     padding: 8px;
     background-color: #000000;
     border-radius: 0 5px 5px 0;
-  }  
+  }
   &-dropdown {
     box-shadow: none;
 
@@ -547,6 +570,19 @@ h6 {
     display: flex;
     width: 100%;
     flex-direction: column;
+  }
+
+  &-dropdowns {
+      position: relative;
+      min-height: 31px;
+      border: solid 3px black;
+      background-image: url("./images/VS_text.png");
+      background-color: black;
+      //filter: invert(1);
+      background-blend-mode: screen;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
   }
 
   &-header {
@@ -607,6 +643,17 @@ h6 {
       border-left: none;
       border-top-right-radius: 5px;
     }
+
+  }
+  &-dropdown-container {
+      position: absolute;
+      top: 0;
+      &.left {
+          left: 0;
+      }
+      &.right {
+          right: 0;
+      }
   }
 
   &-title {
@@ -648,18 +695,38 @@ h6 {
       border-radius: 100px 0 0 100px;
       background-color: var(--bright) ;
       border-right: 1px solid silver;
+        &.win {
+            background-color: var(--winner-legend);
+        }
+        &.loss {
+            background-color: var(--loser-legend);
+        }
     }
     &.right {
       min-width: 4rem;
       border-radius: 0 100px 100px 0;
       background-color: var(--bright-secondary) ;
       border-left: 1px solid silver;
+        &.win {
+            background-color: var(--winner-legend);
+        }
+        &.loss {
+            background-color: var(--loser-legend);
+        }
     }
     &.center {
       border-left: none;
       border-right: none;
       flex-grow: 1;
       background-color: var(--dark);
+        &.divider {
+            border: 2px solid silver;
+            border-radius: 10px;
+            max-width: 50%;
+            line-height: 2em;
+            font-weight: bold;
+            margin: 15px auto 10px;
+        }
     }
   }
 }
@@ -738,7 +805,7 @@ tr, caption {
 
 .chart-border {
   background-color: var(--dark);
-  width: 100%; 
+  width: 100%;
   max-width: 70rem;
   margin: 1em;
 
@@ -864,9 +931,9 @@ tr, caption {
 
   &-square::before {
     content: "\25A0";
-    font-weight: bold; 
+    font-weight: bold;
     display: inline-block;
-    width: 1em; 
+    width: 1em;
     margin-left: -1em;
   }
 
@@ -887,7 +954,7 @@ tr, caption {
   }
 
   &-black::before {
-    content: "\25A1"; 
+    content: "\25A1";
     color: white;
   }
 }
@@ -896,14 +963,14 @@ tr, caption {
   display: none;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1320px) {
   .stat-card {
     max-width: 90%;
     min-width: 40%;
   }
   .nb-primary {
     gap: 2.5rem;
-    
+
     position: fixed;
     z-index: 1000;
     inset: 0 0 0 40%;
@@ -914,7 +981,7 @@ tr, caption {
     transform: translateX(100%);
     transition: 300ms ease-out;
   }
-  
+
   .nb-mobile-toggle {
     display: block;
     position: absolute;
@@ -929,7 +996,7 @@ tr, caption {
     top: 2rem;
     right: 2rem;
     cursor: pointer;
-  
+
     background-image: url('./images/hamburger_icon.png');
   }
 
@@ -987,7 +1054,7 @@ tr, caption {
   tr.mobile-on {
     height: auto;
   }
-  
+
   th.mobile-on {
     display: none;
   }
@@ -996,7 +1063,7 @@ tr, caption {
     gap: 0.5rem;
     grid-template-columns: 15ch auto;
     padding: 0.5rem 1rem;
-  
+
     &::before {
       content: attr(data-cell) " : ";
       font-weight: 700;
@@ -1017,7 +1084,7 @@ tr, caption {
     padding: 8px;
     height: 1em;
   }
-  
+
   .hide-large {
     display: inline-block;
   }
