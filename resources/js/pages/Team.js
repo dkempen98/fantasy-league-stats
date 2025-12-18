@@ -304,7 +304,6 @@ export default function Home() {
                     flexProjections.push(Number(person.projectedPoints).toFixed(2))
                     flexNames.push(person.player.charAt(0) + '. ' + person.lastName)
                 } else if (pos === "D/ST") {
-                    console.log(person)
                     defPoints.push(person.points)
                     defProjections.push(null)
                     defNames.push(person.player)
@@ -478,7 +477,34 @@ export default function Home() {
         }
         if(!selectedTeamWeek || !otherTeamWeek) return
         let selectedTeam = league[season].find(team => team.id == activeTeamId)
-        let otherTeam = league[season].find(team => team.id == otherTeamWeek.id)
+        let otherTeam = {};
+        if(!otherTeamWeek?.owner || otherTeamWeek?.owner === "Bye") {
+            otherTeamWeek.owner = "Bye";
+            otherTeamWeek.score = "-";
+            otherTeam = {
+                abbreviation: "Bye",
+                divisionLosses: 0,
+                divisionTies: 0,
+                divisionWins: 0,
+                finalStandingsPosition: 0,
+                id: 6,
+                leagueId: "1156809923",
+                logoURL: "/images/proLogos/NFL.png",
+                losses: 0,
+                name: " ",
+                owner: "Bye",
+                playoffSeed: 0,
+                regularSeasonPointsAgainst: 0,
+                regularSeasonPointsFor: 0,
+                seasonId: 2025,
+                ties: 0,
+                totalPointsScored: 0,
+                winningPercentage: 0,
+                wins: 0,
+            }
+        } else {
+            otherTeam = league[season].find(team => team.id == otherTeamWeek.id)
+        }
 
         selectedTeam.logoURL = selectedTeam.logoURL ?? "/images/proLogos/NFL.png";
         otherTeam.logoURL = otherTeam.logoURL ?? "/images/proLogos/NFL.png";
@@ -574,6 +600,36 @@ export default function Home() {
                 }
             }
         })
+
+        if(otherTeam.owner === "Bye") {
+            stats.right = {
+                passingYards: "-",
+                rushingYards: "-",
+                receivingYards: "-",
+                receivingReceptions: "-",
+                passingTouchdowns: "-",
+                rushingTouchdowns: "-",
+                receivingTouchdowns: "-",
+                lostFumbles: "-",
+                passingInterceptions: "-",
+                defensiveInterceptions: "-",
+                defensiveFumbles: "-",
+                defensiveSacks: "-",
+                defensiveBlockedKickForTouchdowns: "-",
+                kickoffReturnTouchdown: "-",
+                puntReturnTouchdown: "-",
+                fumbleReturnTouchdown: "-",
+                interceptionReturnTouchdown: "-",
+                madeExtraPoints: "-",
+                missedExtraPoints: "-",
+                madeFieldGoalsFrom60Plus: "-",
+                madeFieldGoalsFrom50Plus: "-",
+                madeFieldGoalsFrom50To59: "-",
+                madeFieldGoalsFrom40To49: "-",
+                madeFieldGoalsFromUnder40: "-",
+                missedFieldGoals: "-",
+            }
+        }
 
         function getImage(team)
         {
@@ -769,7 +825,7 @@ export default function Home() {
                             season >= 2025 &&
                             index >= 14
                         ) {
-                            label = `Round ${ index % 14 + 1 }: ${ opponent?.owner }`
+                            label = `Round ${ index % 14 + 1 }: ${ opponent?.owner && opponent?.owner != '' ? opponent?.owner : "Bye" }`
                         }
                         return <option key={index+1} value={index}>{ label }</option>
                     }

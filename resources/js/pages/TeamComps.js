@@ -82,7 +82,7 @@ export default function TeamComps() {
                                 let yourProjection = you.projectedScore;
                                 if(playoff === 1) {
                                     let nextWeek = weeks[weekNum];
-                                    console.log(nextWeek);
+                                    // console.log(nextWeek);
                                     if(nextWeek && checkPlayoff(weekNum + 1, year) === -1) {
                                         nextWeek.forEach(game => {
                                             if(game[0].owner == myTeam && game[1].owner == yourTeam) {
@@ -153,17 +153,17 @@ export default function TeamComps() {
                     })
                 })
             }
-            console.log(
-                wins,
-                losses,
-                myDogWins,
-                yourDogWins,
-                resultStreak,
-                result,
-                myTotalPoints,
-                yourTotalPoints,
-                yearlyBreakdown,
-            )
+            // console.log(
+            //     wins,
+            //     losses,
+            //     myDogWins,
+            //     yourDogWins,
+            //     resultStreak,
+            //     result,
+            //     myTotalPoints,
+            //     yourTotalPoints,
+            //     yearlyBreakdown,
+            // )
             setMatchupData({
                 "wins": wins,
                 "losses": losses,
@@ -223,7 +223,7 @@ export default function TeamComps() {
             return `/images/teamLogos/${team.owner.toLowerCase()}_logo_${team.year}.png`;
         }
 
-        console.log(allMatchups)
+        // console.log(allMatchups)
         return <div className="matchup-container">
             <div className="matchup-dropdowns">
                 <div className="matchup-dropdown-container left">

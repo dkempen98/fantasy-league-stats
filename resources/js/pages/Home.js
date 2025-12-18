@@ -77,7 +77,7 @@ export default function Home() {
 
 
 
-        console.log(teams, week)
+        // console.log(teams, week)
         if(teams.length) {
             teams[week].forEach(matchup => {
                 matchup.forEach(specificTeam => {
@@ -125,13 +125,13 @@ export default function Home() {
         setAverage(0)
 
         let total = 0
-        let avg = 0
         teamScores.forEach(score => {
-            total += score
+            if(score) {
+                total += score
+            }
         })
 
-        avg = total / 10
-        setAverage(avg)
+        setAverage(total / 10)
 
         // find the closest game
         // Based on the way the teams and the scores are set up, matchups are always
@@ -141,8 +141,8 @@ export default function Home() {
         let closestWinnerPlaceholder = ''
         let closestLoserPlaceholder = ''
 
-        for(let i = 0; i < 10; i += 2) {
-            if(Math.abs(margin[i]) < closestGame) {
+        for(let i = 0; i < margin.length; i += 2) {
+            if(margin[i] && Math.abs(margin[i]) < closestGame) {
                 closestGame = Math.abs(margin[i])
                 if (margin[i] > 0) {
                     closestWinnerPlaceholder = ownerNames[i]
