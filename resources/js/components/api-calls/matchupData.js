@@ -38,7 +38,7 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 const season = 2025
 
 // adjust maxWeek to be the number of weeks that have been played in the season
-const maxWeek = 15
+const maxWeek = 17
 
 let weeklyPlayerData = []
 let playerInfo = []
@@ -96,7 +96,7 @@ function setTeam(playerId) {
         case 6:
             ownerInfo.owner = 'Bryce'
             ownerInfo.teamName = 'Waiver Wire Warriors'
-            ownerInfo.playoffRound = 2
+            ownerInfo.playoffRound = 4
             if(season < 2025) {
                 ownerInfo.owner = 'Eric'
                 ownerInfo.teamName = 'Message Therapists'
@@ -141,7 +141,7 @@ function setTeam(playerId) {
         case 12:
             ownerInfo.owner = 'Alec'
             ownerInfo.teamName = 'Money Manziel'
-            ownerInfo.playoffRound = 2
+            ownerInfo.playoffRound = 3
             if(season === 2024) {
                 ownerInfo.owner = 'Megan'
                 ownerInfo.teamName = 'Tis the Lamb Season'
