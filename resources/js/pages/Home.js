@@ -1,21 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, React } from "react";
 import { useStateContext } from "../StateContext.js";
-import twentyOnePlayers from "../components/data/players2021.json"
-import twentyOneTeams from "../components/data/teams2021.json"
-import twentyOneLeague from "../components/data/league2021.json"
-import twentyTwoPlayers from "../components/data/players2022.json"
-import twentyTwoTeams from "../components/data/teams2022.json"
-import twentyTwoLeague from "../components/data/league2022.json"
-import twentyThreePlayers from "../components/data/players2023.json"
-import twentyThreeTeams from "../components/data/teams2023.json"
-import twentyThreeLeague from "../components/data/league2023.json"
-import twentyFourPlayers from "../components/data/players2024.json"
-import twentyFourTeams from "../components/data/teams2024.json"
-import twentyFourLeague from "../components/data/league2024.json"
-import twentyFivePlayers from "../components/data/players2025.json"
-import twentyFiveTeams from "../components/data/teams2025.json"
-import twentyFiveLeague from "../components/data/league2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
@@ -31,14 +16,17 @@ export default function Home() {
         loseSolid,
         yearDropdownOptions,
         currentSeason,
-        currentWeek
+        currentWeek,
+        players,
+        league,
+        matchups,
     } = useStateContext()
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyFivePlayers)
-    const [teams, setTeams] = useState(twentyFiveTeams)
-    const [league, setLeague] = useState(twentyFiveLeague)
+    const [shownPlayers, setShownPlayers] = useState(players[currentSeason])
+    const [teams, setTeams] = useState(matchups[currentSeason])
+    const [shownLeague, setShownLeague] = useState(league[currentSeason])
     const [defaultNames, setDefaultNames] = useState([])
     const [id, setId] = useState([])
     const [teamNames, setTeamNames] = useState([])
@@ -197,7 +185,7 @@ export default function Home() {
         // let seasonTwoIds = ["Alex", "Ben", "Tony", "Nate", "Henry", "Eric", "Ivan", "Trap", "Drew", "Joey"]
 
         let benchTotals = {}
-        players[week].forEach((player) => {
+        shownPlayers[week].forEach((player) => {
             if(player.position === "Bench") {
                 if(player.teamId in benchTotals) {
                     benchTotals[player.teamId] += player.points
@@ -261,48 +249,18 @@ export default function Home() {
 
     function applyTeamNames() {
         let teamNames = []
-        league.forEach((team) => {
+        shownLeague.forEach((team) => {
             teamNames.push(team.owner)
         })
         setDefaultNames(teamNames);
     }
 
     function seasonChange(newYear){
-        if(newYear == 2021){
-            setWeek(0)
-            setSeason(2021)
-            setTeams(twentyOneTeams)
-            setPlayers(twentyOnePlayers)
-            setLeague(twentyOneLeague)
-        }
-        if(newYear == 2022){
-            setWeek(0)
-            setSeason(2022)
-            setTeams(twentyTwoTeams)
-            setPlayers(twentyTwoPlayers)
-            setLeague(twentyTwoLeague)
-        }
-        if(newYear == 2023){
-            setWeek(0)
-            setSeason(2023)
-            setTeams(twentyThreeTeams)
-            setPlayers(twentyThreePlayers)
-            setLeague(twentyThreeLeague)
-        }
-        if(newYear == 2024){
-            setWeek(0)
-            setSeason(2024)
-            setTeams(twentyFourTeams)
-            setPlayers(twentyFourPlayers)
-            setLeague(twentyFourLeague)
-        }
-        if(newYear == 2025){
-            setWeek(0)
-            setSeason(2025)
-            setTeams(twentyFiveTeams)
-            setPlayers(twentyFivePlayers)
-            setLeague(twentyFiveLeague)
-        }
+        setShownPlayers(players[newYear])
+        setShownLeague(league[newYear])
+        setWeek(0)
+        setSeason(newYear)
+        setTeams(matchups[newYear])
     }
 
     return(

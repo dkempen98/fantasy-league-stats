@@ -1,16 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, React, useDebugValue } from "react";
 import { useStateContext } from "../StateContext.js";
-import twentyOnePlayers from "../components/data/players2021.json"
-import twentyOneTeams from "../components/data/teams2021.json"
-import twentyTwoPlayers from "../components/data/players2022.json"
-import twentyTwoTeams from "../components/data/teams2022.json"
-import twentyThreePlayers from "../components/data/players2023.json"
-import twentyThreeTeams from "../components/data/teams2023.json"
-import twentyFourPlayers from "../components/data/players2024.json"
-import twentyFourTeams from "../components/data/teams2024.json"
-import twentyFivePlayers from "../components/data/players2025.json"
-import twentyFiveTeams from "../components/data/teams2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 import LineChart from "../components/reusable-stuff/lineChart.js";
 import StackedBarChart from "../components/reusable-stuff/stackedBarChart.js";
@@ -33,12 +23,13 @@ export default function Home() {
         currentWeek,
         matchups,
         league,
+        players,
     } = useStateContext()
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(100)
-    const [players, setPlayers] = useState(twentyFivePlayers)
-    const [teams, setTeams] = useState(twentyFiveTeams)
+    const [shownPlayers, setShownPlayers] = useState(players[currentSeason])
+    const [teams, setTeams] = useState(matchups[currentSeason])
     const [activeTeamId, setActiveTeamId] = useState(1)
     const [activeTeamName, setActiveTeamName] = useState('Alex')
     const [numberOfWeeks, setNumberOfWeeks] = useState(0)
@@ -104,7 +95,7 @@ export default function Home() {
 
 
     function getWeeklyData() {
-        if(! players || week == 100) {
+        if(! shownPlayers || week == 100) {
             return
         }
 
@@ -134,7 +125,7 @@ export default function Home() {
         let seasonPlaceholder = []
         let weekPlaceholder = []
 
-        players.forEach(week => {
+        shownPlayers.forEach(week => {
             week.forEach(person => {
                 if (person.teamId == activeTeamId) {
                     weekPlaceholder.push(person)
@@ -390,7 +381,7 @@ export default function Home() {
 
         let count = []
 
-        for(let i = 0; i < players.length; i++) {
+        for(let i = 0; i < shownPlayers.length; i++) {
             count.push(i + 1)
         }
 
@@ -409,7 +400,7 @@ export default function Home() {
         let teamCount = 0
         let leagueCount = 0
 
-        players.forEach(week => {
+        shownPlayers.forEach(week => {
             week.forEach(person => {
                 if(person.eligiblePosition.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
                     if(person.teamId == activeTeamId) {
@@ -850,36 +841,10 @@ export default function Home() {
     }
 
     function seasonChange(newYear) {
-        if (newYear == 2021) {
-            setWeek(100)
-            setSeason(2021)
-            setTeams(twentyOneTeams)
-            setPlayers(twentyOnePlayers)
-        }
-        if (newYear == 2022) {
-            setWeek(100)
-            setSeason(2022)
-            setTeams(twentyTwoTeams)
-            setPlayers(twentyTwoPlayers)
-        }
-        if (newYear == 2023) {
-            setWeek(100)
-            setSeason(2023)
-            setTeams(twentyThreeTeams)
-            setPlayers(twentyThreePlayers)
-        }
-        if (newYear == 2024) {
-            setWeek(100) // Update this next season to be 0
-            setSeason(2024)
-            setTeams(twentyFourTeams)
-            setPlayers(twentyFourPlayers)
-        }
-        if (newYear == 2025) {
-            setWeek(100) // Update this next season to be 0
-            setSeason(2025)
-            setTeams(twentyFiveTeams)
-            setPlayers(twentyFivePlayers)
-        }
+        setWeek(100)
+        setSeason(newYear)
+        setTeams(matchups[newYear])
+        setShownPlayers(players[newYear])
     }
 
     return (

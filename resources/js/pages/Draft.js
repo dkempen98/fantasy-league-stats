@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react"
 import { useStateContext } from "../StateContext.js"
 import axios from "axios";
-import draftResults2021 from "../components/data/draftResults2021.json"
-import draftResults2022 from "../components/data/draftResults2022.json"
-import draftResults2023 from "../components/data/draftResults2023.json"
-import draftResults2024 from "../components/data/draftResults2024.json"
-import league2021 from "../components/data/league2021.json"
-import league2022 from "../components/data/league2022.json"
-import league2023 from "../components/data/league2023.json"
-import league2024 from "../components/data/league2024.json"
 
 
 export default function Draft() {
@@ -17,12 +9,14 @@ export default function Draft() {
         currentWeek,
         currentSeason,
         availableSeasons,
-        yearDropdownOptions
+        yearDropdownOptions,
+        draftResults,
+        league,
     } = useStateContext()
 
     const [season, setSeason] = useState(2024)
-    const [draft, setDraft] = useState(draftResults2024)
-    const [league, setLeague] = useState(league2024)
+    const [draft, setDraft] = useState(draftResults[season])
+    const [shownLeague, setShownLeague] = useState(league[season])
     const [leagueSize, setLeagueSize] = useState(10)
 
     const [filterType, setFilterType] = useState('Round')
@@ -53,7 +47,7 @@ export default function Draft() {
 
         if(filterType === 'Team') {
             let teams = []
-            league.forEach((team) => {
+            shownLeague.forEach((team) => {
                 teams.push(team.owner)
             })
             let teamOptions = []
@@ -181,35 +175,17 @@ export default function Draft() {
     }
 
     function yearChange() {
-        if(season === 2021) {
-            setLeague(league2021)
-            setDraft(draftResults2021)
-            return
-        }
-        if(season === 2022) {
-            setLeague(league2022)
-            setDraft(draftResults2022)
-            return
-        }
-        if(season === 2023) {
-            setLeague(league2023)
-            setDraft(draftResults2023)
-            return
-        }
-        if(season === 2024) {
-            setLeague(league2024)
-            setDraft(draftResults2024)
-            return
-        }
+        setShownLeague(league[season])
+        setDraft(draftResults[season])
     }
     async function getDraft() {
         let draft = await axios.get('/api/draft');
         console.log(draft);
     }
     useEffect(() => {
-        setLeagueSize(league.length)
+        setLeagueSize(shownLeague.length)
         getDraft();
-    }, [league])
+    }, [shownLeague])
 
     useEffect(() => {
         createFilterOptions()
@@ -217,7 +193,7 @@ export default function Draft() {
 
     useEffect(() => {
         initDraftBoard()
-    }, [filterOptionSelection, tableView, leagueSize, league, draft])
+    }, [filterOptionSelection, tableView, leagueSize, shownLeague, draft])
 
     useEffect(() => {
         yearChange()

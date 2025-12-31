@@ -1,16 +1,16 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, React } from "react";
 import { useStateContext } from "../StateContext.js";
-import league2021 from "../components/data/league2021.json"
-import league2022 from "../components/data/league2022.json"
-import league2023 from "../components/data/league2023.json"
-import league2024 from "../components/data/league2024.json"
-import league2025 from "../components/data/league2025.json"
-import players2021 from "../components/data/players2021.json"
-import players2022 from "../components/data/players2022.json"
-import players2023 from "../components/data/players2023.json"
-import players2024 from "../components/data/players2024.json"
-import players2025 from "../components/data/players2025.json"
+import league2021 from "../public/data/league2021.json"
+import league2022 from "../public/data/league2022.json"
+import league2023 from "../public/data/league2023.json"
+import league2024 from "../public/data/league2024.json"
+import league2025 from "../public/data/league2025.json"
+import players2021 from "../public/data/players2021.json"
+import players2022 from "../public/data/players2022.json"
+import players2023 from "../public/data/players2023.json"
+import players2024 from "../public/data/players2024.json"
+import players2025 from "../public/data/players2025.json"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 // import { Grid } from 'gridjs-react';
@@ -36,14 +36,14 @@ export default function Home() {
 
     const [tableView, setTableView] = useState(false)
 
-    const { 
-        winColor, 
+    const {
+        winColor,
         loseColor,
         currentWeek,
         currentSeason,
         draftResults,
     } = useStateContext()
-        
+
 
     function handleClickOutside(e) {
         if(e === 'manualReset' || !refOne.current.contains(e.target)) {
@@ -122,7 +122,7 @@ export default function Home() {
         setCurrentPlayerDetails(person)
         setSearchQuery('')
         document.getElementById('search-bar-input').value = '';
-        
+
         let playerLogs = []
         let allStats = [...players2021, ...players2022, ...players2023, ...players2024, ...players2025]
 
@@ -198,7 +198,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('passingTouchdowns')){
                 if(gameLog.rawStats.hasOwnProperty("passingTouchdowns")) {
                     statLog.push(gameLog.rawStats.passingTouchdowns)
@@ -208,7 +208,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('rushingYards')){
                 if(gameLog.rawStats.hasOwnProperty("rushingYards")) {
                     statLog.push(gameLog.rawStats.rushingYards)
@@ -218,7 +218,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('rushingTouchdowns')){
                 if(gameLog.rawStats.hasOwnProperty("rushingTouchdowns")) {
                     statLog.push(gameLog.rawStats.rushingTouchdowns)
@@ -228,7 +228,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('receivingReceptions')){
                 if(gameLog.rawStats.hasOwnProperty("receivingReceptions")) {
                     statLog.push(gameLog.rawStats.receivingReceptions)
@@ -238,7 +238,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('receivingYards')){
                 if(gameLog.rawStats.hasOwnProperty("receivingYards")) {
                     statLog.push(gameLog.rawStats.receivingYards)
@@ -248,7 +248,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('receivingTouchdowns')){
                 if(gameLog.rawStats.hasOwnProperty("receivingTouchdowns")) {
                     statLog.push(gameLog.rawStats.receivingTouchdowns)
@@ -258,8 +258,8 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-                
-            } 
+
+            }
             if(headerKeys.includes('passingInterceptions')){
                 if(gameLog.rawStats.hasOwnProperty("passingInterceptions")) {
                     statLog.push(gameLog.rawStats.passingInterceptions)
@@ -269,7 +269,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('lostFumbles')){
                 if(gameLog.rawStats.hasOwnProperty("lostFumbles")) {
                     statLog.push(gameLog.rawStats.lostFumbles)
@@ -279,7 +279,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('rushing2PtConversions')){
                 if(gameLog.rawStats.hasOwnProperty("rushing2PtConversions")) {
                     statLog.push(gameLog.rawStats.rushing2PtConversions)
@@ -289,7 +289,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('receiving2PtConversions')){
                 if(gameLog.rawStats.hasOwnProperty("receiving2PtConversions")) {
                     statLog.push(gameLog.rawStats.receiving2PtConversions)
@@ -299,7 +299,7 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
+            }
             if(headerKeys.includes('passing2PtConversions')){
                 if(gameLog.rawStats.hasOwnProperty("passing2PtConversions")) {
                     statLog.push(gameLog.rawStats.passing2PtConversions)
@@ -309,8 +309,8 @@ export default function Home() {
                     statLog.push('-')
                     rowData.push('hide')
                 }
-            } 
-            
+            }
+
             let rowInfo = statLog.map((stat, index) =>
                 <td key={index.toString() + gameLog.seasonId.toString() + gameLog.week.toString()} data-cell={rowData[index]} className={tableView ? '' : 'mobile-on'}>{stat}</td>
             );
@@ -318,7 +318,7 @@ export default function Home() {
             // tableRows.push(statLog)
 
             tableRows.push(<tr key={gameLog.seasonId.toString() + gameLog.week.toString()}>{rowInfo}</tr>)
-            
+
         })
 
 
@@ -334,8 +334,8 @@ export default function Home() {
         if(headerKeys.includes('passingYards')) {
             activeHeaders.push('Passing Yards')
             seasonStatArray.push(seasonStats.passingYards)
-        } 
-        if(headerKeys.includes('passingTouchdowns')){ 
+        }
+        if(headerKeys.includes('passingTouchdowns')){
             activeHeaders.push("Passing TDs")
             seasonStatArray.push(seasonStats.passingTouchdowns)
         }
@@ -436,8 +436,8 @@ export default function Home() {
         let mappedHeaders = activeHeaders.map((header, index) =>
                 <th key={index} className={tableView ? '' : 'mobile-on'}>{header}</th>
             );
-            
-        let yearOptions = activeSeasons.map(year => 
+
+        let yearOptions = activeSeasons.map(year =>
             <option key={year} value={year}>{year}</option>
         )
 
@@ -567,7 +567,7 @@ export default function Home() {
             );
         })
 
-        return 
+        return
     }
 
     function seasonChange(e) {
@@ -631,7 +631,7 @@ export default function Home() {
           console.log("AddTableARIA(): " + e);
         }
       }
-      
+
 
 
     useEffect(() => {
@@ -660,7 +660,7 @@ export default function Home() {
             playerSelected(currentPlayerDetails)
         }
     }, [selectedSeason, tableView])
-    
+
 
 
     return(

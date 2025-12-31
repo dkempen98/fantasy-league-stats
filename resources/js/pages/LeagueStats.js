@@ -1,43 +1,31 @@
 import { useState, useEffect, React } from "react";
 import { useStateContext } from "../StateContext.js";
-import twentyOnePlayers from "../components/data/players2021.json"
-import twentyOneTeams from "../components/data/teams2021.json"
-import twentyOneLeague from "../components/data/league2021.json"
-import twentyTwoPlayers from "../components/data/players2022.json"
-import twentyTwoTeams from "../components/data/teams2022.json"
-import twentyTwoLeague from "../components/data/league2022.json"
-import twentyThreePlayers from "../components/data/players2023.json"
-import twentyThreeTeams from "../components/data/teams2023.json"
-import twentyThreeLeague from "../components/data/league2023.json"
-import twentyFourPlayers from "../components/data/players2024.json"
-import twentyFourTeams from "../components/data/teams2024.json"
-import twentyFourLeague from "../components/data/league2024.json"
-import twentyFivePlayers from "../components/data/players2025.json"
-import twentyFiveTeams from "../components/data/teams2025.json"
-import twentyFiveLeague from "../components/data/league2025.json"
 import BarChart from "../components/reusable-stuff/barChart.js";
 
 export default function Home() {
 
-    const { 
+    const {
         primaryColor,
         primarySolid,
-        winColor, 
-        winSolid, 
-        secondaryColor, 
-        secondarySolid, 
+        winColor,
+        winSolid,
+        secondaryColor,
+        secondarySolid,
         loseColor,
         loseSolid,
         yearDropdownOptions,
         currentSeason,
-        currentWeek
+        currentWeek,
+        players,
+        league,
+        matchups
     } = useStateContext()
 
     const [season, setSeason] = useState(currentSeason)
     const [week, setWeek] = useState(currentWeek)
-    const [players, setPlayers] = useState(twentyFivePlayers)
-    const [teams, setTeams] = useState(twentyFiveTeams)
-    const [league, setLeague] = useState(twentyFiveLeague)
+    const [shownPlayers, setShownPlayers] = useState(players[currentSeason])
+    const [teams, setTeams] = useState(matchups[currentSeason])
+    const [shownLeague, setShownLeague] = useState(league[currentSeason])
     const [defaultNames, setDefaultNames] = useState([])
     const [id, setId] = useState([])
     const [ownerNames, setOwners] = useState([])
@@ -56,7 +44,7 @@ export default function Home() {
 
     const [percentBeatByHigh, setPercentBeatByHigh] = useState(0)
     const [percentBeatLow, setPercentBeatLow] = useState(0)
-    
+
     const [teamScores, setTeamScores] = useState([])
     const [averageScore, setAverage] = useState(0)
     const [minWinner, setMinWinner] = useState([]) // 0 = owner name, 1 = score
@@ -83,7 +71,7 @@ export default function Home() {
         setOwners([])
         setMargin([])
         setTeamScores([])
-        
+
         let scorePlaceholder = {}
 
         let closestGame = 1000
@@ -108,7 +96,7 @@ export default function Home() {
         let lowScore = 128;
         let lowScoreName
         let lowScoreWeek = 0;
-        
+
         let totalSeasonScore = 0
         let totalCount = 0
         let matchupAvgPh = 0
@@ -179,7 +167,7 @@ export default function Home() {
                             totalCount++
                         });
                     }
-                    
+
                     matchupAvgPh = (totalSeasonScore / totalCount)
                 }
             }
@@ -248,11 +236,11 @@ export default function Home() {
 
         let total = 0
         let avg = 0
-        
+
         for(const teamId in teamScores) {
             total += teamScores[teamId]
         }
-        
+
         avg = total / 10
         setAverage(avg)
 
@@ -263,7 +251,7 @@ export default function Home() {
         // This works but it isn't used anywhere currently
 
         // let benchTotals = {}
-        // players.forEach((matchup) => {
+        // shownPlayers.forEach((matchup) => {
         //     matchup.forEach((player) => {
         //         if(player.position === "Bench") {
         //             let owner = player.owner
@@ -298,7 +286,7 @@ export default function Home() {
         // let positionCountPH = setZero(Array(ownerNames.length))
         // let flexCountPH = setZero(Array(ownerNames.length))
 
-        players.forEach(week => {
+        shownPlayers.forEach(week => {
             week.forEach(person => {
                 if(person.eligiblePosition?.includes(activePosition) && person.position != "Bench" && person.position != "IR") {
 
@@ -325,7 +313,7 @@ export default function Home() {
 
                     } else {
                         // positionScoresPH[person.teamId - 1] += person.points
-                        // positionCountPH[person.teamId - 1]++ 
+                        // positionCountPH[person.teamId - 1]++
 
                         if(positionData.hasOwnProperty(owner)) {
                             positionData[owner].positionScore += person.points
@@ -396,48 +384,18 @@ export default function Home() {
 
     function applyTeamNames() {
         let teamNames = []
-        league.forEach((team) => {
+        shownLeague.forEach((team) => {
             teamNames.push(team.owner)
         })
         setDefaultNames(teamNames);
     }
 
     function seasonChange(newYear){
-        if(newYear == 2021){
-            setWeek(0)
-            setSeason(2021)
-            setTeams(twentyOneTeams)
-            setPlayers(twentyOnePlayers)
-            setLeague(twentyOneLeague)
-        }
-        if(newYear == 2022){
-            setWeek(0)
-            setSeason(2022)
-            setTeams(twentyTwoTeams)
-            setPlayers(twentyTwoPlayers)
-            setLeague(twentyTwoLeague)
-        }
-        if(newYear == 2023){
-            setWeek(0)
-            setSeason(2023)
-            setTeams(twentyThreeTeams)
-            setPlayers(twentyThreePlayers)
-            setLeague(twentyThreeLeague)
-        }
-        if(newYear == 2024){
-            setWeek(0)
-            setSeason(2024)
-            setTeams(twentyFourTeams)
-            setPlayers(twentyFourTeams)
-            setLeague(twentyFourLeague)
-        }
-        if(newYear == 2025){
-            setWeek(0)
-            setSeason(2025)
-            setTeams(twentyFiveTeams)
-            setPlayers(twentyFiveTeams)
-            setLeague(twentyFiveLeague)
-        }
+        setShownPlayers(players[newYear])
+        setShownLeague(league[newYear])
+        setWeek(0)
+        setSeason(newYear)
+        setTeams(matchups[newYear])
     }
 
     function positionChange(position){
@@ -451,7 +409,7 @@ export default function Home() {
     function averageChange() {
         setUseAverage(!useAverage)
     }
-    
+
     useEffect(() => {
         setWeek(teams.length - 1)
         applyTeamNames();
@@ -498,7 +456,7 @@ export default function Home() {
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Closest Game</h3> 
+                        <h3>Closest Game</h3>
                     </div>
                     <p>{closestWinner} beat {closestLoser} by {closest} points in week {closestWeek} <br/><br/> The average margin of victory on the year {currentSeason === season ? 'is' : 'was'} {marginAvg} points</p>
                 </div>
@@ -516,7 +474,7 @@ export default function Home() {
                 </div>
                 <div className="stat-card">
                     <div className="card-title">
-                        <h3>Highest Scoring Loser</h3> 
+                        <h3>Highest Scoring Loser</h3>
                     </div>
                     <p>{maxLoser[0]} scored {maxLoser[1]} points and lost in week {maxWeek} <br/><br/> This {currentSeason === season ? 'is' : 'was'} {(Math.abs(maxLoser[1] - matchupAvg)).toFixed(2)} points {parseInt(maxLoser[1]) > matchupAvg ? 'above' : 'below'} the average weekly score<br/><br/> They would have won against {percentBeatByHigh}% of matchups on the year</p>
                 </div>
@@ -563,7 +521,7 @@ export default function Home() {
                     </div>
                     <div className="chart-checkbox">
                         <label className="checkbox-label">
-                            <input 
+                            <input
                                 type={"checkbox"}
                                 checked={useFlex}
                                 onChange={() => flexChange()}
@@ -572,7 +530,7 @@ export default function Home() {
                             Flex
                         </label>
                         <label className="checkbox-label">
-                            <input 
+                            <input
                                 type={"checkbox"}
                                 checked={useAverage}
                                 onChange={() => averageChange()}
@@ -590,7 +548,7 @@ export default function Home() {
                                     label: '',
                                     data: chartScores,
                                     backgroundColor: [primaryColor, secondaryColor],
-                                    barPercentage: 1 
+                                    barPercentage: 1
                                 }]
                             }
                         }/>

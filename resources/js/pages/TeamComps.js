@@ -7,17 +7,6 @@ import LineChart from "../components/reusable-stuff/lineChart.js";
 export default function TeamComps() {
 
     const {
-        primaryColor,
-        primarySolid,
-        winColor,
-        winSolid,
-        secondaryColor,
-        secondarySolid,
-        loseColor,
-        loseSolid,
-        yearDropdownOptions,
-        currentSeason,
-        currentWeek,
         matchups,
         players,
         league,
