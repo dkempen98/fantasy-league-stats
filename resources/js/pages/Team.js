@@ -567,8 +567,8 @@ export default function Home() {
             }
         }
 
-        let leftPlayers = players[week].filter((player) => player.teamId == selectedTeamWeek.id);
-        let rightPlayers = players[week].filter((player) => player.teamId == otherTeamWeek.id);
+        let leftPlayers = shownPlayers[week]?.filter((player) => player.teamId == selectedTeamWeek.id);
+        let rightPlayers = shownPlayers[week]?.filter((player) => player.teamId == otherTeamWeek.id);
 
         leftPlayers.forEach(player => {
             if(!(player.position === "Bench" || player.position === "IR")) {
