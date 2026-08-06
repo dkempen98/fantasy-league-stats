@@ -1,24 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import currentYear from "./public/data/teams2025.json" // Updated annually to match the active season
-import draftResults2021 from "./public/data/draftResults2021.json"
-import draftResults2022 from "./public/data/draftResults2022.json"
-import draftResults2023 from "./public/data/draftResults2023.json"
-import draftResults2024 from "./public/data/draftResults2024.json"
-import teams2021 from "./public/data/teams2021.json"
-import teams2022 from "./public/data/teams2022.json"
-import teams2023 from "./public/data/teams2023.json"
-import teams2024 from "./public/data/teams2024.json"
-import teams2025 from "./public/data/teams2025.json"
-import players2021 from "./public/data/players2021.json"
-import players2022 from "./public/data/players2022.json"
-import players2023 from "./public/data/players2023.json"
-import players2025 from "./public/data/players2025.json"
-import players2024 from "./public/data/players2024.json"
-import league2021 from "./public/data/league2021.json"
-import league2022 from "./public/data/league2022.json"
-import league2023 from "./public/data/league2023.json"
-import league2024 from "./public/data/league2024.json"
-import league2025 from "./public/data/league2025.json"
 
 const StateContext = createContext();
 
@@ -43,14 +23,20 @@ export function StateProvider({ children }) {
   const [currentWeek, setCurrentWeek] = useState(0) // Count starts at 0 like an array
   const [currentSeason, setCurrentSeason] = useState(2025) //Manually set annually
 
+  const [draftResults, setDraftResults] = useState([])
+  const [matchups, setMatchups] = useState([])
+  const [players, setPlayers] = useState([])
+  const [league, setLeague] = useState([])
+  const [currentYear, setCurrentYear] = useState([]);
+
+  const [dataLoaded, setDataLoaded] = useState(false)
+
   // Commonly used react components
 
   const [yearDropdownOptions, setYearDropdownOptions] = useState()
 
 
   function init() {
-    setCurrentWeek(currentYear.length - 1)
-
     const years = availableSeasons.map((year, index) =>
       <option key={index} value={year}>{year}</option>
     )
@@ -58,40 +44,80 @@ export function StateProvider({ children }) {
     setYearDropdownOptions(years)
   }
 
+  async function initJsonData() {
+    const fetchSeason = async (type) => {
+      const parsed = await Promise.all(
+        availableSeasons.map((season) =>
+          fetch('/data/' + type + season + '.json')
+            .then((res) => (res.ok ? res.json() : null))
+            .catch(() => null)
+        )
+      );
+      return availableSeasons.reduce((acc, season, index) => {
+        if (parsed[index] != null) {
+          acc[season] = parsed[index]
+        }
+        return acc
+      }, {})
+    };
+
+    try {
+      const [draftResultsParsed, leagueParsed, playersParsed, teamsParsed] =
+        await Promise.all([
+          fetchSeason("draftResults"),
+          fetchSeason("league"),
+          fetchSeason("players"),
+          fetchSeason("teams"),
+        ]);
+
+      const currentTeams = teamsParsed[currentSeason]
+      setCurrentYear(currentTeams)
+      setCurrentWeek(currentTeams.length - 1)
+      setDraftResults(draftResultsParsed)
+      setMatchups(teamsParsed)
+      setPlayers(playersParsed)
+      setLeague(leagueParsed)
+      setDataLoaded(true)
+    } catch (err) {
+      console.error("Error fetching data:", err)
+    }
+  }
+
   useEffect(() => {
+    initJsonData()
     init()
   }, [])
 
-    const draftResults = {
-      2021: draftResults2021,
-      2022: draftResults2022,
-      2023: draftResults2023,
-      2024: draftResults2024,
-    }
-
-    const matchups = {
-        2021: teams2021,
-        2022: teams2022,
-        2023: teams2023,
-        2024: teams2024,
-        2025: teams2025,
-    }
-
-    const players = {
-        2021: players2021,
-        2022: players2022,
-        2023: players2023,
-        2024: players2024,
-        2025: players2025,
-    }
-
-    const league = {
-        2021: league2021,
-        2022: league2022,
-        2023: league2023,
-        2024: league2024,
-        2025: league2025,
-    }
+    // const draftResults = {
+    //   2021: draftResults2021,
+    //   2022: draftResults2022,
+    //   2023: draftResults2023,
+    //   2024: draftResults2024,
+    // }
+    //
+    // const matchups = {
+    //     2021: teams2021,
+    //     2022: teams2022,
+    //     2023: teams2023,
+    //     2024: teams2024,
+    //     2025: teams2025,
+    // }
+    //
+    // const players = {
+    //     2021: players2021,
+    //     2022: players2022,
+    //     2023: players2023,
+    //     2024: players2024,
+    //     2025: players2025,
+    // }
+    //
+    // const league = {
+    //     2021: league2021,
+    //     2022: league2022,
+    //     2023: league2023,
+    //     2024: league2024,
+    //     2025: league2025,
+    // }
 
     const checkPlayoff = (week, year) => {
         switch (year) {
@@ -141,7 +167,7 @@ export function StateProvider({ children }) {
       league,
       checkPlayoff,
       }}>
-      {children}
+      {dataLoaded ? children : null}
     </StateContext.Provider>
   );
 }

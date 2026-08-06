@@ -384,9 +384,10 @@ h6 {
   border-radius: 5px 0 0 5px;
 }
 
-@supports(backdrop-filter: blur(1rem)) {
+@supports (backdrop-filter: blur(1rem)) or (-webkit-backdrop-filter: blur(1rem)) {
   .nb-primary {
     background: rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: blur(1.5rem);
     backdrop-filter: blur(1.5rem);
   }
 }
@@ -673,6 +674,7 @@ h6 {
     justify-content: space-around;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background: radial-gradient(rgba(136, 136, 136, 0.75), rgba(3, 3, 3, 0.75));
     border: solid 3px black;
@@ -1035,6 +1037,9 @@ tr, caption {
 }
 
 @media (max-width: 560px) {
+  body {
+    background-attachment: scroll;
+  }
 
   .ps {
     &-player-info-container {

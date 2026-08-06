@@ -1,16 +1,6 @@
 // import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, React } from "react";
 import { useStateContext } from "../StateContext.js";
-import league2021 from "../public/data/league2021.json"
-import league2022 from "../public/data/league2022.json"
-import league2023 from "../public/data/league2023.json"
-import league2024 from "../public/data/league2024.json"
-import league2025 from "../public/data/league2025.json"
-import players2021 from "../public/data/players2021.json"
-import players2022 from "../public/data/players2022.json"
-import players2023 from "../public/data/players2023.json"
-import players2024 from "../public/data/players2024.json"
-import players2025 from "../public/data/players2025.json"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 // import { Grid } from 'gridjs-react';
@@ -42,6 +32,8 @@ export default function Home() {
         currentWeek,
         currentSeason,
         draftResults,
+        players,
+        league
     } = useStateContext()
 
 
@@ -64,55 +56,18 @@ export default function Home() {
     function createPlayerList() {
         setPlayerSearch(() => {
             let playerList = []
-            players2021.forEach(week => {
-                week.forEach(thisPlayer => {
-                    if(!playerList.some(e => e.id === thisPlayer.id)) {
-                        playerList.push({
-                            id: thisPlayer.id,
-                            player: thisPlayer.player
-                        })
-                    }
-                })
-            });
-            players2022.forEach(week => {
-                week.forEach(thisPlayer => {
-                    if(!playerList.some(e => e.id === thisPlayer.id)) {
-                        playerList.push({
-                            id: thisPlayer.id,
-                            player: thisPlayer.player
-                        })
-                    }
-                })
-            });
-            players2023.forEach(week => {
-                week.forEach(thisPlayer => {
-                    if(!playerList.some(e => e.id === thisPlayer.id)) {
-                        playerList.push({
-                            id: thisPlayer.id,
-                            player: thisPlayer.player
-                        })
-                    }
-                })
-            });
-            players2024.forEach(week => {
-                week.forEach(thisPlayer => {
-                    if(!playerList.some(e => e.id === thisPlayer.id)) {
-                        playerList.push({
-                            id: thisPlayer.id,
-                            player: thisPlayer.player
-                        })
-                    }
-                })
-            });
-            players2025.forEach(week => {
-                week.forEach(thisPlayer => {
-                    if(!playerList.some(e => e.id === thisPlayer.id)) {
-                        playerList.push({
-                            id: thisPlayer.id,
-                            player: thisPlayer.player
-                        })
-                    }
-                })
+            console.log(players);
+            Object.values(players)?.forEach(season => {
+                season.forEach(week => {
+                    week.forEach(thisPlayer => {
+                        if(!playerList.some(e => e.id === thisPlayer.id)) {
+                            playerList.push({
+                                id: thisPlayer.id,
+                                player: thisPlayer.player
+                            })
+                        }
+                    })
+                });
             });
             return playerList
         })
@@ -124,7 +79,8 @@ export default function Home() {
         document.getElementById('search-bar-input').value = '';
 
         let playerLogs = []
-        let allStats = [...players2021, ...players2022, ...players2023, ...players2024, ...players2025]
+        let allStats = [];
+        Object.values(players).forEach(season => allStats.push(...season));
 
         let headerKeys = ['year', 'week', 'team', 'Points', 'Proj. Points']
         let activeHeaders = ['Year', 'Week', 'Team', 'Points', 'Proj. Points']
@@ -133,6 +89,7 @@ export default function Home() {
             points: 0,
             projPoints: 0
         }
+        console.log(allStats);
 
         allStats.forEach(week => {
             week.forEach(record => {
@@ -387,38 +344,30 @@ export default function Home() {
 
         tableRows.push(<tr key={'season-totals'}>{totalRowInfo}</tr>)
 
-        let league = {}
+        let activeSeason = {}
         let playerOwner = {}
         let season = playerLogs[playerLogs.length - 1].seasonId
         let weekLastPlayed = playerLogs[playerLogs.length - 1].week
         let proLogo = ""
         let ownerLogo = ""
 
-        console.log(proTeam)
         if(proTeam) {
             proLogo = "/images/proLogos/" + proTeam + ".png"
         } else {
             proLogo = "/images/proLogos/NFL.png"
         }
 
-        if (selectedSeason === 2021) {
-            league = league2021
-            if(!activeSeasons.includes(2021)) {
-                activeSeasons.push(2021)
+        let mappedSeasons = Object.keys(league);
+        for(let i = 0; league.length > i; i++) {
+            if(mappedSeasons[i] === selectedSeason) {
+                activeSeason = league[i];
             }
-        } else if (selectedSeason === 2022) {
-            league = league2022
-        } else if (selectedSeason === 2023) {
-            league = league2023
-        } else if (selectedSeason === 2024) {
-            league = league2024
-        } else if (selectedSeason === 2025) {
-            league = league2025
         }
 
-        for (let i = 0; i < league.length; i++) {
-            if (league[i].id === ownerId) {
-                playerOwner = league[i];
+
+        for (let i = 0; i < activeSeason.length; i++) {
+            if (activeSeason[i].id === ownerId) {
+                playerOwner = activeSeason[i];
             }
           }
 
