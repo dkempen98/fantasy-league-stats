@@ -47,7 +47,7 @@ export default function Draft() {
 
         if(filterType === 'Team') {
             let teams = []
-            shownLeague.forEach((team) => {
+            shownLeague?.forEach((team) => {
                 teams.push(team.owner)
             })
             let teamOptions = []
@@ -95,7 +95,6 @@ export default function Draft() {
     }
 
     function createTableRow(pick) {
-        console.log(pick)
         let round = Math.ceil((pick + 1) / leagueSize)
 
         return (

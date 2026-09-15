@@ -3,25 +3,25 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const StateContext = createContext();
 
 export function StateProvider({ children }) {
-  const [primaryColor, setPrimaryColor] = useState("#00243bc0")
-  const [primarySolid, setPrimarySolid] = useState("#00243b")
+  const [primaryColor, setPrimaryColor] = useState("#311D00c0")
+  const [primarySolid, setPrimarySolid] = useState("#311D00")
 
-  const [brightSecondary, setBrightSecondary] = useState("#064831c0")
-  const [brightSecondarySolid, setBrightSecondarySolid] = useState("#064831")
+  const [brightSecondary, setBrightSecondary] = useState("#FF3C00c0")
+  const [brightSecondarySolid, setBrightSecondarySolid] = useState("#FF3C00")
 
   const [secondaryColor, setSecondaryColor] = useState("#000000c0")
   const [secondarySolid, setSecondarySolid] = useState("#000000")
 
-  const [winColor, setWinColor] = useState("#064831c0")
-  const [winSolid, setWinSolid] = useState("#064831")
+  const [winColor, setWinColor] = useState("#311D00c0")
+  const [winSolid, setWinSolid] = useState("#311D00")
 
-  const [loseColor, setLoseColor] = useState("#774F0Fc0")
-  const [loseSolid, setLoseSolid] = useState("#774F0F")
+  const [loseColor, setLoseColor] = useState("#FF3C00c0")
+  const [loseSolid, setLoseSolid] = useState("#FF3C00")
 
-  const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023, 2024, 2025])
+  const [availableSeasons, setAvailableSeasons] = useState([2021, 2022, 2023, 2024, 2025, 2026])
 
   const [currentWeek, setCurrentWeek] = useState(0) // Count starts at 0 like an array
-  const [currentSeason, setCurrentSeason] = useState(2025) //Manually set annually
+  const [currentSeason, setCurrentSeason] = useState(2026) //Manually set annually
 
   const [draftResults, setDraftResults] = useState([])
   const [matchups, setMatchups] = useState([])

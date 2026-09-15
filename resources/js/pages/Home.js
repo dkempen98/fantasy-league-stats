@@ -249,7 +249,7 @@ export default function Home() {
 
     function applyTeamNames() {
         let teamNames = []
-        shownLeague.forEach((team) => {
+        shownLeague?.forEach((team) => {
             teamNames.push(team.owner)
         })
         setDefaultNames(teamNames);
@@ -355,7 +355,7 @@ export default function Home() {
                                 datasets: [{
                                     label: '',
                                     data: benchScores,
-                                    backgroundColor: [primaryColor, secondaryColor],
+                                    backgroundColor: [primaryColor, loseColor],
                                     barPercentage: 1
                                 }]
                             }
