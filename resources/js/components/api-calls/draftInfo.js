@@ -1,14 +1,118 @@
-import pkg from 'espn-fantasy-football-api/node-dev.js'
+import pkg from 'espn-fantasy-football-api/node-dev.js';
 const { Client } = pkg;
-const myClient = new Client({
-    leagueId: 1156809923,
-    espnS2: 'AECDF9o%2FaT5SKt6IF7Svk9vfBbwOzDnV%2FRYaoUvCbDFpMruONA3miEzWfaP%2FYx84%2Bdvuq8aIX1xBVmfEkQ52Ep9McgdSxA5FbDy6OBpho0JX3bzLFDUEDus0GVR3b453ogZ31%2FjcDeziuvVXBSFFPyXu1DkJaIJPBV8fMDAQ84v7NlJEKHwFqdHt2H1o0Yg3r8w865mvZa0Fb4urbkba4DlMisJtrPVfjf59lVVmpU0Jf3%2F2kOVHe5JpDE7TODdspWlDQ1EgzIbvRTN%2B%2BcM7LppOTuCpyVmshtsvAVeMnhiOtA%3D%3D',
-    SWID: '{44B1905F-93AB-4B92-B190-5F93ABFB9218}'
-})
+import fs from 'fs'
+import * as dotenv from 'dotenv'
+dotenv.config({path: '../../../../.env'})
 
-myClient.getFreeAgents({
-    seasonId: 2023,
-    scoringPeriodId: 18,
-}).then((res) => {
-    console.log(res);
-})
+console.log("----------------API-----------------")
+
+const myClient = new Client({ leagueId: process.env.LEAGUE_ID })
+
+myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
+
+const season = 2025
+let league = []
+
+draftData(season)
+
+function draftData(season) {
+    let playerData = [];
+    myClient.getDraftInfo( {
+        seasonId: season
+    }).then(res => {
+        console.log(typeof res);
+        res.map((player) => {
+
+            let position = null;
+
+            if (player.eligiblePositions?.includes('WR')) {
+                position = 'WR'
+            } else if (player.eligiblePositions?.includes('RB')) {
+                position = 'RB'
+            } else if (player.eligiblePositions?.includes('QB')) {
+                position = 'QB'
+            } else if (player.eligiblePositions?.includes('TE')) {
+                position = 'TE'
+            } else if (player.eligiblePositions?.includes('D/ST')) {
+                position = 'D/ST'
+            }
+
+            let manager = null;
+            switch(player.teamId) {
+                case 1:
+                    manager = 'Alex'
+                    break
+                case 2:
+                    manager = 'Ben'
+                    break
+                case 3:
+                    manager = 'Tony'
+                    break
+                case 4:
+                    manager = 'Nate'
+                    if(season === 2021) {
+                        manager = 'Kayla'
+                    }
+                    break
+                case 5:
+                    manager = 'Henry'
+                    break
+                case 6:
+                    manager = 'Bryce'
+                    if(season < 2025) {
+                        manager = 'Eric'
+                    }
+                    break
+                case 7:
+                    manager = 'Ivan'
+                    if(season === 2021) {
+                        manager = 'Kief'
+                    }
+                    break
+                case 8:
+                    manager = 'Trap'
+                    break
+                case 9:
+                    manager = 'Drew'
+                    break
+                case 10:
+                    manager = 'Kayla'
+                    if(season === 2022) {
+                        manager = 'Joey'
+                    }
+                    if(season === 2021) {
+                        manager = 'Josh'
+                    }
+                    break
+                case 11:
+                    manager = 'Randy'
+                    break
+                case 12:
+                    manager = 'Alec'
+                    if(season === 2024) {
+                        manager = 'Megan'
+                    } else if(season === 2021) {
+                        manager = 'Matt'
+                    }
+                    break
+            }
+
+            playerData.push(
+                {
+                    pick: player.overallPickNumber,
+                    team: manager,
+                    owner: manager,
+                    player: player.fullName,
+                    position: position,
+                    nfl_team: player.proTeam,
+                    player_id: player.id,
+                    overall_rank: null,
+                    position_rank: null
+                }
+            )
+        })
+
+        fs.writeFileSync(`../data/draftResults${season}.json`, JSON.stringify(playerData))
+        console.log('File Created!')
+    })
+}

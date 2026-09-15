@@ -14,9 +14,9 @@ export default function Draft() {
         league,
     } = useStateContext()
 
-    const [season, setSeason] = useState(2024)
-    const [draft, setDraft] = useState(draftResults[season])
-    const [shownLeague, setShownLeague] = useState(league[season])
+    const [season, setSeason] = useState(currentSeason)
+    const [draft, setDraft] = useState(draftResults[currentSeason])
+    const [shownLeague, setShownLeague] = useState(league[currentSeason])
     const [leagueSize, setLeagueSize] = useState(10)
 
     const [filterType, setFilterType] = useState('Round')
@@ -29,6 +29,8 @@ export default function Draft() {
 
     const [sortDirection, setSortDirection] = useState('asc')
     const [currentSort, setCurrentSort] = useState()
+
+    const hasRankings = (draft ?? []).slice(0, 3).some((pick) => pick?.overall_rank)
 
     function createFilterOptions() {
         if(filterType === 'Round') {
@@ -99,13 +101,20 @@ export default function Draft() {
 
         return (
             <tr key={`${pick}-pick`}>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Team'}key={pick + '-pick-owner'}>{draft[pick].owner}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Round'}key={pick + '-pick-round'}>{round}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Pick'}key={pick + '-pick-pick'}>{pick + 1}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Name'}key={pick + '-pick-player'}>{draft[pick].player}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Position (Rank)'}key={pick + '-pick-position'}>{draft[pick].position + ' (' + draft[pick].position_rank + ")"}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'Overall Rank'}key={pick + '-pick-rank'}>{draft[pick].overall_rank}</td>
-                <td className={tableView ? '' : 'mobile-on'} data-cell={'NFL Team'}key={pick + '-pick-team'}>{draft[pick].nfl_team}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Team'} key={pick + '-pick-owner'}>{draft[pick].owner}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Round'} key={pick + '-pick-round'}>{round}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Pick'} key={pick + '-pick-pick'}>{pick + 1}</td>
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'Name'} key={pick + '-pick-player'}>{draft[pick].player}</td>
+                { hasRankings && (
+                    <>
+                        <td className={tableView ? '' : 'mobile-on'} data-cell={'Position (Rank)'} key={pick + '-pick-position'}>{draft[pick].position + ' (' + draft[pick].position_rank + ")"}</td>
+                        <td className={tableView ? '' : 'mobile-on'} data-cell={'Overall Rank'} key={pick + '-pick-rank'}>{draft[pick].overall_rank}</td>
+                    </>
+                )}
+                { !hasRankings && (
+                    <td className={tableView ? '' : 'mobile-on'} data-cell={'Position'} key={pick + '-pick-position'}>{draft[pick].position}</td>
+                )}
+                <td className={tableView ? '' : 'mobile-on'} data-cell={'NFL Team'} key={pick + '-pick-team'}>{draft[pick].nfl_team}</td>
             </tr>
         )
     }
@@ -177,10 +186,11 @@ export default function Draft() {
         setShownLeague(league[season])
         setDraft(draftResults[season])
     }
+
     async function getDraft() {
         let draft = await axios.get('/api/draft');
-        console.log(draft);
     }
+
     useEffect(() => {
         setLeagueSize(shownLeague.length)
         getDraft();
@@ -206,11 +216,11 @@ export default function Draft() {
                     Year :
                     <div className="global-dropdown dropdown-size-match-mobile">
                         <select value={season} onChange={(e) => setSeason(parseInt(e.target.value))}>
-                            {/* {yearDropdownOptions} */}
-                            <option key={'2021-season-button'} value={2021}>2021</option>
-                            <option key={'2022-season-button'} value={2022}>2022</option>
-                            <option key={'2023-season-button'} value={2023}>2023</option>
-                            <option key={'2024-season-button'} value={2024}>2024</option>
+                             {yearDropdownOptions}
+                            {/*<option key={'2021-season-button'} value={2021}>2021</option>*/}
+                            {/*<option key={'2022-season-button'} value={2022}>2022</option>*/}
+                            {/*<option key={'2023-season-button'} value={2023}>2023</option>*/}
+                            {/*<option key={'2024-season-button'} value={2024}>2024</option>*/}
                         </select>
                         <span className="global-arrow"></span>
                     </div>
@@ -254,8 +264,15 @@ export default function Draft() {
                             <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('round')}>Rd.</th>
                             <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('pick')}>Pick</th>
                             <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('name')}>Name</th>
-                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('position')}>Position (Rank)</th>
-                            <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('rank')}>Overall Rank</th>
+                            {hasRankings && (
+                                <>
+                                    <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('position')}>Position (Rank)</th>
+                                    <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('rank')}>Overall Rank</th>
+                                </>
+                            )}
+                            {!hasRankings && (
+                                <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('position')}>Position</th>
+                            )}
                             <th className={tableView ? '' : 'mobile-on'} onClick={() => sortBoard('nflTeam')}>NFL Team</th>
                         </tr>
                     </thead>
