@@ -261,7 +261,8 @@ export default function Home() {
 
         activePlayers[week].forEach(person => {
             if(person.position === "Bench" || person.position === "IR") {
-                colors.push(loseColor)
+                // This determines the bench color
+                colors.push(brightSecondary)
                 if(person.position === "Bench") {
                     benchPoints.push(person.points)
                     benchProjections.push(Number(person.projectedPoints).toFixed(2))
@@ -272,7 +273,8 @@ export default function Home() {
                     irNames.push(person.player.charAt(0) + '. ' + person.lastName)
                 }
             } else {
-                colors.unshift(brightSecondary)
+                // This determines the starters color
+                colors.unshift(primaryColor)
                 let pos = person.position
                 if(pos === "QB") {
                     qbPoints.push(person.points)
@@ -570,6 +572,8 @@ export default function Home() {
         let leftPlayers = shownPlayers[week]?.filter((player) => player.teamId == selectedTeamWeek.id);
         let rightPlayers = shownPlayers[week]?.filter((player) => player.teamId == otherTeamWeek.id);
 
+        let hasKicker = false;
+
         leftPlayers.forEach(player => {
             if(!(player.position === "Bench" || player.position === "IR")) {
                 for (const [key, value] of Object.entries(player.rawStats)) {
@@ -577,6 +581,9 @@ export default function Home() {
                         stats.left[key] = 0;
                     }
                     stats.left[key] += value;
+                    if(player.position === "K") {
+                        hasKicker = true;
+                    }
                 }
             }
         })
@@ -588,6 +595,9 @@ export default function Home() {
                         stats.right[key] = 0;
                     }
                     stats.right[key] += value;
+                    if(player.position === "K") {
+                        hasKicker = true;
+                    }
                 }
             }
         })
@@ -624,9 +634,11 @@ export default function Home() {
 
         function getImage(team)
         {
+            console.log(team.logoURL)
             if(!team.logoURL?.includes('mystique-api')) {
                 return team.logoURL;
             }
+            console.log(`/images/teamLogos/${team.owner.toLowerCase()}_logo_${season}.png`)
             return `/images/teamLogos/${team.owner.toLowerCase()}_logo_${season}.png`;
         }
 
@@ -742,43 +754,47 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div className="matchup-row">
-                    <div className="matchup-stat left">
-                        {stats.left.madeExtraPoints} / {stats.left.madeExtraPoints + stats.left.missedExtraPoints}
-                    </div>
-                    <div className="matchup-stat center">Extra Points</div>
-                    <div className="matchup-stat right">
-                        {stats.right.madeExtraPoints} / {stats.right.madeExtraPoints + stats.right.missedExtraPoints}
-                    </div>
-                </div>
+                {hasKicker && (
+                    <>
+                        <div className="matchup-row">
+                            <div className="matchup-stat left">
+                                {stats.left.madeExtraPoints} / {stats.left.madeExtraPoints + stats.left.missedExtraPoints}
+                            </div>
+                            <div className="matchup-stat center">Extra Points</div>
+                            <div className="matchup-stat right">
+                                {stats.right.madeExtraPoints} / {stats.right.madeExtraPoints + stats.right.missedExtraPoints}
+                            </div>
+                        </div>
+                        <div className="matchup-row">
+                            <div className="matchup-stat left">
+                                {stats.left.madeFieldGoalsFrom60Plus +
+                                    stats.left.madeFieldGoalsFrom50Plus +
+                                    stats.left.madeFieldGoalsFrom50To59 +
+                                    stats.left.madeFieldGoalsFrom40To49 +
+                                    stats.left.madeFieldGoalsFromUnder40} / {stats.left.madeFieldGoalsFrom60Plus +
+                                    stats.left.madeFieldGoalsFrom50Plus +
+                                    stats.left.madeFieldGoalsFrom50To59 +
+                                    stats.left.madeFieldGoalsFrom40To49 +
+                                    stats.left.madeFieldGoalsFromUnder40 +
+                                    stats.left.missedFieldGoals}
+                            </div>
+                            <div className="matchup-stat center">Field Goals</div>
+                            <div className="matchup-stat right">
+                                {stats.right.madeFieldGoalsFrom60Plus +
+                                    stats.right.madeFieldGoalsFrom50Plus +
+                                    stats.right.madeFieldGoalsFrom50To59 +
+                                    stats.right.madeFieldGoalsFrom40To49 +
+                                    stats.right.madeFieldGoalsFromUnder40} / {stats.right.madeFieldGoalsFrom60Plus +
+                                    stats.right.madeFieldGoalsFrom50Plus +
+                                    stats.right.madeFieldGoalsFrom50To59 +
+                                    stats.right.madeFieldGoalsFrom40To49 +
+                                    stats.right.madeFieldGoalsFromUnder40 +
+                                    stats.right.missedFieldGoals}
+                            </div>
+                        </div>
+                    </>
+                )}
 
-                <div className="matchup-row">
-                    <div className="matchup-stat left">
-                        {stats.left.madeFieldGoalsFrom60Plus +
-                            stats.left.madeFieldGoalsFrom50Plus +
-                            stats.left.madeFieldGoalsFrom50To59 +
-                            stats.left.madeFieldGoalsFrom40To49 +
-                            stats.left.madeFieldGoalsFromUnder40} / {stats.left.madeFieldGoalsFrom60Plus +
-                            stats.left.madeFieldGoalsFrom50Plus +
-                            stats.left.madeFieldGoalsFrom50To59 +
-                            stats.left.madeFieldGoalsFrom40To49 +
-                            stats.left.madeFieldGoalsFromUnder40 +
-                            stats.left.missedFieldGoals}
-                    </div>
-                    <div className="matchup-stat center">Field Goals</div>
-                    <div className="matchup-stat right">
-                        {stats.right.madeFieldGoalsFrom60Plus +
-                            stats.right.madeFieldGoalsFrom50Plus +
-                            stats.right.madeFieldGoalsFrom50To59 +
-                            stats.right.madeFieldGoalsFrom40To49 +
-                            stats.right.madeFieldGoalsFromUnder40} / {stats.right.madeFieldGoalsFrom60Plus +
-                            stats.right.madeFieldGoalsFrom50Plus +
-                            stats.right.madeFieldGoalsFrom50To59 +
-                            stats.right.madeFieldGoalsFrom40To49 +
-                            stats.right.madeFieldGoalsFromUnder40 +
-                            stats.right.missedFieldGoals}
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -828,6 +844,16 @@ export default function Home() {
         }
     }
 
+    function teamDropdownOptions() {
+        if(league) {
+            return league[season].map((team, index) => {
+                return <option key={index+1} value={team.id}>{ team.owner }</option>
+            });
+        } else {
+            return <option key={0} value={0} disabled={true}>No Teams Available</option>
+        }
+    }
+
     function weekChange(newWeek) {
         setWeek(newWeek)
     }
@@ -859,20 +885,21 @@ export default function Home() {
                 </div>
                 <div className="global-dropdown">
                     <select onChange={(e) => teamChange(e.target.value)}>
-                        <option key={1} value={1}>Alex</option>
-                        <option key={2} value={2}>Ben</option>
-                        <option key={3} value={3}>Tony</option>
-                        <option key={4} disabled={season > 2022} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>
-                        <option key={5} value={5}>Henry</option>
-                        <option key={6} value={6}>{season < 2025 ? 'Eric' : 'Bryce'}</option>
-                        <option key={7} disabled={season > 2022} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>
-                        <option key={8} value={8}>Trap</option>
-                        <option key={9} value={9}>Drew</option>
-                        <option key={10}
-                                value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>
-                        <option key={11} disabled={season < 2023} value={11}>Randy</option>
-                        <option key={12} disabled={season < 2023}
-                                value={12}>{season === 2023 ? 'Matt' : season === 2024 ? 'Megan' : 'Alec'}</option>
+                        { teamDropdownOptions() }
+                        {/*<option key={1} value={1}>Alex</option>*/}
+                        {/*<option key={2} value={2}>Ben</option>*/}
+                        {/*<option key={3} value={3}>Tony</option>*/}
+                        {/*<option key={4} hidden={season > 2022} value={4}>{season === 2021 ? 'Kayla' : 'Nate'}</option>*/}
+                        {/*<option key={5} value={5}>Henry</option>*/}
+                        {/*<option key={6} value={6}>{season < 2025 ? 'Eric' : 'Bryce'}</option>*/}
+                        {/*<option key={7} hidden={season > 2022} value={7}>{season === 2021 ? 'Kief' : 'Ivan'}</option>*/}
+                        {/*<option key={8} value={8}>Trap</option>*/}
+                        {/*<option key={9} value={9}>Drew</option>*/}
+                        {/*<option key={10}*/}
+                        {/*        value={10}>{season === 2021 ? 'Josh' : season === 2022 ? 'Joey' : 'Kayla'}</option>*/}
+                        {/*<option key={11} hidden={season < 2023} value={11}>Randy</option>*/}
+                        {/*<option key={12} hidden={season < 2023}*/}
+                        {/*        value={12}>{season === 2023 ? 'Matt' : season === 2024 ? 'Megan' : 'Alec'}</option>*/}
                     </select>
                     <span className="global-arrow"></span>
                 </div>
@@ -981,7 +1008,7 @@ export default function Home() {
                                 <option key={3} value={'RB'}>RB</option>
                                 <option key={4} value={'TE'}>TE</option>
                                 <option key={5} value={'D/ST'}>D/ST</option>
-                                <option key={6} value={'K'}>K</option>
+                                <option key={6} hidden={season > 2025} value={'K'}>K</option>
                             </select>
                             <span className="global-arrow"></span>
                         </div>

@@ -20,12 +20,12 @@ myClient.setCookies({ espnS2: process.env.S2, SWID: process.env.SWID })
 // 6: Eric
 // 7: Ivan (2021: Kieffer)
 // 8: Trap
-// 9: Drew 
+// 9: Drew
 // 10: Joey (2021: Josh)
 
 
 // Adjust the season below to determine the year you are pulling data for
-const season = 2025
+const season = 2026
 let league = []
 
 leagueData(season)
