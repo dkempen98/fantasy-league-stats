@@ -2,7 +2,7 @@ import pkg from 'espn-fantasy-football-api/node.js';
 const { Client } = pkg;
 import fs from 'fs'
 import * as dotenv from 'dotenv'
-dotenv.config({ path: '../../.env' })
+dotenv.config({ path: new URL('../.env', import.meta.url) })
 
 console.log("----------------API-----------------")
 console.log(process.env.LEAGUE_ID)
