@@ -139,8 +139,9 @@ export function StateProvider({ children }) {
                     return 0
                 }
                 break;
-            case 2025:
-            case "2025":
+            // case 2025:
+            // case "2025":
+            default:
                 return week > 14 ? 1 : 0;
         }
     }
