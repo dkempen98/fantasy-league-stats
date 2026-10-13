@@ -56,7 +56,7 @@ export default function Home() {
     function createPlayerList() {
         setPlayerSearch(() => {
             let playerList = []
-            console.log(players);
+            // console.log(players);
             Object.values(players)?.forEach(season => {
                 season.forEach(week => {
                     week.forEach(thisPlayer => {
@@ -89,7 +89,7 @@ export default function Home() {
             points: 0,
             projPoints: 0
         }
-        console.log(allStats);
+        // console.log(allStats);
 
         allStats.forEach(week => {
             week.forEach(record => {
