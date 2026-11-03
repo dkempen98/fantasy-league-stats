@@ -51,6 +51,8 @@ export default function Home() {
     const [teamPositionAverage, setPositionAverage] = useState([])
     const [leaguePositionAverage, setLeaguePositionAverage] = useState([])
 
+    const [showPlayoffs, setShowPlayoffs] = useState(true)
+
     const [recordsAgainst, setRecordsAgainst] = useState([])
     const [weeklyRecords, setWeeklyRecords] = useState([])
     const [pointsFor, setPointsFor] = useState(null)
@@ -76,7 +78,7 @@ export default function Home() {
         }
         getSeasonData()
         positionChart()
-    }, [activeTeamId, season])
+    }, [activeTeamId, season, showPlayoffs])
 
     useEffect(() => {
         if(week != 100) {
@@ -165,22 +167,29 @@ export default function Home() {
             week.forEach(matchup => {
                 let inGame = false;
                 matchup.forEach(team => {
-                    leaguePoints += team.score
+                    let shouldAdd = showPlayoffs && (season > 2024 || (team.week != 15 && team.week != 17)) || (team.week < (season < 2025 ? 14 : 15))
                     if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                         myScore = team.score
-                        totalPoints += myScore
                         inGame = true;
+                    }
+                    if(team.owner && shouldAdd) {
+                        leaguePoints += team.score
+                        if (team.id == activeTeamId) {
+                            totalPoints += myScore
+                        }
                     }
                     if (team.week != 17 && (team.week < (season < 2025 ? 14 : 15) || (teams.length) == team.week)) {
                         leagueScores += team.score
-                        if(team.id != activeTeamId && team.week < (season < 2025 ? 14 : 15)) {
-                            if(!(team.owner in againstWinsPH)) {
-                                againstWinsPH[team.owner] = 0
-                                againstLossesPH[team.owner] = 0
-                                againstTiesPH[team.owner] = 0
+                        if(team.owner && team.id != activeTeamId) {
+                            if(team.week < (season < 2025 ? 14 : 15)) {
+                                if(!(team.owner in againstWinsPH)) {
+                                    againstWinsPH[team.owner] = 0
+                                    againstLossesPH[team.owner] = 0
+                                    againstTiesPH[team.owner] = 0
+                                }
+                                againstScores[team.owner] = team.score
                             }
-                            againstScores[team.owner] = team.score
                         }
                     } else {
                         leagueScores += team.score / 2
@@ -188,8 +197,10 @@ export default function Home() {
                 })
                 if(inGame) {
                     matchup.forEach(team => {
-                        if(team.id != activeTeamId) {
-                            totalPointsAgainst += team.score;
+                        if(showPlayoffs || (team.week < (season < 2025 ? 14 : 15))) {
+                            if(team.id != activeTeamId && (season > 2024 || (team.week != 15 && team.week != 17))) {
+                                totalPointsAgainst += team.score;
+                            }
                         }
                     })
                 }
@@ -894,6 +905,10 @@ export default function Home() {
         setShownPlayers(players[newYear])
     }
 
+    function showPlayoffChange() {
+        setShowPlayoffs(!showPlayoffs)
+    }
+
     return (
         <section className="global-base">
             <h1 className="page-header"><span>Team Stats</span></h1>
@@ -1088,6 +1103,17 @@ export default function Home() {
                         <div className="chart-title">
                             <h3>Season Totals</h3>
                         </div>
+                        {(teams.length >= (season < 2025 ? 14 : 15)) &&
+                            <label className="checkbox-label">
+                                <input
+                                    type={"checkbox"}
+                                    checked={showPlayoffs}
+                                    onChange={() => showPlayoffChange()}
+                                    className={"checkbox"}
+                                />
+                                Include Playoffs
+                            </label>
+                        }
                         <div className="flex">
                             <div>
                                 <h5>Season Total</h5>
@@ -1100,9 +1126,9 @@ export default function Home() {
                             <div>
                                 <h5>Weekly Average</h5>
                                 <ul className="list">
-                                    <li>For: { pointsFor / numberOfWeeks?.length }</li>
-                                    <li>Against: { pointsAgainst / numberOfWeeks?.length }</li>
-                                    <li>Lg. Avg: { ((leaguePointsTotal / league[season].length) / numberOfWeeks?.length).toFixed(2) }</li>
+                                    <li>For: { (pointsFor / (numberOfWeeks?.length - (showPlayoffs ? 0 : (season < 2025 ? 4 : (Math.max(teams.length - 14, 0)))))).toFixed(2) }</li>
+                                    <li>Against: { (pointsAgainst / (numberOfWeeks?.length - (showPlayoffs ? 0 : (season < 2025 ? 4 : (Math.max(teams.length - 14, 0)))))).toFixed(2) }</li>
+                                    <li>Lg. Avg: { ((leaguePointsTotal / league[season].length) / (numberOfWeeks?.length - (showPlayoffs ? 0 : (season < 2025 ? 4 : (Math.max(teams.length - 14, 0)))))).toFixed(2) }</li>
                                 </ul>
                             </div>
                         </div>
