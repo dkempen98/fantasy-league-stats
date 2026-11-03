@@ -179,7 +179,7 @@ export default function Home() {
                             totalPoints += myScore
                         }
                     }
-                    if (team.week != 17 && (team.week < (season < 2025 ? 14 : 15) || (teams.length) == team.week)) {
+                    if (team.owner && (team.week < (season < 2025 ? 14 : 15) || (teams.length) == team.week)) {
                         leagueScores += team.score
                         if(team.owner && team.id != activeTeamId) {
                             if(team.week < (season < 2025 ? 14 : 15)) {
@@ -191,8 +191,12 @@ export default function Home() {
                                 againstScores[team.owner] = team.score
                             }
                         }
-                    } else {
-                        leagueScores += team.score / 2
+                    } else if(team.owner) {
+                        if ( season < 2025 && (team.week > 13)) {
+                            leagueScores += team.score / 2
+                        } else if (season > 2024) {
+                            leagueScores += team.score
+                        }
                     }
                 })
                 if(inGame) {
