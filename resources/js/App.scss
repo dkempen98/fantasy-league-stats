@@ -963,6 +963,16 @@ tr, caption {
   }
 }
 
+.team-totals-display {
+    display: flex;
+    flex-direction: column;
+    & > div {
+        display: flex;
+        padding: 5px;
+        gap: 6px;
+    }
+}
+
 .hide-large {
   display: none;
 }

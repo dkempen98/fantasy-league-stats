@@ -53,6 +53,9 @@ export default function Home() {
 
     const [recordsAgainst, setRecordsAgainst] = useState([])
     const [weeklyRecords, setWeeklyRecords] = useState([])
+    const [pointsFor, setPointsFor] = useState(null)
+    const [pointsAgainst, setPointsAgainst] = useState(null)
+    const [leaguePointsTotal, setLeaguePointsTotal] = useState(null)
 
     const [pageView, setPageView] = useState()
 
@@ -148,6 +151,9 @@ export default function Home() {
         let againstTiesPH = {}
         let weeklyScores = []
         let weekNum = 1
+        let totalPoints = 0
+        let totalPointsAgainst = 0
+        let leaguePoints = 0;
 
         teams.forEach(week => {
             let myScore = null
@@ -155,11 +161,16 @@ export default function Home() {
             let weeklyWins = 0
             let weeklyLosses = 0
             let weeklyTies = 0
+
             week.forEach(matchup => {
+                let inGame = false;
                 matchup.forEach(team => {
+                    leaguePoints += team.score
                     if (team.id == activeTeamId) {
                         seasonGamesPH.push(team)
                         myScore = team.score
+                        totalPoints += myScore
+                        inGame = true;
                     }
                     if (team.week != 17 && (team.week < (season < 2025 ? 14 : 15) || (teams.length) == team.week)) {
                         leagueScores += team.score
@@ -175,6 +186,13 @@ export default function Home() {
                         leagueScores += team.score / 2
                     }
                 })
+                if(inGame) {
+                    matchup.forEach(team => {
+                        if(team.id != activeTeamId) {
+                            totalPointsAgainst += team.score;
+                        }
+                    })
+                }
             })
             for (const [team, score] of Object.entries(againstScores)) {
                 if(score > myScore) {
@@ -213,6 +231,9 @@ export default function Home() {
         setWeeklyRecords(weeklyScores)
         setLeagueAverage(averageScoresPH)
         setTeamStats(seasonGamesPH)
+        setPointsFor(totalPoints.toFixed(2))
+        setPointsAgainst(totalPointsAgainst.toFixed(2))
+        setLeaguePointsTotal(leaguePoints.toFixed(2))
     }
 
     function generateWeeklyStats() {
@@ -1058,6 +1079,30 @@ export default function Home() {
                                 <h5>By Week</h5>
                                 <ul className="list">
                                     {weeklyRecordList()}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="chart-border">
+                        <div className="chart-title">
+                            <h3>Season Totals</h3>
+                        </div>
+                        <div className="flex">
+                            <div>
+                                <h5>Season Total</h5>
+                                <ul className="list">
+                                    <li>For: {pointsFor}</li>
+                                    <li>Against: {pointsAgainst}</li>
+                                    <li>Lg. Avg: {(leaguePointsTotal / league[season].length).toFixed(2)}</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5>Weekly Average</h5>
+                                <ul className="list">
+                                    <li>For: { pointsFor / numberOfWeeks?.length }</li>
+                                    <li>Against: { pointsAgainst / numberOfWeeks?.length }</li>
+                                    <li>Lg. Avg: { ((leaguePointsTotal / league[season].length) / numberOfWeeks?.length).toFixed(2) }</li>
                                 </ul>
                             </div>
                         </div>
