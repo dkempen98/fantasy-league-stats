@@ -179,7 +179,7 @@ export default function Home() {
                             totalPoints += myScore
                         }
                     }
-                    if (team.owner && (team.week < (season < 2025 ? 14 : 15) || (teams.length) == team.week)) {
+                    if (team.owner && (team.week < (season < 2025 ? 14 : 15) || ((teams.length) == team.week && team.week != 17))) {
                         leagueScores += team.score
                         if(team.owner && team.id != activeTeamId) {
                             if(team.week < (season < 2025 ? 14 : 15)) {
